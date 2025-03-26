@@ -1,8 +1,10 @@
 export default function profset() {
     return(
-        <div className="bg-indigo-500 ...">
+        <div>
+            <p className="font-[family-name:var(--font-jet)]">ПРИВЕТ Мирм </p>
+           
         
-            hello
+            
         </div>
     ) 
 }
