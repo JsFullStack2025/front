@@ -111,7 +111,9 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
 }
-
+.bg-gradient {
+  background: linear-gradient(296.82deg, #3B82F6 0%, #A855F7 100%);
+}
 @layer base {
   * {
     @apply border-border outline-ring/50;
