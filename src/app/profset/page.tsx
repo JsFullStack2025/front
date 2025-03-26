@@ -1,6 +1,7 @@
 export default function profset() {
     return(
-        <div>
+        <div className="bg-indigo-500 ...">
+        
             hello
         </div>
     ) 
