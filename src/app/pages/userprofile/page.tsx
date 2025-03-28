@@ -1,8 +1,8 @@
 import Image from "next/image";
 import "./stylePageUP.css";
-export default function Home() {
+export default function UserProfile() {
   return (
-    <div className="h-screen bg-gradient font-sans  overflow-y-auto">
+    <div className="h-screen font-sans  overflow-y-auto">
     <form>
         <fieldset>
             <div className="flex items-center flex-wrap sm:flex-nowrap gap-8 justify-between p-8 h-screen">
