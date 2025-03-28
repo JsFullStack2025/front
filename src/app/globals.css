@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+
 @custom-variant dark (&:is(.dark *));
 
 
@@ -132,5 +133,11 @@
 @media (max-height: 725px) {
   .hide-on-small-height {
     display: none;
-  }
+
 }
+
+
+.bg-gradient {
+  background: linear-gradient(296.82deg, #3B82F6 0%, #A855F7 100%);
+}
+
