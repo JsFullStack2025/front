@@ -3,8 +3,8 @@
 Для запуска проекта клонируйте репозиторий, перейдите в папку проекта, выполните инициализацию проекта и запустите проект:
 
 ```cmd
-git clone https://github.com/al-bezd/card_gen.git
-cd card_gen
+git clone https://github.com/JsFullStack2025/front.git
+cd front
 npm install
 npm run dev
 ```
