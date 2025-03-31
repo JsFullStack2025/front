@@ -21,7 +21,7 @@ import { Button } from "@/components/ui/button"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { formSchema } from "@/lib/validation"
+import { formSchema } from "@/lib/validation/validation"
 
 
 export default function Login() {
