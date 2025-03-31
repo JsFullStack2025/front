@@ -23,17 +23,20 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { formSchema } from "@/lib/validation/validation"
 
+import login from "@/lib/api/login"
+
 
 export default function Login() {
     const form = useForm({
         defaultValues: {
-            email: "",
+            username: "",
             password: "",
         },
         resolver: zodResolver(formSchema),
     });
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         console.log(data)
+        login(data.username, data.password)
     }
 
     return (
@@ -56,7 +59,7 @@ export default function Login() {
                                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                                     <FormField
                                         control={form.control}
-                                        name="email"
+                                        name="username"
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel className="text-sm text-muted-foreground">Электронная почта</FormLabel>
@@ -103,7 +106,7 @@ export default function Login() {
                                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                                     <FormField
                                         control={form.control}
-                                        name="email"
+                                        name="username"
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel className="text-sm text-muted-foreground">Электронная почта</FormLabel>
