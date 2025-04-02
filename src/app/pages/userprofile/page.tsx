@@ -1,43 +1,108 @@
+"use client"
 import Image from "next/image";
 import "./stylePageUP.css";
+import { Save, Plus, Pencil, Trash2, Mail } from 'lucide-react';
+
+import { Button } from "@/components/ui/button"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import {
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+const formSchema = z.object({
+    useremail: z.string().email({
+        message: "Некорректный email",
+    }),
+})
 export default function UserProfile() {
-  return (
-    <div className="h-screen font-sans  overflow-y-auto">
-    <form>
-        <fieldset>
-            <div className="flex items-center flex-wrap sm:flex-nowrap gap-8 justify-between p-8 h-screen">
-                <div
-                    className="flex flex-col bg-white text-gray-800 p-6 rounded-lg w-full sm:w-1/3 sm:min-w-sm sm:h-3/4 overflow-y-auto">
-                    <div className="mb-6 ">
-                        <h2 className="text-xl text-center">Редактировать профиль</h2>
+    // 1. Define your form.
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            useremail: "",
+        },
+    })
 
-                    </div>
-                    <div className="flex justify-center mb-6 gap-4 items-center ">
+    // 2. Define a submit handler.
+    function onSubmit(values: z.infer<typeof formSchema>) {
+        // Do something with the form values.
+        // ✅ This will be type-safe and validated.
+        console.log(values)
+    }
+    return (
+        // <div className="">
 
-                        <Image className="w-32 h-32 rounded-full border-2 border-indigo-300" src="/img/foto.jpg"
-                            alt="Profile Picture"
-                            width={124}
-                            height={124}
-                            priority/>
-                        <div className="w-full text-field">
-                            <label htmlFor="name" className="block text-sm">Имя пользователя:</label>
+        <div className="flex flex-col items-center lg:flex-row gap-8 justify-between px-8 h-[100%] w-full ">
 
-                            <div className="text-gray-500">
-                                @Erin_Lindford
+            <div
+                className=" bg-white text-gray-800 p-6 rounded-lg w-full lg:w-1/3 sm:min-w-sm lg:h-4/5  overflow-y-auto">
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col h-full space-y-8">
+                        <div className="mb-6 ">
+                            <h2 className="text-xl text-center">Редактировать профиль</h2>
+
+                        </div>
+                        <div className="flex justify-center mb-6 gap-4 items-center ">
+
+                            <Image className="w-32 h-32 rounded-full border-2 border-indigo-300" src="/img/foto.jpg"
+                                alt="Profile Picture"
+                                width={124}
+                                height={124}
+                                priority />
+                            <div className="w-full text-field">
+                                <label htmlFor="name" className="block text-sm">Имя пользователя:</label>
+
+                                <div className="text-gray-500">
+                                    @Erin_Lindford
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="mb-4 text-field">
-                        <label htmlFor="email" className="block text-sm">Электронная почта</label>
-                        <div className="text-field__icon text-field__icon_email">
-                            <input type="email" id="email" name="email" required
-                                className="w-full p-2 mt-2 rounded-lg text-field__input"
-                                placeholder="Введите электронную почту"/>
-                        </div>
+                        <div className="mb-4 text-field">
 
-                    </div>
-                    <div className="h-full flex flex-row items-end justify-end">
-                        <button className="bg-gradient text-white py-1 px-3  rounded-md ">
+
+
+                            {/* <label htmlFor="email" className="block text-sm">Электронная почта</label>
+                                    <div className="text-field__icon text-field__icon_email">
+                                        <input type="email" id="email" name="email" required
+                                            className="w-full p-2 mt-2 rounded-lg text-field__input"
+                                            placeholder="Введите электронную почту" />
+                                    </div> */}
+
+                            <FormField
+                                control={form.control}
+                                name="useremail"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        {/* <FormLabel>Электронная почта</FormLabel> */}
+                                        <label htmlFor="useremail" className="block text-sm">Электронная почта</label>
+                                        <FormControl>
+                                            <div className="text-field__icon text-field__icon_email">
+                                                <Input className="text-field__input invalid:border-pink-500 invalid:text-pink-600" placeholder="Введите электронную почту" {...field} />
+                                            </div>
+                                        </FormControl>
+                                        {/* <FormDescription>
+
+                                                </FormDescription> */}
+                                        <FormMessage className="text-[0.8rem]" />
+                                    </FormItem>
+                                )}
+                            />
+
+                        </div>
+                        <div className="flex flex-row items-end justify-end grow-1">
+                            <Button type="submit" className="bg-gradient "> <Save className="size-7"  /><span>Сохранить</span></Button>
+                            {/* </fieldset> */}
+
+                            {/* <Button className="bg-gradient"> <Image src="/img/UserProfile/saveIcon.svg" alt="github logo" width={20} height={20} /><span>Сохранить</span></Button> */}
+                            {/* <button className="bg-gradient text-white py-1 px-3  rounded-md ">
                             <svg className="icon-button" width="20" height="20"
                                 viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -46,117 +111,162 @@ export default function UserProfile() {
                             </svg>
                             <span>Сохранить</span>
 
-                        </button>
-                    </div>
+                        </button> */}
+                        </div>
+
+                    </form>
+                </Form>
+            </div>
 
 
-                </div>
-
-
-                <div className="bg-white text-gray-800 rounded-lg w-full sm:h-3/4 sm:min-w-xl overflow-y-auto mb-8 sm:mb-0">
-                    <div className="flex justify-between items-center rounded-t-lg  h-15 px-8 bg-header-project-list">
-                        <h2 className="text-xl text-white">Проекты</h2>
-                        <button className="bg-gradient text-white py-1 px-3  rounded-md"><svg className="icon-button" width="27"
+            <div className="bg-white text-gray-800 rounded-lg  w-full lg:h-4/5 lg:min-w-sm  overflow-y-auto">
+                <div className="flex justify-between items-center rounded-t-lg  h-15 px-8 bg-header-project-list">
+                    <h2 className="text-xl text-white">Проекты</h2>
+                    <Button className="bg-gradient"> <Plus className="size-7" /><span>Новый проект</span></Button>
+                    {/* <Button className="bg-gradient"> <Image src="/img/UserProfile/plusicon.svg" alt="github logo" width={25} height={25} /><span>Новый проект</span></Button> */}
+                    {/* <button className="bg-gradient text-white py-1 px-3  rounded-md"><svg className="icon-button" width="27"
                                 height="24" viewBox="0 0 27 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M13.3994 5V19M5.58301 12H21.2158" stroke="#F3F3F3" stroke-width="2.5"
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                             Новый проект
-                        </button>
+                        </button> */}
 
-                    </div>
-                    <ul className="p-6">
-                        <li className="flex flex-row justify-between items-center h-min">
-                            <button className=""><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M7 21C6.45 21 5.97917 20.8042 5.5875 20.4125C5.19583 20.0208 5 19.55 5 19V6H4V4H9V3H15V4H20V6H19V19C19 19.55 18.8042 20.0208 18.4125 20.4125C18.0208 20.8042 17.55 21 17 21H7ZM17 6H7V19H17V6ZM9 17H11V8H9V17ZM13 17H15V8H13V17Z"
-                                        fill="#49454F" />
-                                </svg>
-                            </button>
-                            <span className="grow mx-5">Проект 1 Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto blanditiis debitis nesciunt, dicta sapiente facere nulla aperiam animi qui nemo rem? Id, nam dolor fugit sed veniam optio mollitia a.</span>
-                            <button className="text-blue-500"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M5 19H6.425L16.2 9.225L14.775 7.8L5 17.575V19ZM3 21V16.75L16.2 3.575C16.4 3.39167 16.6208 3.25 16.8625 3.15C17.1042 3.05 17.3583 3 17.625 3C17.8917 3 18.15 3.05 18.4 3.15C18.65 3.25 18.8667 3.4 19.05 3.6L20.425 5C20.625 5.18333 20.7708 5.4 20.8625 5.65C20.9542 5.9 21 6.15 21 6.4C21 6.66667 20.9542 6.92083 20.8625 7.1625C20.7708 7.40417 20.625 7.625 20.425 7.825L7.25 21H3ZM15.475 8.525L14.775 7.8L16.2 9.225L15.475 8.525Z"
-                                        fill="#49454F" />
-                                </svg>
-                            </button>
-                        </li>
-                        <li className="flex justify-between items-center ">
-                            <button className=""><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M7 21C6.45 21 5.97917 20.8042 5.5875 20.4125C5.19583 20.0208 5 19.55 5 19V6H4V4H9V3H15V4H20V6H19V19C19 19.55 18.8042 20.0208 18.4125 20.4125C18.0208 20.8042 17.55 21 17 21H7ZM17 6H7V19H17V6ZM9 17H11V8H9V17ZM13 17H15V8H13V17Z"
-                                        fill="#49454F" />
-                                </svg>
-                            </button>
-                            <span className="grow mx-5">Проект 2</span>
-                            <button className="text-blue-500"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M5 19H6.425L16.2 9.225L14.775 7.8L5 17.575V19ZM3 21V16.75L16.2 3.575C16.4 3.39167 16.6208 3.25 16.8625 3.15C17.1042 3.05 17.3583 3 17.625 3C17.8917 3 18.15 3.05 18.4 3.15C18.65 3.25 18.8667 3.4 19.05 3.6L20.425 5C20.625 5.18333 20.7708 5.4 20.8625 5.65C20.9542 5.9 21 6.15 21 6.4C21 6.66667 20.9542 6.92083 20.8625 7.1625C20.7708 7.40417 20.625 7.625 20.425 7.825L7.25 21H3ZM15.475 8.525L14.775 7.8L16.2 9.225L15.475 8.525Z"
-                                        fill="#49454F" />
-                                </svg>
-                            </button>
-                        </li>
-                        <li className="flex justify-between items-center  ">
-                            <button className=""><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M7 21C6.45 21 5.97917 20.8042 5.5875 20.4125C5.19583 20.0208 5 19.55 5 19V6H4V4H9V3H15V4H20V6H19V19C19 19.55 18.8042 20.0208 18.4125 20.4125C18.0208 20.8042 17.55 21 17 21H7ZM17 6H7V19H17V6ZM9 17H11V8H9V17ZM13 17H15V8H13V17Z"
-                                        fill="#49454F" />
-                                </svg>
-                            </button>
-                            <span className="grow mx-5">Проект 3</span>
-                            <button className="text-blue-500"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M5 19H6.425L16.2 9.225L14.775 7.8L5 17.575V19ZM3 21V16.75L16.2 3.575C16.4 3.39167 16.6208 3.25 16.8625 3.15C17.1042 3.05 17.3583 3 17.625 3C17.8917 3 18.15 3.05 18.4 3.15C18.65 3.25 18.8667 3.4 19.05 3.6L20.425 5C20.625 5.18333 20.7708 5.4 20.8625 5.65C20.9542 5.9 21 6.15 21 6.4C21 6.66667 20.9542 6.92083 20.8625 7.1625C20.7708 7.40417 20.625 7.625 20.425 7.825L7.25 21H3ZM15.475 8.525L14.775 7.8L16.2 9.225L15.475 8.525Z"
-                                        fill="#49454F" />
-                                </svg>
-                            </button>
-                        </li>
-                        <li className="flex justify-between items-center">
-                            <button className=""><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M7 21C6.45 21 5.97917 20.8042 5.5875 20.4125C5.19583 20.0208 5 19.55 5 19V6H4V4H9V3H15V4H20V6H19V19C19 19.55 18.8042 20.0208 18.4125 20.4125C18.0208 20.8042 17.55 21 17 21H7ZM17 6H7V19H17V6ZM9 17H11V8H9V17ZM13 17H15V8H13V17Z"
-                                        fill="#49454F" />
-                                </svg>
-                            </button>
-                            <span className="grow mx-5">Проект 4</span>
-                            <button className="text-blue-500"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M5 19H6.425L16.2 9.225L14.775 7.8L5 17.575V19ZM3 21V16.75L16.2 3.575C16.4 3.39167 16.6208 3.25 16.8625 3.15C17.1042 3.05 17.3583 3 17.625 3C17.8917 3 18.15 3.05 18.4 3.15C18.65 3.25 18.8667 3.4 19.05 3.6L20.425 5C20.625 5.18333 20.7708 5.4 20.8625 5.65C20.9542 5.9 21 6.15 21 6.4C21 6.66667 20.9542 6.92083 20.8625 7.1625C20.7708 7.40417 20.625 7.625 20.425 7.825L7.25 21H3ZM15.475 8.525L14.775 7.8L16.2 9.225L15.475 8.525Z"
-                                        fill="#49454F" />
-                                </svg>
-                            </button>
-                        </li>
-                        <li className="flex justify-between items-center ">
-                            <button className=""><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M7 21C6.45 21 5.97917 20.8042 5.5875 20.4125C5.19583 20.0208 5 19.55 5 19V6H4V4H9V3H15V4H20V6H19V19C19 19.55 18.8042 20.0208 18.4125 20.4125C18.0208 20.8042 17.55 21 17 21H7ZM17 6H7V19H17V6ZM9 17H11V8H9V17ZM13 17H15V8H13V17Z"
-                                        fill="#49454F" />
-                                </svg>
-                            </button>
-                            <span className="grow mx-5">Проект 5</span>
-                            <button className="text-blue-500"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M5 19H6.425L16.2 9.225L14.775 7.8L5 17.575V19ZM3 21V16.75L16.2 3.575C16.4 3.39167 16.6208 3.25 16.8625 3.15C17.1042 3.05 17.3583 3 17.625 3C17.8917 3 18.15 3.05 18.4 3.15C18.65 3.25 18.8667 3.4 19.05 3.6L20.425 5C20.625 5.18333 20.7708 5.4 20.8625 5.65C20.9542 5.9 21 6.15 21 6.4C21 6.66667 20.9542 6.92083 20.8625 7.1625C20.7708 7.40417 20.625 7.625 20.425 7.825L7.25 21H3ZM15.475 8.525L14.775 7.8L16.2 9.225L15.475 8.525Z"
-                                        fill="#49454F" />
-                                </svg>
-                            </button>
-                        </li>
-
-                    </ul>
                 </div>
+                <ul className="p-6">
+                    <li className="flex flex-row justify-between items-center">
+                        <button className="">
+                            <Trash2 />
+                            {/* <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M7 21C6.45 21 5.97917 20.8042 5.5875 20.4125C5.19583 20.0208 5 19.55 5 19V6H4V4H9V3H15V4H20V6H19V19C19 19.55 18.8042 20.0208 18.4125 20.4125C18.0208 20.8042 17.55 21 17 21H7ZM17 6H7V19H17V6ZM9 17H11V8H9V17ZM13 17H15V8H13V17Z"
+                                                fill="#49454F" />
+                                        </svg> */}
+                        </button>
+                        <span className="grow mx-5 hover:cursor-pointer hover:underline">Проект 1 Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima architecto iste consectetur fuga eligendi sed adipisci, eaque quidem! Nam, libero. Tempore perferendis architecto recusandae rem blanditiis unde doloribus laborum optio? .</span>
+                        <button className="">
+                            <Pencil size={24} />
+                            {/* <Image src="/img/UserProfile/edit.svg" alt="github logo" width={28} height={28} /> */}
+                        </button>
+                    </li>
+                    <li className="flex flex-row justify-between items-center">
+                        <button className="">
+                            <Trash2 />
+                            {/* <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M7 21C6.45 21 5.97917 20.8042 5.5875 20.4125C5.19583 20.0208 5 19.55 5 19V6H4V4H9V3H15V4H20V6H19V19C19 19.55 18.8042 20.0208 18.4125 20.4125C18.0208 20.8042 17.55 21 17 21H7ZM17 6H7V19H17V6ZM9 17H11V8H9V17ZM13 17H15V8H13V17Z"
+                                                fill="#49454F" />
+                                        </svg> */}
+                        </button>
+                        <span className="grow mx-5 hover:cursor-pointer hover:underline">Проект 2 Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima architecto iste consectetur fuga eligendi sed adipisci, eaque quidem! Nam, libero. Tempore perferendis architecto recusandae rem blanditiis unde doloribus laborum optio? .</span>
+                        <button className="">
+                            <Pencil size={24} />
+                            {/* <Image src="/img/UserProfile/edit.svg" alt="github logo" width={28} height={28} /> */}
+                        </button>
+                    </li>
+                    <li className="flex flex-row justify-between items-center">
+                        <button className="">
+                            <Trash2 />
+                            {/* <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M7 21C6.45 21 5.97917 20.8042 5.5875 20.4125C5.19583 20.0208 5 19.55 5 19V6H4V4H9V3H15V4H20V6H19V19C19 19.55 18.8042 20.0208 18.4125 20.4125C18.0208 20.8042 17.55 21 17 21H7ZM17 6H7V19H17V6ZM9 17H11V8H9V17ZM13 17H15V8H13V17Z"
+                                                fill="#49454F" />
+                                        </svg> */}
+                        </button>
+                        <span className="grow mx-5 hover:cursor-pointer hover:underline">Проект 3 Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima architecto iste consectetur fuga eligendi sed adipisci, eaque quidem! Nam, libero. Tempore perferendis architecto recusandae rem blanditiis unde doloribus laborum optio? .</span>
+                        <button className="">
+                            <Pencil size={24} />
+                            {/* <Image src="/img/UserProfile/edit.svg" alt="github logo" width={28} height={28} /> */}
+                        </button>
+                    </li>
+                    <li className="flex flex-row justify-between items-center">
+                        <button className="">
+                            <Trash2 />
+                            {/* <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M7 21C6.45 21 5.97917 20.8042 5.5875 20.4125C5.19583 20.0208 5 19.55 5 19V6H4V4H9V3H15V4H20V6H19V19C19 19.55 18.8042 20.0208 18.4125 20.4125C18.0208 20.8042 17.55 21 17 21H7ZM17 6H7V19H17V6ZM9 17H11V8H9V17ZM13 17H15V8H13V17Z"
+                                                fill="#49454F" />
+                                        </svg> */}
+                        </button>
+                        <span className="grow mx-5 hover:cursor-pointer hover:underline">Проект 4 Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima architecto iste consectetur fuga eligendi sed adipisci, eaque quidem! Nam, libero. Tempore perferendis architecto recusandae rem blanditiis unde doloribus laborum optio? .</span>
+                        <button className="">
+                            <Pencil size={24} />
+                            {/* <Image src="/img/UserProfile/edit.svg" alt="github logo" width={28} height={28} /> */}
+                        </button>
+                    </li>
+                    <li className="flex flex-row justify-between items-center">
+                        <button className="">
+                            <Trash2 />
+                            {/* <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M7 21C6.45 21 5.97917 20.8042 5.5875 20.4125C5.19583 20.0208 5 19.55 5 19V6H4V4H9V3H15V4H20V6H19V19C19 19.55 18.8042 20.0208 18.4125 20.4125C18.0208 20.8042 17.55 21 17 21H7ZM17 6H7V19H17V6ZM9 17H11V8H9V17ZM13 17H15V8H13V17Z"
+                                                fill="#49454F" />
+                                        </svg> */}
+                        </button>
+                        <span className="grow mx-5 hover:cursor-pointer hover:underline">Проект 5 Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima architecto iste consectetur fuga eligendi sed adipisci, eaque quidem! Nam, libero. Tempore perferendis architecto recusandae rem blanditiis unde doloribus laborum optio? .</span>
+                        <button className="">
+                            <Pencil size={24} />
+                            {/* <Image src="/img/UserProfile/edit.svg" alt="github logo" width={28} height={28} /> */}
+                        </button>
+                    </li>
+                    {/*<li className="flex justify-between items-center ">
+                        <button className=""><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M7 21C6.45 21 5.97917 20.8042 5.5875 20.4125C5.19583 20.0208 5 19.55 5 19V6H4V4H9V3H15V4H20V6H19V19C19 19.55 18.8042 20.0208 18.4125 20.4125C18.0208 20.8042 17.55 21 17 21H7ZM17 6H7V19H17V6ZM9 17H11V8H9V17ZM13 17H15V8H13V17Z"
+                                fill="#49454F" />
+                        </svg>
+                        </button>
+                        <span className="grow mx-5">Проект 2</span>
+                        <button className="text-blue-500"> <Image src="/img/UserProfile/edit.svg" alt="github logo" width={28} height={28} />
+                        </button>
+                    </li>
+                     <li className="flex justify-between items-center  ">
+                        <button className=""><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M7 21C6.45 21 5.97917 20.8042 5.5875 20.4125C5.19583 20.0208 5 19.55 5 19V6H4V4H9V3H15V4H20V6H19V19C19 19.55 18.8042 20.0208 18.4125 20.4125C18.0208 20.8042 17.55 21 17 21H7ZM17 6H7V19H17V6ZM9 17H11V8H9V17ZM13 17H15V8H13V17Z"
+                                fill="#49454F" />
+                        </svg>
+                        </button>
+                        <span className="grow mx-5">Проект 3</span>
+                        <button className="text-blue-500"> <Image src="/img/UserProfile/edit.svg" alt="github logo" width={28} height={28} />
+                        </button>
+                    </li>
+                    <li className="flex justify-between items-center">
+                        <button className=""><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M7 21C6.45 21 5.97917 20.8042 5.5875 20.4125C5.19583 20.0208 5 19.55 5 19V6H4V4H9V3H15V4H20V6H19V19C19 19.55 18.8042 20.0208 18.4125 20.4125C18.0208 20.8042 17.55 21 17 21H7ZM17 6H7V19H17V6ZM9 17H11V8H9V17ZM13 17H15V8H13V17Z"
+                                fill="#49454F" />
+                        </svg>
+                        </button>
+                        <span className="grow mx-5">Проект 4</span>
+                        <button className="text-blue-500"> <Image src="/img/UserProfile/edit.svg" alt="github logo" width={28} height={28} />
+                        </button>
+                    </li>
+                    <li className="flex justify-between items-center ">
+                        <button className=""><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M7 21C6.45 21 5.97917 20.8042 5.5875 20.4125C5.19583 20.0208 5 19.55 5 19V6H4V4H9V3H15V4H20V6H19V19C19 19.55 18.8042 20.0208 18.4125 20.4125C18.0208 20.8042 17.55 21 17 21H7ZM17 6H7V19H17V6ZM9 17H11V8H9V17ZM13 17H15V8H13V17Z"
+                                fill="#49454F" />
+                        </svg>
+                        </button>
+                        <span className="grow mx-5">Проект 5</span>
+                        <button className="text-blue-500"> <Image src="/img/UserProfile/edit.svg" alt="github logo" width={28} height={28} />
+                        </button>
+                    </li> */}
+
+                </ul>
             </div>
-        </fieldset>
-    </form>
-</div>
-  );
+        </div>
+
+        // </div >
+    );
 }
