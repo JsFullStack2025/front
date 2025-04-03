@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useRef, useState } from 'react';
+import { useRef, useState } from "react";
 import "./stylePageUP.css";
 import { Save, Plus, Pencil, Trash2, Mail, Camera } from "lucide-react";
 
@@ -19,13 +19,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { title } from "process";
-import {cards, users} from "./data";
+import { cards, users } from "./data";
 const formSchema = z.object({
     useremail: z.string().email({
         message: "Некорректный email",
     }),
 });
-
 
 export default function UserProfile() {
     // 1. Define your form.
@@ -43,46 +42,43 @@ export default function UserProfile() {
         console.log(values);
     }
 
-
-    function fotoChanged(event:any) {
-        console.log(event)
-        const files:any[] = event.target.files
+    function fotoChanged(event: any) {
+        console.log(event);
+        const files: any[] = event.target.files;
         if (files.length > 0) {
-            alert(files[0].name)
-          } else {
-           alert('No file chosen');
-          }
+            alert(files[0].name);
+        } else {
+            alert("No file chosen");
+        }
+    }
+    let [fotoHover, setfotoHover] = useState(false);
 
+    function fotoMouseOver(event: any) {
+        setfotoHover((fotoHover = true));
+        console.log("fotoHover", fotoHover);
     }
-    let [fotoHover, setfotoHover] = useState(true);
-
-    function fotoMouseOver(event:any){
-        setfotoHover(!fotoHover);
-        console.log('fotoHover', fotoHover)
+    function fotoMouseOut(evet: any) {
+        setfotoHover((fotoHover = false));
+        console.log("fotoHover", fotoHover);
     }
-    function fotoMouseOut(evet:any) {
-        setfotoHover(!fotoHover);
-        console.log('fotoHover', fotoHover)
-    }
-    const listCard = cards.map(card =>
+    const listCard = cards.map((card) => (
         <li className="flex flex-row items-center justify-between" key={card.id}>
-        <button className="">
-            <Trash2 />
-        </button>
-        <span className="mx-5 grow hover:cursor-pointer hover:underline">
+            <button className="">
+                <Trash2 />
+            </button>
+            <span className="mx-5 grow hover:cursor-pointer hover:underline">
                 {card.title}
-        </span>
-        <button className="">
-            <Pencil size={24} />
-            {/* <Image src="/img/UserProfile/edit.svg" alt="github logo" width={28} height={28} /> */}
-        </button>
-    </li>
-      );
-     let curUser = users[0]
+            </span>
+            <button className="">
+                <Pencil size={24} />
+                {/* <Image src="/img/UserProfile/edit.svg" alt="github logo" width={28} height={28} /> */}
+            </button>
+        </li>
+    ));
+    let curUser = users[0];
     //  const curUrlFoto = curUser.linkImg?` bg-indigo-300`: 'bg-[url(/img/userprofile/nofoto.svg)]  bg-indigo-300 '
 
     return (
-
         <div className="flex h-[100%] w-full flex-col items-center justify-between gap-8 px-8 lg:flex-row">
             <div className="w-full overflow-y-auto rounded-lg bg-white p-6 text-gray-800 sm:min-w-sm lg:h-4/5 lg:w-1/3">
                 <Form {...form}>
@@ -101,8 +97,19 @@ export default function UserProfile() {
                                 className='bg-[image:var(--image-url)]'>
                                     <!-- ... -->
                                 </div> */}
-                            <label id="label-foto-user" onMouseOver={fotoMouseOver} onMouseOut={fotoMouseOut} style={{'--image-url': `url(${curUser.linkImg?curUser.linkImg:'/img/userprofile/nofoto.svg'})`} as React.CSSProperties}    htmlFor="userfoto" className={`bg-[image:var(--image-url)]  bg-cover ${!curUser.linkImg&&'bg-indigo-300'} relative size-[125] rounded-full  border-indigo-300 hover:cursor-pointer`}>
-                            {/* <label id="label-foto-user"  htmlFor="userfoto" className={`hover:opacity-[0.5] ${!curUser.linkImg&&'bg-indigo-300'} relative size-[125] rounded-full  border-indigo-300 hover:cursor-pointer`}> */}
+                            <label
+                                id="label-foto-user"
+                                onMouseOver={fotoMouseOver}
+                                onMouseOut={fotoMouseOut}
+                                style={
+                                    {
+                                        "--image-url": `url(${curUser.linkImg ? curUser.linkImg : "/img/userprofile/nofoto.svg"})`,
+                                    } as React.CSSProperties
+                                }
+                                htmlFor="userfoto"
+                                className={`bg-[image:var(--image-url)] bg-cover ${!curUser.linkImg && "bg-indigo-300"} relative size-[125] rounded-full border-indigo-300 hover:cursor-pointer`}
+                            >
+                                {/* <label id="label-foto-user"  htmlFor="userfoto" className={`hover:opacity-[0.5] ${!curUser.linkImg&&'bg-indigo-300'} relative size-[125] rounded-full  border-indigo-300 hover:cursor-pointer`}> */}
                                 {/* {
                                     curUser.linkImg ?
                                     <Image
@@ -126,35 +133,39 @@ export default function UserProfile() {
                                 />
                                 } */}
 
-                                    {/* <span className="bg-[url(/img/userprofile/editWhite.svg)] border-2 border-black  bg-center size-[25]  bg-black top-25 left-20  rounded-full absolute  "></span> */}
-                                    {
-                                        fotoHover?
-
-                                <span className="flex  items-center justify-center size-[30]  bg-white top-25 left-20  rounded-full absolute  ">
-                                      <Image
-                                    className=" "
-                                    src="/img/userprofile/edit.svg"
-                                    alt="Profile Picture"
-                                    width={20}
-                                    height={20}
-
-                                    priority
-                                />
-                                </span> :
-                                            <span className="flex  items-center justify-center size-[30]  bg-black top-25 left-20  rounded-full absolute  ">
-                                            <Image
-                                        className=" "
-                                        src="/img/userprofile/editWhite.svg"
-                                        alt="Profile Picture"
-                                        width={20}
-                                        height={20}
-
-                                        priority
-                                    />
+                                {/* <span className="bg-[url(/img/userprofile/editWhite.svg)] border-2 border-black  bg-center size-[25]  bg-black top-25 left-20  rounded-full absolute  "></span> */}
+                                {fotoHover ? (
+                                    <span className="absolute top-25 left-20 flex size-[30] items-center justify-center rounded-full bg-black">
+                                        <Image
+                                            className=" "
+                                            src="/img/userprofile/editWhite.svg"
+                                            alt="Profile Picture"
+                                            width={20}
+                                            height={20}
+                                            priority
+                                        />
                                     </span>
-                            }
+                                ) : (
+                                    <span className="absolute top-25 left-20 flex size-[30] items-center justify-center rounded-full bg-white">
+                                        <Image
+                                            className=" "
+                                            src="/img/userprofile/edit.svg"
+                                            alt="Profile Picture"
+                                            width={20}
+                                            height={20}
+                                            priority
+                                        />
+                                    </span>
+                                )}
                             </label>
-                            <input type="file" hidden className="w-0" id="userfoto" onChange={fotoChanged} name="userfoto"></input>
+                            <input
+                                type="file"
+                                hidden
+                                className="w-0"
+                                id="userfoto"
+                                onChange={fotoChanged}
+                                name="userfoto"
+                            ></input>
 
                             <div className="text-field">
                                 <label htmlFor="name" className="block text-sm">
@@ -240,12 +251,8 @@ export default function UserProfile() {
                             Новый проект
                         </button> */}
                 </div>
-                <ul className="p-6">
-                        {listCard}
-                </ul>
+                <ul className="p-6">{listCard}</ul>
             </div>
         </div>
-
-
     );
 }
