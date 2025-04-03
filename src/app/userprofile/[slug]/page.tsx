@@ -1,6 +1,19 @@
+'use client'
+
 import Image from "next/image";
 import "./stylePageUP.css";
+
+import { Button } from '@/components/ui/button'
+
+import testFetch from '@/lib/api/test-fetch'
+
 export default function UserProfile() {
+
+    const onClick = async () => {
+        const data = await testFetch()
+        console.log(data)
+    }
+
   return (
     <div className="h-screen font-sans  overflow-y-auto">
     <form>
@@ -12,6 +25,7 @@ export default function UserProfile() {
                         <h2 className="text-xl text-center">Редактировать профиль</h2>
 
                     </div>
+                   <Button onClick={onClick} type="button" variant="outline" size="sm">Send</Button>
                     <div className="flex justify-center mb-6 gap-4 items-center ">
 
                         <Image className="w-32 h-32 rounded-full border-2 border-indigo-300" src="/img/foto.jpg"

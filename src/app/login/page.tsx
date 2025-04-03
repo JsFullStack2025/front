@@ -35,8 +35,15 @@ export default function Login() {
         resolver: zodResolver(formSchema),
     });
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        console.log(data)
-        login(data.username, data.password)
+        const res = await login(data.username, data.password)
+        if (res.status === 201) {
+            const data = await res.json();
+            console.log(data)
+            window.location.href = "/userprofile/" + data.user.id  //роутинг на страницу пользователя
+        }
+        else {
+            console.log("error", res.status)
+        }
     }
 
     return (
