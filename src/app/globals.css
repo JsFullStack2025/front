@@ -57,6 +57,7 @@
 
 
 :root {
+  --image-url:"";
   /* --gradient: linear-gradient(296.82deg, #3B82F6 0%, #A855F7 100%); */
   --radius: 0.625rem;
   --background: oklch(1 0 0);
