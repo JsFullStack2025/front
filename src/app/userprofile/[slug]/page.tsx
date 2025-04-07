@@ -61,6 +61,9 @@ export default function UserProfile() {
         setfotoHover((fotoHover = false));
         console.log("fotoHover", fotoHover);
     }
+
+    //const user = 
+
     const listCard = cards.map((card) => (
         <li className="flex flex-row items-center justify-between" key={card.id}>
             <button className="">
