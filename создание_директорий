@@ -1,0 +1,7 @@
+mkdir -p src/entities
+mkdir -p src/widgets
+mkdir -p src/features
+mkdir -p src/shared/ui
+mkdir -p src/shared/lib
+mkdir -p src/shared/api
+mkdir -p src/shared/config 
