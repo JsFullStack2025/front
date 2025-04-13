@@ -11,7 +11,7 @@ export default function Home() {
 
   const onClick = async () => {
     //const data = await testJWT()
-    console.log(data)
+    //console.log(data)
 }
 
   return (

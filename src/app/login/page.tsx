@@ -95,6 +95,7 @@ export default function Login() {
                                             </FormItem>
                                         )}
                                     />
+
                                     {error ? <div className='text-sm text-center flex flex-col text-red-500'>Неверная электронная почта или пароль</div> : ""}
                                     <div className="gap-2 flex flex-col">
                                         <Link href="/">
