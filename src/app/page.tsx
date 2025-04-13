@@ -11,7 +11,7 @@ export default function Home() {
 
   return (
     <>
-    FAKE INITIAL PAGE
+    FAKE ROOT PAGE
     </>
   );
 }
