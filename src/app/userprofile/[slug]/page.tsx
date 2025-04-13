@@ -9,10 +9,10 @@ import testFetch from '@/lib/api/test-fetch'
 
 export default function UserProfile() {
 
-    const onClick = async () => {
-        const data = await testFetch()
-        console.log(data)
-    }
+     const onClick = async () => {
+         const data = await testFetch()
+         console.log(data)
+     }
 
   return (
     <div className="h-screen font-sans  overflow-y-auto">
