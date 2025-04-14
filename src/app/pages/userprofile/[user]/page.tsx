@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { any, z } from "zod";
+import { DialogDel } from "./Dialogs/DialogDel"
+
 import {
     Form,
     FormControl,
@@ -18,6 +20,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+
 import { title } from "process";
 import { cards, users } from "./data";
 const formSchema = z.object({
@@ -25,8 +28,21 @@ const formSchema = z.object({
         message: "Некорректный email",
     }),
 });
+//https://stackoverflow.com/questions/66988869/how-to-resolve-dynamic-routes-on-client-side-in-next-js-framework
+export default function UserProfile({id,
+    params,
+  }: {
+    params: Promise<{ slug: string }>
+    id:number
+  })  {
 
-export default function UserProfile() {
+//   params.then((res:any)=>{
+//         console.log(res)
+//         return res.user
+//     })
+//    console.log(params)
+console.log(id)
+let curUser = users.find((elm)=>elm.id == id)// users[id];
     // 1. Define your form.
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -52,7 +68,7 @@ export default function UserProfile() {
         }
     }
     let [fotoHover, setfotoHover] = useState(false);
-
+    // let [openDel, setOpenDel] = useState(false);
     function fotoMouseOver(event: any) {
         setfotoHover((fotoHover = true));
         console.log("fotoHover", fotoHover);
@@ -61,21 +77,21 @@ export default function UserProfile() {
         setfotoHover((fotoHover = false));
         console.log("fotoHover", fotoHover);
     }
-    const listCard = cards.map((card) => (
-        <li className="flex flex-row items-center justify-between" key={card.id}>
-            <button className="">
-                <Trash2 />
-            </button>
-            <span className="mx-5 grow hover:cursor-pointer hover:underline">
-                {card.title}
-            </span>
-            <button className="">
-                <Pencil size={24} />
-                {/* <Image src="/img/UserProfile/edit.svg" alt="github logo" width={28} height={28} /> */}
-            </button>
-        </li>
-    ));
-    let curUser = users[0];
+    // const listCard = cards.map((card) => (
+    //     <li className="flex flex-row items-center justify-between" key={card.id}>
+    //         {/* <button className="">
+    //             <Trash2 />
+    //         </button> */}<DialogDel cardId={card.id} />
+    //         <span className="mx-5 grow hover:cursor-pointer hover:underline">
+    //             {card.title}
+    //         </span>
+    //         <button className="">
+    //             <Pencil size={24} />
+    //             {/* <Image src="/img/UserProfile/edit.svg" alt="github logo" width={28} height={28} /> */}
+    //         </button>
+    //     </li>
+    // ));
+
     //  const curUrlFoto = curUser.linkImg?` bg-indigo-300`: 'bg-[url(/img/userprofile/nofoto.svg)]  bg-indigo-300 '
 
     return (
@@ -251,8 +267,23 @@ export default function UserProfile() {
                             Новый проект
                         </button> */}
                 </div>
-                <ul className="p-6">{listCard}</ul>
+                <ul className="p-6">{cards.map((card) => (
+                    <li className="flex flex-row items-center justify-between" key={card.id}>
+                        {/* <button className="">
+                <Trash2 />
+            </button> */}<DialogDel cardId={card.id} />
+                        <span className="mx-5 grow hover:cursor-pointer hover:underline">
+                            {card.title}
+                        </span>
+                        <button className="">
+                            <Pencil size={24} />
+                            {/* <Image src="/img/UserProfile/edit.svg" alt="github logo" width={28} height={28} /> */}
+                        </button>
+                    </li>
+                ))}</ul>
             </div>
+
         </div>
+
     );
 }
