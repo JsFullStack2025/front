@@ -15,5 +15,5 @@ export default async function login(username: string, password: string) {
     //throw new Error(`HTTP error! status: ${res.status}`);
   }
 
-  return await res;
+  return res;
 }

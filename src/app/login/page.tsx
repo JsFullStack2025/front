@@ -24,6 +24,7 @@ import { z } from "zod"
 import { formSchema } from "@/lib/validation/validation"
 
 import login from "@/lib/api/login"
+import React from "react";
 
 
 export default function Login() {
@@ -34,18 +35,22 @@ export default function Login() {
         },
         resolver: zodResolver(formSchema),
     });
+
+    const [error, setError] = React.useState(false);
+
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         const res = await login(data.username, data.password)
         if (res.status === 201) {
             const data = await res.json();
             console.log(data)
+            setError(false);
             window.location.href = "/userprofile/" + data.user.id  //роутинг на страницу пользователя
         }
         else {
+            setError(true);
             console.log("error", res.status)
         }
     }
-
     return (
         <div className="flex items-center justify-center ">
             <Card className="w-sm  ">
@@ -90,6 +95,8 @@ export default function Login() {
                                             </FormItem>
                                         )}
                                     />
+
+                                    {error ? <div className='text-sm text-center flex flex-col text-red-500'>Неверная электронная почта или пароль</div> : ""}
                                     <div className="gap-2 flex flex-col">
                                         <Link href="/">
                                             <div className="text-right mb-1">
