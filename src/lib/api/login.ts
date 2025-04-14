@@ -1,5 +1,5 @@
 export default async function login(username: string, password: string) {
-  const res = await fetch("http://localhost:3000/auth/login", {
+  const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + /*"http://localhost:3000*/"/auth/login", {
     cache: 'no-store',
     method: "POST",
     headers: {

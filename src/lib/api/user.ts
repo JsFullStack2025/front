@@ -1,5 +1,5 @@
 export async function GetUsers(){
-  const res = await fetch(process.env.BACKEND_URI + "/user", {
+  const res = await fetch( process.env.NEXT_PUBLIC_BACKEND_URL + "/user", {
     cache: 'no-store',
     method: "GET",
     credentials: 'include', // Браузер автоматически добавит куки
@@ -11,7 +11,7 @@ export async function GetUsers(){
 }
 
 export async function GetUser(id: number){
-  const res = await fetch("http://localhost:3000/user" + id, {
+  const res = await fetch( process.env.NEXT_PUBLIC_BACKEND_URL + "/user" + id, {
     cache: 'no-store',
     method: "GET",
     credentials: 'include', // Браузер автоматически добавит куки
