@@ -47,7 +47,7 @@ let curUser = users.find((elm)=>elm.id == id)// users[id];
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            useremail: "",
+            useremail: curUser?.email,
         },
     });
 
@@ -119,11 +119,11 @@ let curUser = users.find((elm)=>elm.id == id)// users[id];
                                 onMouseOut={fotoMouseOut}
                                 style={
                                     {
-                                        "--image-url": `url(${curUser.linkImg ? curUser.linkImg : "/img/userprofile/nofoto.svg"})`,
+                                        "--image-url": `url(${curUser?.linkImg ? curUser.linkImg : "/img/userprofile/nofoto.svg"})`,
                                     } as React.CSSProperties
                                 }
                                 htmlFor="userfoto"
-                                className={`bg-[image:var(--image-url)] bg-cover ${!curUser.linkImg && "bg-indigo-300"} relative size-[125] rounded-full border-indigo-300 hover:cursor-pointer`}
+                                className={`bg-[image:var(--image-url)] bg-cover ${!curUser?.linkImg && "bg-indigo-300"} relative size-[125] rounded-full border-indigo-300 hover:cursor-pointer`}
                             >
                                 {/* <label id="label-foto-user"  htmlFor="userfoto" className={`hover:opacity-[0.5] ${!curUser.linkImg&&'bg-indigo-300'} relative size-[125] rounded-full  border-indigo-300 hover:cursor-pointer`}> */}
                                 {/* {
@@ -188,7 +188,7 @@ let curUser = users.find((elm)=>elm.id == id)// users[id];
                                     Имя пользователя:
                                 </label>
 
-                                <div className="text-gray-500">@Erin_Lindford</div>
+                                <div className="text-gray-500">{curUser?.login ? curUser.login : ""}</div>
                             </div>
                         </div>
 
@@ -214,6 +214,7 @@ let curUser = users.find((elm)=>elm.id == id)// users[id];
                                                 <Input
                                                     className="text-field__input invalid:border-pink-500 invalid:text-pink-600"
                                                     placeholder="Введите электронную почту"
+
                                                     {...field}
                                                 />
                                             </div>

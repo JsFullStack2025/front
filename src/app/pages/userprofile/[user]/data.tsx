@@ -28,11 +28,11 @@ export let cards: Card[] = [
 
 
 export let users: User[] = [
-  { id: 1, login: "User1", linkImg: "", email: "email@eamail.ru" },
+  { id: 1, login: "User1", linkImg: "", email: "User1@email.ru" },
   {
     id: 2,
     login: "User2",
     linkImg: "/img/userprofile/foto.jpg",
-    email: "email@eamail.ru",
+    email: "User2@email.ru",
   },
 ];
