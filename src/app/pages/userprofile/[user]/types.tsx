@@ -6,22 +6,22 @@ export class Card {
       this.id = id;
     }
   }
-  // class User {
-  //     id:number
-  //     login:string
-  //     linkImg:string
-  //     email:string
-  //     constructor(id:number, login:string, linkImg:string, email:string ) {
-  //         this.id = id
-  //         this.login = login
-  //         this.linkImg = linkImg
-  //         this.email = email
-  //     }
-  // }
-
-  export interface User {
-    id: number;
-    login: string;
-    linkImg: string;
-    email: string;
+  export class User {
+      id:number
+      login:string
+      linkImg:string
+      email:string
+      constructor(id:number = 0, login:string = "", linkImg:string = "", email:string = "") {
+          this.id = id
+          this.login = login
+          this.linkImg = linkImg
+          this.email = email
+      }
   }
+
+  // export interface User {
+  //   id: number;
+  //   login: string;
+  //   linkImg: string;
+  //   email: string;
+  // }

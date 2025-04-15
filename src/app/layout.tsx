@@ -30,12 +30,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-r from-primary-from to-primary-to font-sans h-screen`}
       >
         <header className="py-4 ">
-          {" "}
           <Header />
         </header>
         <main className="lg:h-[85%]">{children}</main>
         <footer className="py-4">
-          {" "}
           <Footer />
         </footer>
       </body>

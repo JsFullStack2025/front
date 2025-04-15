@@ -1,6 +1,8 @@
 "use client";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+
+import { useParams } from 'next/navigation'
 import "./stylePageUP.css";
 import { Save, Plus, Pencil, Trash2, Mail, Camera } from "lucide-react";
 
@@ -9,7 +11,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { any, z } from "zod";
 import { DialogDel } from "./Dialogs/DialogDel"
-
+import { DialogNewCard } from "./Dialogs/DialogNewCard"
+import { Card, User } from "./types"
+import { Spinner } from '@/components/ui/spinner';
 import {
     Form,
     FormControl,
@@ -29,20 +33,51 @@ const formSchema = z.object({
     }),
 });
 //https://stackoverflow.com/questions/66988869/how-to-resolve-dynamic-routes-on-client-side-in-next-js-framework
-export default function UserProfile({id,
-    params,
-  }: {
-    params: Promise<{ slug: string }>
-    id:number
-  })  {
+//https://nextjs.org/docs/app/api-reference/functions/use-params
+export default function UserProfile({ id
+}: {
+    id: number
+}) {
+    let [curUser, setCurUser] = useState(()=>users.find((elm) => elm.id == id) || new User());
+    let [fotoHover, setfotoHover] = useState(false);
+    let [cardListLength, setCardListLength] = useState(cards.length || [].length);
+    let cardList = cards.sort((a, b)=>b.id-a.id)||[]
+    //Вариант 1
+    const userId = useParams<{ user: string; }>()
+    console.log("params", userId)
 
-//   params.then((res:any)=>{
-//         console.log(res)
-//         return res.user
-//     })
-//    console.log(params)
-console.log(id)
-let curUser = users.find((elm)=>elm.id == id)// users[id];
+    //Вариант 2 получаем динамические параметры в layout.tsx
+    console.log(id)
+
+    //let curUser:any = users.find((elm) => elm.id == id)
+
+    function deleteCardHandler(cardId: number) {
+        const ind = cardList.findIndex((elm) => elm.id === cardId)
+        cardList.splice(ind, 1)
+        setCardListLength(cardList.length)
+        // console.log(cardList)
+        // cardList = cardList.filter((item) => item.id !== cardId)
+        // setCardList((l) => {
+        //     const ind = l.findIndex((elm) => elm.id === cardId)
+
+        //     const updetedList = l.filter((item) => item.id !== cardId)
+        //     return updetedList; //l.splice(ind, 1)
+        // })
+        alert("Удален проект № " + cardId)
+    }
+    const createNewCard = (title:string)=> {
+        const newId = Math.max(...cardList.map(elm => elm.id)) + 1
+        cardList.push(new Card(title, newId))
+        setCardListLength(cardList.length)
+        //setCardList(cardList)
+
+    }
+
+    // useEffect(() => {
+    //     // the side effect will only run when the props or state changed
+    //     setCardList(cardList)
+    //  }, [cardList])
+    // const [show, setShow] = useState(true);
     // 1. Define your form.
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -55,6 +90,7 @@ let curUser = users.find((elm)=>elm.id == id)// users[id];
     function onSubmit(values: z.infer<typeof formSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
+        alert(JSON.stringify(values))
         console.log(values);
     }
 
@@ -62,12 +98,16 @@ let curUser = users.find((elm)=>elm.id == id)// users[id];
         console.log(event);
         const files: any[] = event.target.files;
         if (files.length > 0) {
+            curUser.linkImg = `/img/userprofile/${files[0].name}`
+            setCurUser(curUser)
+            console.log(files) ///img/userprofile/
             alert(files[0].name);
-        } else {
-            alert("No file chosen");
         }
+        // else {
+        //     alert("No file chosen");
+        // }
     }
-    let [fotoHover, setfotoHover] = useState(false);
+
     // let [openDel, setOpenDel] = useState(false);
     function fotoMouseOver(event: any) {
         setfotoHover((fotoHover = true));
@@ -77,56 +117,58 @@ let curUser = users.find((elm)=>elm.id == id)// users[id];
         setfotoHover((fotoHover = false));
         console.log("fotoHover", fotoHover);
     }
-    // const listCard = cards.map((card) => (
-    //     <li className="flex flex-row items-center justify-between" key={card.id}>
-    //         {/* <button className="">
-    //             <Trash2 />
-    //         </button> */}<DialogDel cardId={card.id} />
-    //         <span className="mx-5 grow hover:cursor-pointer hover:underline">
-    //             {card.title}
-    //         </span>
-    //         <button className="">
-    //             <Pencil size={24} />
-    //             {/* <Image src="/img/UserProfile/edit.svg" alt="github logo" width={28} height={28} /> */}
-    //         </button>
-    //     </li>
-    // ));
+    const listCard = cards.map((card) => (
+        <li className="flex flex-row items-center justify-between" key={card.id}>
+            {/* <button className="">
+                <Trash2 />
+            </button> */}<DialogDel cardId={card.id} deleteCard={deleteCardHandler} />
+            <span className="mx-5 grow hover:cursor-pointer hover:underline">
+                {card.title}
+            </span>
+            <button className="">
+                <Pencil size={24} />
+                {/* <Image src="/img/UserProfile/edit.svg" alt="github logo" width={28} height={28} /> */}
+            </button>
+        </li>
+    ));
 
     //  const curUrlFoto = curUser.linkImg?` bg-indigo-300`: 'bg-[url(/img/userprofile/nofoto.svg)]  bg-indigo-300 '
 
     return (
-        <div className="flex h-[100%] w-full flex-col items-center justify-between gap-8 px-8 lg:flex-row">
-            <div className="w-full overflow-y-auto rounded-lg bg-white p-6 text-gray-800 sm:min-w-sm lg:h-4/5 lg:w-1/3">
-                <Form {...form}>
-                    <form
-                        onSubmit={form.handleSubmit(onSubmit)}
-                        className="flex h-full flex-col space-y-8"
-                    >
-                        <div className="mb-6">
-                            <h2 className="text-center text-xl">Редактировать профиль</h2>
-                        </div>
+        <>
+            {/* <Spinner show={show} /> */}
+            <div className="flex h-[100%] w-full flex-col items-center justify-between gap-8 px-8 lg:flex-row">
+                <div className="w-full overflow-y-auto rounded-lg bg-white p-6 text-gray-800 sm:min-w-sm lg:h-4/5 lg:w-1/3">
+                    <Form {...form}>
+                        <form
+                            onSubmit={form.handleSubmit(onSubmit)}
+                            className="flex h-full flex-col space-y-8"
+                        >
+                            <div className="mb-6">
+                                <h2 className="text-center text-xl">Редактировать профиль</h2>
+                            </div>
 
-                        <div className="mb-6 flex items-center justify-start gap-4">
-                            {/* <Camera size={60} /> */}
-                            {/* <div
+                            <div className="mb-6 flex items-center justify-start gap-4">
+                                {/* <Camera size={60} /> */}
+                                {/* <div
                                 style={{'--image-url': `url(${fetchedUrl})`} as React.CSSProperties}
                                 className='bg-[image:var(--image-url)]'>
                                     <!-- ... -->
                                 </div> */}
-                            <label
-                                id="label-foto-user"
-                                onMouseOver={fotoMouseOver}
-                                onMouseOut={fotoMouseOut}
-                                style={
-                                    {
-                                        "--image-url": `url(${curUser?.linkImg ? curUser.linkImg : "/img/userprofile/nofoto.svg"})`,
-                                    } as React.CSSProperties
-                                }
-                                htmlFor="userfoto"
-                                className={`bg-[image:var(--image-url)] bg-cover ${!curUser?.linkImg && "bg-indigo-300"} relative size-[125] rounded-full border-indigo-300 hover:cursor-pointer`}
-                            >
-                                {/* <label id="label-foto-user"  htmlFor="userfoto" className={`hover:opacity-[0.5] ${!curUser.linkImg&&'bg-indigo-300'} relative size-[125] rounded-full  border-indigo-300 hover:cursor-pointer`}> */}
-                                {/* {
+                                <label
+                                    id="label-foto-user"
+                                    onMouseOver={fotoMouseOver}
+                                    onMouseOut={fotoMouseOut}
+                                    style={
+                                        {
+                                            "--image-url": `url(${curUser?.linkImg ? curUser.linkImg : "/img/userprofile/nofoto.svg"})`,
+                                        } as React.CSSProperties
+                                    }
+                                    htmlFor="userfoto"
+                                    className={`bg-[image:var(--image-url)] bg-cover ${!curUser?.linkImg && "bg-indigo-300"} relative size-[125] rounded-full border-indigo-300 hover:cursor-pointer`}
+                                >
+                                    {/* <label id="label-foto-user"  htmlFor="userfoto" className={`hover:opacity-[0.5] ${!curUser.linkImg&&'bg-indigo-300'} relative size-[125] rounded-full  border-indigo-300 hover:cursor-pointer`}> */}
+                                    {/* {
                                     curUser.linkImg ?
                                     <Image
                                     className="rounded-full"
@@ -149,94 +191,94 @@ let curUser = users.find((elm)=>elm.id == id)// users[id];
                                 />
                                 } */}
 
-                                {/* <span className="bg-[url(/img/userprofile/editWhite.svg)] border-2 border-black  bg-center size-[25]  bg-black top-25 left-20  rounded-full absolute  "></span> */}
-                                {fotoHover ? (
-                                    <span className="absolute top-25 left-20 flex size-[30] items-center justify-center rounded-full bg-black">
-                                        <Image
-                                            className=" "
-                                            src="/img/userprofile/editWhite.svg"
-                                            alt="Profile Picture"
-                                            width={20}
-                                            height={20}
-                                            priority
-                                        />
-                                    </span>
-                                ) : (
-                                    <span className="absolute top-25 left-20 flex size-[30] items-center justify-center rounded-full bg-white">
-                                        <Image
-                                            className=" "
-                                            src="/img/userprofile/edit.svg"
-                                            alt="Profile Picture"
-                                            width={20}
-                                            height={20}
-                                            priority
-                                        />
-                                    </span>
-                                )}
-                            </label>
-                            <input
-                                type="file"
-                                hidden
-                                className="w-0"
-                                id="userfoto"
-                                onChange={fotoChanged}
-                                name="userfoto"
-                            ></input>
-
-                            <div className="text-field">
-                                <label htmlFor="name" className="block text-sm">
-                                    Имя пользователя:
+                                    {/* <span className="bg-[url(/img/userprofile/editWhite.svg)] border-2 border-black  bg-center size-[25]  bg-black top-25 left-20  rounded-full absolute  "></span> */}
+                                    {fotoHover ? (
+                                        <span className="absolute top-25 left-20 flex size-[30] items-center justify-center rounded-full bg-black">
+                                            <Image
+                                                className=" "
+                                                src="/img/userprofile/editWhite.svg"
+                                                alt="Profile Picture"
+                                                width={20}
+                                                height={20}
+                                                priority
+                                            />
+                                        </span>
+                                    ) : (
+                                        <span className="absolute top-25 left-20 flex size-[30] items-center justify-center rounded-full bg-white">
+                                            <Image
+                                                className=" "
+                                                src="/img/userprofile/edit.svg"
+                                                alt="Profile Picture"
+                                                width={20}
+                                                height={20}
+                                                priority
+                                            />
+                                        </span>
+                                    )}
                                 </label>
+                                <input
+                                    type="file"
+                                    hidden
+                                    className="w-0"
+                                    id="userfoto"
+                                    onChange={fotoChanged}
+                                    name="userfoto"
+                                ></input>
 
-                                <div className="text-gray-500">{curUser?.login ? curUser.login : ""}</div>
+                                <div className="text-field">
+                                    <label htmlFor="name" className="block text-sm">
+                                        Имя пользователя:
+                                    </label>
+
+                                    <div className="text-gray-500">{curUser?.login ? curUser.login : ""}</div>
+                                </div>
                             </div>
-                        </div>
 
-                        <div className="text-field mb-4">
-                            {/* <label htmlFor="email" className="block text-sm">Электронная почта</label>
+                            <div className="text-field mb-4">
+                                {/* <label htmlFor="email" className="block text-sm">Электронная почта</label>
                                     <div className="text-field__icon text-field__icon_email">
                                         <input type="email" id="email" name="email" required
                                             className="w-full p-2 mt-2 rounded-lg text-field__input"
                                             placeholder="Введите электронную почту" />
                                     </div> */}
 
-                            <FormField
-                                control={form.control}
-                                name="useremail"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        {/* <FormLabel>Электронная почта</FormLabel> */}
-                                        <label htmlFor="useremail" className="block text-sm">
-                                            Электронная почта
-                                        </label>
-                                        <FormControl>
-                                            <div className="text-field__icon text-field__icon_email">
-                                                <Input
-                                                    className="text-field__input invalid:border-pink-500 invalid:text-pink-600"
-                                                    placeholder="Введите электронную почту"
+                                <FormField
+                                    control={form.control}
+                                    name="useremail"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            {/* <FormLabel>Электронная почта</FormLabel> */}
+                                            <label htmlFor="useremail" className="block text-sm">
+                                                Электронная почта
+                                            </label>
+                                            <FormControl>
+                                                <div className="text-field__icon text-field__icon_email">
+                                                    <Input
+                                                        className="text-field__input invalid:border-pink-500 invalid:text-pink-600"
+                                                        placeholder="Введите электронную почту"
 
-                                                    {...field}
-                                                />
-                                            </div>
-                                        </FormControl>
-                                        {/* <FormDescription>
+                                                        {...field}
+                                                    />
+                                                </div>
+                                            </FormControl>
+                                            {/* <FormDescription>
 
                                                 </FormDescription> */}
-                                        <FormMessage className="text-[0.8rem]" />
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
-                        <div className="flex grow-1 items-end justify-end">
-                            <Button type="submit" className="bg-gradient">
-                                {" "}
-                                <Save className="size-7" />
-                                <span>Сохранить</span>
-                            </Button>
-                            {/* </fieldset> */}
+                                            <FormMessage className="text-[0.8rem]" />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                            <div className="flex grow-1 items-end justify-end">
+                                <Button type="submit" className="bg-gradient">
+                                    {" "}
+                                    <Save className="size-7" />
+                                    <span>Сохранить</span>
+                                </Button>
+                                {/* </fieldset> */}
 
-                            {/* <Button className="bg-gradient"> <Image src="/img/UserProfile/saveIcon.svg" alt="github logo" width={20} height={20} /><span>Сохранить</span></Button> */}
-                            {/* <button className="bg-gradient text-white py-1 px-3  rounded-md ">
+                                {/* <Button className="bg-gradient"> <Image src="/img/UserProfile/saveIcon.svg" alt="github logo" width={20} height={20} /><span>Сохранить</span></Button> */}
+                                {/* <button className="bg-gradient text-white py-1 px-3  rounded-md ">
                             <svg className="icon-button" width="20" height="20"
                                 viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -246,45 +288,35 @@ let curUser = users.find((elm)=>elm.id == id)// users[id];
                             <span>Сохранить</span>
 
                         </button> */}
-                        </div>
-                    </form>
-                </Form>
-            </div>
+                            </div>
+                        </form>
+                    </Form>
+                </div>
 
-            <div className="w-full overflow-y-auto rounded-lg bg-white text-gray-800 lg:h-4/5 lg:min-w-sm">
-                <div className="bg-header-project-list flex h-15 items-center justify-between rounded-t-lg px-8">
-                    <h2 className="text-xl text-white">Проекты</h2>
-                    <Button className="bg-gradient">
-                        {" "}
-                        <Plus className="size-7" />
-                        <span>Новый проект</span>
-                    </Button>
-                    {/* <Button className="bg-gradient"> <Image src="/img/UserProfile/plusicon.svg" alt="github logo" width={25} height={25} /><span>Новый проект</span></Button> */}
-                    {/* <button className="bg-gradient text-white py-1 px-3  rounded-md"><svg className="icon-button" width="27"
+                <div className="w-full overflow-y-auto rounded-lg bg-white text-gray-800 lg:h-4/5 lg:min-w-sm">
+                    <div className="bg-header-project-list flex h-15 items-center justify-between rounded-t-lg px-8">
+                        <h2 className="text-xl text-white">Проекты</h2>
+                        {/* <Button className="bg-gradient">
+                            {" "}
+                            <Plus className="size-7" />
+                            <span>Новый проект</span>
+                        </Button> */}
+                        <DialogNewCard createCard={createNewCard}/>
+                        {/* <Button className="bg-gradient"> <Image src="/img/UserProfile/plusicon.svg" alt="github logo" width={25} height={25} /><span>Новый проект</span></Button> */}
+                        {/* <button className="bg-gradient text-white py-1 px-3  rounded-md"><svg className="icon-button" width="27"
                                 height="24" viewBox="0 0 27 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M13.3994 5V19M5.58301 12H21.2158" stroke="#F3F3F3" stroke-width="2.5"
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                             Новый проект
                         </button> */}
+                    </div>
+                    <ul className="p-6">
+                        {listCard}
+                    </ul>
                 </div>
-                <ul className="p-6">{cards.map((card) => (
-                    <li className="flex flex-row items-center justify-between" key={card.id}>
-                        {/* <button className="">
-                <Trash2 />
-            </button> */}<DialogDel cardId={card.id} />
-                        <span className="mx-5 grow hover:cursor-pointer hover:underline">
-                            {card.title}
-                        </span>
-                        <button className="">
-                            <Pencil size={24} />
-                            {/* <Image src="/img/UserProfile/edit.svg" alt="github logo" width={28} height={28} /> */}
-                        </button>
-                    </li>
-                ))}</ul>
+
             </div>
-
-        </div>
-
+        </>
     );
 }

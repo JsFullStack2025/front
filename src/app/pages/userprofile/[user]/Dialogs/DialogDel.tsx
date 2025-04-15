@@ -1,5 +1,6 @@
+
 import { Button } from "@/components/ui/button"
-import { Save, Plus, Pencil, Trash2, Mail, Camera } from "lucide-react";
+import { Trash2} from "lucide-react";
 import { useRef, useState } from "react";
 import {
   Dialog,
@@ -13,16 +14,19 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-//import { Card } from "../types"
+import { Card } from "../types"
 //https://blog.greenroots.info/shadcn-dialog-with-form-three-tips
-export function DialogDel({ cardId }: {cardId:number}) {
+export function DialogDel({ cardId, deleteCard }: {cardId:number, deleteCard:any}) {
   let [openDel, setOpenDel] = useState(false);
-  async function delCard(cardIds: number) {
-    alert("Удалена проект № " + cardIds)
-    //setOpenDel(false)
-    ref.current?.click();
-  }
   const ref:any = useRef(null);
+   const delCard = (cardId: number) => {
+
+    deleteCard(cardId)
+    setOpenDel(false)
+    // ref.current?.click();
+
+  }
+
   return (
     <Dialog open={openDel} onOpenChange={setOpenDel}>
       <DialogTrigger ref={ref} asChild>
