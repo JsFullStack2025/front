@@ -22,7 +22,7 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         customGradient: "bg-gradient-to-r from-primary-from to-primary-to text-primary-foreground shadow-xs hover:bg-primary/90",
         customLink: "text-transparent bg-clip-text bg-gradient-to-r from-primary-from to-primary-to ",
-        customSecondary: "bg-secondary text-primary-to shadow-xs hover:bg-secondary/80",
+        customSecondary: "bg-secondary shadow-xs hover:bg-secondary/80 font-jet",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
@@ -30,6 +30,7 @@ const buttonVariants = cva(
         lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
         icon: "size-9",
         customLg: "h-9 rounded-md px-6 has-[>svg]:px-4 w-full",
+        customSm: "h-15 rounded-md gap-2 px-5 has-[>svg]:px-7"
       },
     },
     defaultVariants: {

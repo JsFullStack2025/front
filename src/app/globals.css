@@ -122,4 +122,18 @@
   body {
     @apply bg-background text-foreground;
   }
+
+}
+
+@media (max-height: 725px) {
+  .hide-on-small-height {
+    display: none;
+
+}
+}
+
+@media (max-width: 1023px) {
+  .white-on-small-width {
+    background-color: #f7f8ff
+}
 }

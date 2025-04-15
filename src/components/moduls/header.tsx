@@ -6,12 +6,15 @@ export default function Header() {
     <div className="flex items-center justify-between hide-on-small-height, top-2 ">
       <div className="pl-15">
         <Button variant="customSecondary">
-          <Link href="/">VISITEO</Link>
+          <Link href="/"><p className="text-center text-balance text-transparent bg-gradient-to-r from-primary-from to-primary-to bg-clip-text">
+          VISITEO</p></Link>
         </Button>
       </div>
       <div className="pr-15">
         <Button variant="customSecondary">
-          <Link href="/login">Войти/Профиль</Link>
+          <Link href="/login">
+          <p className="text-center text-balance text-transparent bg-gradient-to-r from-primary-from to-primary-to bg-clip-text">
+            Войти/Профиль</p></Link>
         </Button>
       </div>
     </div>
