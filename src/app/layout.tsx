@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -28,13 +27,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-r from-primary-from to-primary-to font-sans h-screen`}
       >
-        <main className="bg-gradient-to-r from-primary-from to-primary-to flex flex-col items-center justify-center min-h-screen">
+        <header className="py-4 ">
+          {" "}
           <Header />
-          {children}
+        </header>
+        <main className="lg:h-[85%]">{children}</main>
+        <footer className="py-4">
+          {" "}
           <Footer />
-        </main>
+        </footer>
       </body>
     </html>
   );

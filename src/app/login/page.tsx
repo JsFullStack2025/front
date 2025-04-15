@@ -26,6 +26,8 @@ import { formSchema } from "@/lib/validation/validation"
 import login from "@/lib/api/login"
 import React from "react";
 
+import { redirect, usePathname } from 'next/navigation'
+
 
 export default function Login() {
     const form = useForm({
@@ -44,7 +46,8 @@ export default function Login() {
             const data = await res.json();
             console.log(data)
             setError(false);
-            window.location.href = "/userprofile/" + data.user.id  //роутинг на страницу пользователя
+            //window.location.href = "/userprofile/" + data.user.id  //роутинг на страницу пользователя
+            redirect("/userprofile/" + data.user.id)
         }
         else {
             setError(true);
