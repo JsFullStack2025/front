@@ -16,7 +16,7 @@ import { Label } from "@/components/ui/label"
 import { Card } from "../types"
 import { HtmlContext } from "next/dist/server/route-modules/pages/vendored/contexts/entrypoints";
 
-export function DialogNewCard({createCard}:{createCard:any}) {
+export default function DialogNewCard({createCard}:{createCard:any}) {
     let [openNew, setOpenNew] = useState(false);
     let [titleNewCard, setTitleNewCard] = useState("")
     const newCard = () => {
@@ -60,7 +60,7 @@ export function DialogNewCard({createCard}:{createCard:any}) {
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit" onClick={newCard}>Создать</Button>
+            <Button className="bg-gradient" type="submit" onClick={newCard}>Создать</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

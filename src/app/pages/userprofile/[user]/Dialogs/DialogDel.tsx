@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card } from "../types"
 //https://blog.greenroots.info/shadcn-dialog-with-form-three-tips
-export function DialogDel({ cardId, deleteCard }: {cardId:number, deleteCard:any}) {
+export default function DialogDel({ cardId, deleteCard }: {cardId:number, deleteCard:any}) {
   let [openDel, setOpenDel] = useState(false);
   const ref:any = useRef(null);
    const delCard = (cardId: number) => {
@@ -41,9 +41,9 @@ export function DialogDel({ cardId, deleteCard }: {cardId:number, deleteCard:any
         </DialogHeader>
 
         <DialogFooter>
-          <Button onClick={() => delCard(cardId)}>Да</Button>
+          <Button className="bg-gradient" onClick={() => delCard(cardId)}>Да</Button>
           <DialogClose asChild>
-            <Button type="button" variant="secondary">
+            <Button type="button" variant="secondary" >
               Нет
             </Button>
           </DialogClose>

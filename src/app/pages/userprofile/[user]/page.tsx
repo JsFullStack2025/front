@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useRef, useState, useEffect } from "react";
-
+import AvatarEditor from 'react-avatar-editor'
 import { useParams } from 'next/navigation'
 import "./stylePageUP.css";
 import { Save, Plus, Pencil, Trash2, Mail, Camera } from "lucide-react";
@@ -10,8 +10,9 @@ import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { any, z } from "zod";
-import { DialogDel } from "./Dialogs/DialogDel"
-import { DialogNewCard } from "./Dialogs/DialogNewCard"
+import  DialogDel from "./Dialogs/DialogDel"
+import  DialogNewCard from "./Dialogs/DialogNewCard"
+import  DialogAvatarEdit from "./Dialogs/DialogAvatarEdit"
 import { Card, User } from "./types"
 import { Spinner } from '@/components/ui/spinner';
 import {
@@ -34,6 +35,8 @@ const formSchema = z.object({
 });
 //https://stackoverflow.com/questions/66988869/how-to-resolve-dynamic-routes-on-client-side-in-next-js-framework
 //https://nextjs.org/docs/app/api-reference/functions/use-params
+//https://stackoverflow.com/questions/57341541/removing-object-from-array-using-hooks-usestate
+//https://blog.greenroots.info/shadcn-dialog-with-form-three-tips
 export default function UserProfile({ id
 }: {
     id: number
@@ -41,6 +44,9 @@ export default function UserProfile({ id
     let [curUser, setCurUser] = useState(()=>users.find((elm) => elm.id == id) || new User());
     let [fotoHover, setfotoHover] = useState(false);
     let [cardListLength, setCardListLength] = useState(cards.length || [].length);
+    let [linkImgAvatar, setLinkImgAvatar] = useState("")
+    // let [cardList, setCardList] = useState(cards || []); //вот так не работает. Почему так и непонял. Передал на мониторинг длины массива. Но это костыль как мне кажется.
+    let [openDiagEditAvatar, setOpenDiagEditAvatar] = useState(false);
     let cardList = cards.sort((a, b)=>b.id-a.id)||[]
     //Вариант 1
     const userId = useParams<{ user: string; }>()
@@ -50,11 +56,22 @@ export default function UserProfile({ id
     console.log(id)
 
     //let curUser:any = users.find((elm) => elm.id == id)
-
+    function saveAvatar (urlImg:string) {
+        curUser.linkImg = urlImg
+        setCurUser(curUser)
+    }
     function deleteCardHandler(cardId: number) {
         const ind = cardList.findIndex((elm) => elm.id === cardId)
         cardList.splice(ind, 1)
         setCardListLength(cardList.length)
+        // assigning the list to temp variable
+        // const temp = [...cardList];
+
+        // // removing the element using splice
+        // temp.splice(ind, 1);
+        // setCardList(temp)
+        // cardList = cardList.filter((item) => item.id !== cardId)
+
         // console.log(cardList)
         // cardList = cardList.filter((item) => item.id !== cardId)
         // setCardList((l) => {
@@ -65,10 +82,14 @@ export default function UserProfile({ id
         // })
         alert("Удален проект № " + cardId)
     }
-    const createNewCard = (title:string)=> {
+    function createNewCard (title:string){
         const newId = Math.max(...cardList.map(elm => elm.id)) + 1
         cardList.push(new Card(title, newId))
         setCardListLength(cardList.length)
+        // const temp = [...cardList];
+        // temp.push(new Card(title, newId))
+        // setCardList(temp)
+
         //setCardList(cardList)
 
     }
@@ -98,10 +119,12 @@ export default function UserProfile({ id
         console.log(event);
         const files: any[] = event.target.files;
         if (files.length > 0) {
-            curUser.linkImg = `/img/userprofile/${files[0].name}`
-            setCurUser(curUser)
-            console.log(files) ///img/userprofile/
-            alert(files[0].name);
+            const src = URL.createObjectURL(event.target.files[0])
+            setLinkImgAvatar(src)
+            setOpenDiagEditAvatar(true)
+            //setCurUser(curUser)
+            // console.log(files) ///img/userprofile/
+            // alert(files[0].name);
         }
         // else {
         //     alert("No file chosen");
@@ -110,11 +133,11 @@ export default function UserProfile({ id
 
     // let [openDel, setOpenDel] = useState(false);
     function fotoMouseOver(event: any) {
-        setfotoHover((fotoHover = true));
+        setfotoHover((true));
         console.log("fotoHover", fotoHover);
     }
     function fotoMouseOut(evet: any) {
-        setfotoHover((fotoHover = false));
+        setfotoHover((false));
         console.log("fotoHover", fotoHover);
     }
     const listCard = cards.map((card) => (
@@ -133,9 +156,13 @@ export default function UserProfile({ id
     ));
 
     //  const curUrlFoto = curUser.linkImg?` bg-indigo-300`: 'bg-[url(/img/userprofile/nofoto.svg)]  bg-indigo-300 '
-
+    // const MyEditor = () => {
+    //     const editor = useRef(null);
     return (
         <>
+
+        <DialogAvatarEdit open={openDiagEditAvatar} setOpen={setOpenDiagEditAvatar} saveAvatar={saveAvatar} urlImg={linkImgAvatar} />
+
             {/* <Spinner show={show} /> */}
             <div className="flex h-[100%] w-full flex-col items-center justify-between gap-8 px-8 lg:flex-row">
                 <div className="w-full overflow-y-auto rounded-lg bg-white p-6 text-gray-800 sm:min-w-sm lg:h-4/5 lg:w-1/3">
