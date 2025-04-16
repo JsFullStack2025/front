@@ -56,7 +56,7 @@ export default function welcome() {
                         }}
                         whileTap={{ scale: 0.9 }}>
                         <Link href="/login"> <p className="text-3xl text-center text-balance gradient font-jet p-1 ">
-                            Зарегестрируйтесь бесплатно</p></Link>
+                            Зарегистрируйтесь бесплатно</p></Link> 
                         </motion.button>
 
 
