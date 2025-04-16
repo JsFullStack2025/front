@@ -10,7 +10,7 @@ import {
     useSpring,
     useTransform,
 } from "motion/react"
-import { useRef } from "react"
+import Link from "next/link";
 
 export default function welcome() {
 
@@ -18,11 +18,17 @@ export default function welcome() {
         hidden: {
             x: -1000,
             opacity: 0,
-            
+
         },
         visible: {
             x: 0,
             opacity: 1,
+            transition: {
+                delay: 0.2,
+                type: "twin",
+                duration: 2,
+
+            }
         }
     }
 
@@ -43,12 +49,23 @@ export default function welcome() {
                             width={400}
                             height={700} />
                     </Card>
+                    <motion.button className="bg-white h-15 rounded-md gap-2 px-5 has-[>svg]:px-7"
+                        whileHover={{
+                            scale: 1.2,
+                            transition: { duration: 0.4 },
+                        }}
+                        whileTap={{ scale: 0.9 }}>
+                        <Link href="/"> <p className="text-3xl text-center text-balance gradient font-jet p-1 ">
+                            Зарегестрируйтесь бесплатно</p></Link>
+                        </motion.button>
 
-                    <Button className="flex"
+
+                    {/*             <Button className="flex"
                         type="submit" variant="customSecondary" size="customSm">
-                        <p className="text-3xl text-center text-balance text-transparent bg-gradient-to-r from-primary-from to-primary-to bg-clip-text">
+                        <p 
+                        className="text-3xl text-center text-balance text-transparent bg-gradient-to-r from-primary-from to-primary-to bg-clip-text">
                             Зарегестрируйтесь бесплатно.</p>
-                    </Button>
+                  </Button> */}
                 </div>
 
 

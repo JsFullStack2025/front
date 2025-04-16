@@ -44,7 +44,17 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-}
+  --animate-gradient:gradient 5s ease infinit;
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }}}
 
 :root {
   --radius: 0.625rem;
@@ -135,5 +145,13 @@
 @media (max-width: 1023px) {
   .white-on-small-width {
     background-color: #f7f8ff
-}
+}}
+
+.gradient{
+  background: linear-gradient(-45deg, #a855f7,#f472b6,#3b82f6,#fb923c);
+  background-size: 400% 400%;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient 8s ease infinite;
+  font-family: var(--font-jet-mono);
 }
