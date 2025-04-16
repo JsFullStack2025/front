@@ -1,8 +1,11 @@
+"use client"
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/moduls/footer";
 import Header from "@/components/moduls/header";
+import React, { useState } from "react";
+import { UserData, UserContext } from '@/AppContext/AppContext'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,11 +16,6 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
-export const metadata: Metadata = {
-  title: "Visiteo - share you card",
-  description: "Simple service for share you business card",
-};
 
 export default function RootLayout({
   children,

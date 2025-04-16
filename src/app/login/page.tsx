@@ -24,12 +24,17 @@ import { z } from "zod"
 import { formSchema } from "@/lib/validation/validation"
 
 import login from "@/lib/api/login"
-import React from "react";
+import React, { useState } from "react";
 
 import { redirect, usePathname } from 'next/navigation'
 
+import { useGlobalContext, UserData } from '@/AppContext/AppContext'
+
+import { User } from "lucide-react"
 
 export default function Login() {
+    const user = useGlobalContext();
+
     const form = useForm({
         defaultValues: {
             username: "",
@@ -47,6 +52,7 @@ export default function Login() {
             console.log(data)
             setError(false);
             //window.location.href = "/userprofile/" + data.user.id  //роутинг на страницу пользователя
+            user.userId = data.user.id
             redirect("/userprofile/" + data.user.id)
         }
         else {
