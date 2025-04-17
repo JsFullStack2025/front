@@ -3,6 +3,6 @@ export interface CardTypeEntity {
     title: string;
     description?: string;
     designData?: string;
-    isCustomTemplate: boolean;
-    readonly: boolean;
+    isCustomTemplate?: boolean;
+    readonly?: boolean;
 }
