@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/moduls/footer";
 import Header from "@/components/moduls/header";
 
+const jet = JetBrains_Mono({
+  variable: "--font-jet",
+  subsets: ["cyrillic"]
+} )
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
