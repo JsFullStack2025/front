@@ -40,7 +40,7 @@ export default function RootLayout({
         </header>
         <main className="">
           {children}
-        </main>
+          </main>
         <footer className="py-4">
           {" "}
           <Footer />
