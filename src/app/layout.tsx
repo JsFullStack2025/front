@@ -38,7 +38,9 @@ export default function RootLayout({
           {" "}
           <Header />
         </header>
-        <main className="lg:h-[85%]">{children}</main>
+        <main className="">
+          {children}
+          </main>
         <footer className="py-4">
           {" "}
           <Footer />
