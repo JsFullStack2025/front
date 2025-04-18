@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import Footer from "@/components/moduls/footer";
-import Header from "@/components/moduls/header";
+import Footer from "@/components/moduls/footer"
+import Header from "@/components/moduls/header"
 
 const jet = JetBrains_Mono({
   variable: "--font-jet",
@@ -32,17 +32,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-r from-primary-from to-primary-to font-sans h-screen`}
-      >
-        <header className="py-4 ">
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-r from-primary-from to-primary-to font-jet h-screen`}
+      >  
+        <header className="py-4">
           {" "}
           <Header />
         </header>
-        <main className="lg:h-[85%]">{children}</main>
+        <main className="">
+          {children}
+        </main>
         <footer className="py-4">
           {" "}
           <Footer />
-        </footer>
+        </footer> 
+        
       </body>
     </html>
   );

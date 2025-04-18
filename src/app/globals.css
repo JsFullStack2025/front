@@ -1,20 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-
-
-@custom-variant dark (&:is(.dark *));
-
-
-@import "tw-animate-css";
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-
-  /* --color-background-gradient: var(--gradient);  что-то не взлетел такой метод*/
-
-  --color-primary-from: #A855F7;
-  --color-primary-to : #3B82F6;
-
 
   --color-primary-from: #A855F7;
   --color-primary-to : #3B82F6;
