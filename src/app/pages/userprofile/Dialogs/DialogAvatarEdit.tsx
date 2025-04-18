@@ -31,7 +31,9 @@ export default function DialogAvatarEdit({ saveAvatar, urlImg, open, setOpen }: 
             // If you want the image resized to the canvas size (also a HTMLCanvasElement)
             const canvasScaled = editor.current.getImageScaledToCanvas()
             console.log(canvasScaled)
-            saveAvatar(canvas.toDataURL())
+           // saveAvatar(canvas.toDataURL())
+            saveAvatar(canvasScaled.toDataURL())
+            setSlideValue([10])
         }
         // Usage
         const imageURL = await getImageUrl()

@@ -15,8 +15,9 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card } from "../types"
+import { AnyAaaaRecord } from "node:dns";
 //https://blog.greenroots.info/shadcn-dialog-with-form-three-tips
-export default function DialogDel({ cardId, deleteCard }: {cardId:number, deleteCard:any}) {
+export default function DialogDel({ cardId, deleteCard }: {cardId:number, deleteCard:Any}) {
   let [openDel, setOpenDel] = useState(false);
   const ref:any = useRef(null);
    const delCard = (cardId: number) => {
