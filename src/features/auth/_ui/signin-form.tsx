@@ -1,6 +1,8 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useState } from "react"
+import ReCAPTCHA from "react-google-recaptcha"
 import { useForm } from "react-hook-form"
 
 import { Button } from "@/shared/ui/button"
@@ -19,6 +21,8 @@ import { SignInSchema, signinSchema } from "../_schemas/signin.schema"
 import { AuthFormWrapper } from "./auth-form-wrapper"
 
 export function SignInForm() {
+	const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null)
+
 	const form = useForm<SignInSchema>({
 		resolver: zodResolver(signinSchema),
 		defaultValues: {
@@ -28,7 +32,9 @@ export function SignInForm() {
 	})
 
 	const onSubmit = (data: SignInSchema) => {
-		console.log(data)
+		if (recaptchaValue) {
+			console.log(data)
+		}
 	}
 
 	return (
@@ -82,7 +88,15 @@ export function SignInForm() {
 							</FormItem>
 						)}
 					/>
-					<Button type="submit">Авторизоваться</Button>
+					<div className="flex justify-center">
+						<ReCAPTCHA
+							sitekey={process.env.GOOGLE_RECAPTCHA_SITE_KEY as string}
+							onChange={setRecaptchaValue}
+						/>
+					</div>
+					<Button disabled={!recaptchaValue} type="submit">
+						Авторизоваться
+					</Button>
 				</form>
 			</Form>
 		</AuthFormWrapper>
