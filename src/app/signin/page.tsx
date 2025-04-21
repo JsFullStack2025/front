@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 
-import { AuthFormWrapper } from "@/features/auth/_ui/auth-form-wrapper"
+import { SignInForm } from "@/features/auth"
 
 export const metadata: Metadata = {
 	title: "Авторизация"
@@ -9,15 +9,7 @@ export const metadata: Metadata = {
 export default function Page() {
 	return (
 		<div className="flex w-full items-center justify-center">
-			<AuthFormWrapper
-				heading="Авторизация"
-				description="Введите ваш email и пароль для авторизации"
-				backButtonLabel="Нет аккаунта? Зарегистрируйтесь"
-				backButtonHref="/signup"
-				oauth
-			>
-				AuthForm
-			</AuthFormWrapper>
+			<SignInForm />
 		</div>
 	)
 }
