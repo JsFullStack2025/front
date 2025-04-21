@@ -1,10 +1,10 @@
 import { useMutation } from "@tanstack/react-query"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 
 import { toastMessageHandler } from "@/shared/lib/toast-message-handler"
 
-import { SignUpSchema } from "../_schemas/signup.schema"
+import { SignInSchema } from "../_schemas/signin.schema"
 import { authService } from "../_services/auth.service"
 
 export function useSignInMutation() {
@@ -12,7 +12,7 @@ export function useSignInMutation() {
 
 	const { mutate: signIn, isPending } = useMutation({
 		mutationKey: ["signin"],
-		mutationFn: ({ data, captcha }: { data: SignUpSchema; captcha: string }) =>
+		mutationFn: ({ data, captcha }: { data: SignInSchema; captcha: string }) =>
 			authService.signIn(data, captcha),
 		onSuccess(data: any) {
 			if (data.message) {

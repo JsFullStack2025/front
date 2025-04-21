@@ -16,6 +16,7 @@ import {
 } from "@/shared/ui/form"
 import { Input } from "@/shared/ui/input"
 
+import { useSignInMutation } from "../_hooks/use-signin-mutation.hook"
 import { SignInSchema, signinSchema } from "../_schemas/signin.schema"
 
 import { AuthFormWrapper } from "./auth-form-wrapper"
@@ -31,9 +32,11 @@ export function SignInForm() {
 		}
 	})
 
+	const { signIn, isPending } = useSignInMutation()
+
 	const onSubmit = (data: SignInSchema) => {
 		if (recaptchaValue) {
-			console.log(data)
+			signIn({ data, captcha: recaptchaValue })
 		}
 	}
 
@@ -63,6 +66,7 @@ export function SignInForm() {
 										autoComplete="email"
 										autoCorrect="off"
 										autoCapitalize="none"
+										disabled={isPending}
 									/>
 								</FormControl>
 								<FormMessage />
@@ -82,6 +86,7 @@ export function SignInForm() {
 										autoComplete="password"
 										autoCorrect="off"
 										autoCapitalize="none"
+										disabled={isPending}
 									/>
 								</FormControl>
 								<FormMessage />
@@ -94,8 +99,8 @@ export function SignInForm() {
 							onChange={setRecaptchaValue}
 						/>
 					</div>
-					<Button disabled={!recaptchaValue} type="submit">
-						Авторизоваться
+					<Button disabled={!recaptchaValue || isPending} type="submit">
+						{isPending ? "Вход в систему..." : "Авторизоваться"}
 					</Button>
 				</form>
 			</Form>
