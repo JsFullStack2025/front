@@ -7,7 +7,7 @@ export type FetchSearchParams = {
 		| Array<string | number | boolean | undefined>
 }
 
-export interface RequestOptions {
+export interface RequestOptions extends RequestInit {
 	headers?: Record<string, string>
 	searchParams?: FetchSearchParams
 }
