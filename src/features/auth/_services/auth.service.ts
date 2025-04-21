@@ -19,6 +19,14 @@ class AuthService {
 		return response
 	}
 
+	public async oauth(provider: "github" | "yandex") {
+		const response = await api.get<{ url: string }>(
+			`/auth/oauth/connect/${provider}`
+		)
+
+		return response
+	}
+
 	public async logout() {
 		const response = await api.post<User>("/auth/logout")
 
