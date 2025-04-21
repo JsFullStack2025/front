@@ -4,6 +4,7 @@ import { JetBrains_Mono } from "next/font/google"
 import { AppHeader } from "@/widgets/app-header"
 
 import "./globals.css"
+import { AppProvider } from "@/shared/providers/app.provider"
 
 const jetbrainsMono = JetBrains_Mono({
 	variable: "--font-jetbrains-mono",
@@ -49,8 +50,12 @@ export default function RootLayout({
 			<body
 				className={`${jetbrainsMono.variable} bg-background min-h-screen overflow-x-hidden antialiased`}
 			>
-				<AppHeader />
-				{children}
+				<AppProvider>
+					<AppHeader />
+					<div className="relative container mx-auto px-6 py-4 md:px-0">
+						{children}
+					</div>
+				</AppProvider>
 			</body>
 		</html>
 	)
