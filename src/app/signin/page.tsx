@@ -2,6 +2,8 @@ import { Metadata } from "next"
 
 import { AuthFormWrapper } from "@/features/auth/_ui/auth-form-wrapper"
 
+import { Separator } from "@/shared/ui/separator"
+
 export const metadata: Metadata = {
 	title: "Авторизация"
 }
@@ -15,6 +17,8 @@ export default function Page() {
 				backButtonLabel="Нет аккаунта? Зарегистрируйтесь"
 				backButtonHref="/signup"
 			>
+				RegForm
+				<Separator label="или" />
 				AuthForm
 			</AuthFormWrapper>
 		</div>
