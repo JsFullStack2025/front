@@ -47,7 +47,7 @@ export function SignUpForm() {
 			heading="Регистрация"
 			description="Введите ваш email и пароль для регистрации"
 			backButtonLabel="Уже есть аккаунт? Авторизуйтесь"
-			backButtonHref="/signin"
+			backButtonHref="/auth/signin"
 			oauth
 		>
 			<Form {...form}>

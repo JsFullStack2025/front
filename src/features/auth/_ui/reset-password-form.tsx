@@ -1,7 +1,6 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import Link from "next/link"
 import { useState } from "react"
 import ReCAPTCHA from "react-google-recaptcha"
 import { useForm } from "react-hook-form"
@@ -17,37 +16,38 @@ import {
 } from "@/shared/ui/form"
 import { Input } from "@/shared/ui/input"
 
-import { useSignInMutation } from "../_hooks/use-signin-mutation.hook"
-import { SignInSchema, signinSchema } from "../_schemas/signin.schema"
+import { useResetPasswordMutation } from "../_hooks/use-reset-password-mutation.hook"
+import {
+	ResetPasswordSchema,
+	resetPasswordSchema
+} from "../_schemas/reset.schema"
 
 import { AuthFormWrapper } from "./auth-form-wrapper"
 
-export function SignInForm() {
+export function ResetPasswordForm() {
 	const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null)
 
-	const form = useForm<SignInSchema>({
-		resolver: zodResolver(signinSchema),
+	const form = useForm<ResetPasswordSchema>({
+		resolver: zodResolver(resetPasswordSchema),
 		defaultValues: {
-			email: "",
-			password: ""
+			email: ""
 		}
 	})
 
-	const { signIn, isPending } = useSignInMutation()
+	const { resetPassword, isPending } = useResetPasswordMutation()
 
-	const onSubmit = (data: SignInSchema) => {
+	const onSubmit = (data: ResetPasswordSchema) => {
 		if (recaptchaValue) {
-			signIn({ data, captcha: recaptchaValue })
+			resetPassword({ data, recaptcha: recaptchaValue })
 		}
 	}
 
 	return (
 		<AuthFormWrapper
-			heading="Авторизация"
-			description="Введите ваш email и пароль для авторизации"
+			heading="Сброс пароля"
+			description="Введите ваш email для сброса пароля"
 			backButtonLabel="Еще нет аккаунта? Зарегистрируйтесь"
-			backButtonHref="/auth/signup"
-			oauth
+			backButtonHref="/signup"
 		>
 			<Form {...form}>
 				<form
@@ -74,35 +74,7 @@ export function SignInForm() {
 							</FormItem>
 						)}
 					/>
-					<FormField
-						control={form.control}
-						name="password"
-						render={({ field }) => (
-							<FormItem>
-								<div className="flex items-center justify-between">
-									<FormLabel>Пароль</FormLabel>
-									<Link
-										className="ml-auto inline-block text-sm underline"
-										href="/auth/reset-password"
-									>
-										Забыли пароль?
-									</Link>
-								</div>
 
-								<FormControl>
-									<Input
-										{...field}
-										type="password"
-										autoComplete="password"
-										autoCorrect="off"
-										autoCapitalize="none"
-										disabled={isPending}
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
 					<div className="flex justify-center">
 						<ReCAPTCHA
 							sitekey={process.env.GOOGLE_RECAPTCHA_SITE_KEY as string}
@@ -110,7 +82,7 @@ export function SignInForm() {
 						/>
 					</div>
 					<Button disabled={!recaptchaValue || isPending} type="submit">
-						{isPending ? "Вход в систему..." : "Авторизоваться"}
+						{isPending ? "Сброс пароля..." : "Сбросить пароль"}
 					</Button>
 				</form>
 			</Form>
