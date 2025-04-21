@@ -1,6 +1,8 @@
 import type { Metadata } from "next"
 import { JetBrains_Mono } from "next/font/google"
 
+import { AppHeader } from "@/widgets/app-header"
+
 import "./globals.css"
 
 const jetbrainsMono = JetBrains_Mono({
@@ -47,6 +49,7 @@ export default function RootLayout({
 			<body
 				className={`${jetbrainsMono.variable} bg-background min-h-screen overflow-x-hidden antialiased`}
 			>
+				<AppHeader />
 				{children}
 			</body>
 		</html>
