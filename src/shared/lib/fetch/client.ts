@@ -87,7 +87,7 @@ export class FetchClient {
 
 	public async post<T>(
 		endpoint: string,
-		body?: Record<string, string>,
+		body?: Record<string, any>,
 		options: RequestOptions = {}
 	) {
 		return this.request<T>(endpoint, "POST", {
@@ -102,7 +102,7 @@ export class FetchClient {
 
 	public async put<T>(
 		endpoint: string,
-		body?: Record<string, unknown>,
+		body?: Record<string, any>,
 		options: RequestOptions = {}
 	) {
 		return this.request<T>(endpoint, "PUT", {
@@ -124,7 +124,7 @@ export class FetchClient {
 
 	public async patch<T>(
 		endpoint: string,
-		body?: Record<string, unknown>,
+		body?: Record<string, any>,
 		options: RequestOptions = {}
 	) {
 		return this.request<T>(endpoint, "PATCH", {
