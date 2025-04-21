@@ -16,6 +16,7 @@ import {
 } from "@/shared/ui/form"
 import { Input } from "@/shared/ui/input"
 
+import { useSignUpMutation } from "../_hooks/use-signup-mutation.hook"
 import { SignUpSchema, signupSchema } from "../_schemas/signup.schema"
 
 import { AuthFormWrapper } from "./auth-form-wrapper"
@@ -33,9 +34,11 @@ export function SignUpForm() {
 		}
 	})
 
+	const { signUp, isPending } = useSignUpMutation()
+
 	const onSubmit = (data: SignUpSchema) => {
 		if (recaptchaValue) {
-			console.log(data)
+			signUp({ data, captcha: recaptchaValue })
 		}
 	}
 
@@ -59,7 +62,7 @@ export function SignUpForm() {
 							<FormItem>
 								<FormLabel>Имя</FormLabel>
 								<FormControl>
-									<Input {...field} />
+									<Input {...field} disabled={isPending} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -78,6 +81,7 @@ export function SignUpForm() {
 										autoComplete="email"
 										autoCorrect="off"
 										autoCapitalize="none"
+										disabled={isPending}
 									/>
 								</FormControl>
 								<FormMessage />
@@ -97,6 +101,7 @@ export function SignUpForm() {
 										autoComplete="password"
 										autoCorrect="off"
 										autoCapitalize="none"
+										disabled={isPending}
 									/>
 								</FormControl>
 								<FormMessage />
@@ -116,6 +121,7 @@ export function SignUpForm() {
 										autoComplete="password"
 										autoCorrect="off"
 										autoCapitalize="none"
+										disabled={isPending}
 									/>
 								</FormControl>
 								<FormMessage />
@@ -128,8 +134,8 @@ export function SignUpForm() {
 							onChange={setRecaptchaValue}
 						/>
 					</div>
-					<Button disabled={!recaptchaValue} type="submit">
-						Зарегистрироваться
+					<Button disabled={!recaptchaValue || isPending} type="submit">
+						{isPending ? "Создание аккаунта..." : "Зарегистрироваться"}
 					</Button>
 				</form>
 			</Form>
