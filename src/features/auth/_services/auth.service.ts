@@ -7,28 +7,28 @@ import { User } from "../_types/user.types"
 class AuthService {
 	public async signUp(body: SignUpSchema, recaptcha?: string) {
 		const headers = recaptcha ? { recaptcha } : undefined
-		const response = await api.post<User>("/auth/signup", body, { headers })
+		const response = await api.post<User>("auth/signup", body, { headers })
 
 		return response
 	}
 
 	public async signIn(body: SignInSchema, recaptcha?: string) {
 		const headers = recaptcha ? { recaptcha } : undefined
-		const response = await api.post<User>("/auth/signin", body, { headers })
+		const response = await api.post<User>("auth/signin", body, { headers })
 
 		return response
 	}
 
 	public async oauth(provider: "github" | "yandex") {
 		const response = await api.get<{ url: string }>(
-			`/auth/oauth/connect/${provider}`
+			`auth/oauth/connect/${provider}`
 		)
 
 		return response
 	}
 
 	public async logout() {
-		const response = await api.post<User>("/auth/logout")
+		const response = await api.post<User>("auth/logout")
 
 		return response
 	}

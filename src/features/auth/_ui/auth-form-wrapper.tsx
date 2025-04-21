@@ -17,8 +17,8 @@ import { OAuthButtons } from "./oauth-buttons"
 type Props = {
 	heading: string
 	description?: string
-	backButtonLabel: string
-	backButtonHref: string
+	backButtonLabel?: string
+	backButtonHref?: string
 	oauth?: boolean
 }
 

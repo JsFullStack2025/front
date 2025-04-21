@@ -2,7 +2,7 @@ import { api } from "@/shared/api/instance.api"
 
 class VerificationService {
 	public async newVerification(token: string | null) {
-		const response = await api.post("/auth/email-confirmation", { token })
+		const response = await api.post("auth/email-confirmation", { token })
 
 		return response
 	}
