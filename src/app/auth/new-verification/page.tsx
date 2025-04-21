@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 
-import { VerificationForm } from "@/features/auth/_ui/verification-form"
+import { VerificationForm } from "@/features/auth"
 
 export const metadata: Metadata = {
 	title: "Подтверждение электронной почты"

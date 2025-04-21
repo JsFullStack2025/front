@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 
-import { NewPasswordForm } from "@/features/auth/_ui/new-password-form"
+import { NewPasswordForm } from "@/features/auth"
 
 export const metadata: Metadata = {
 	title: "Изменение пароля"

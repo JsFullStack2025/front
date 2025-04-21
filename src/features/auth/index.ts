@@ -1,2 +1,5 @@
 export { SignInForm } from "./_ui/signin-form"
 export { SignUpForm } from "./_ui/signup-form"
+export { VerificationForm } from "./_ui/verification-form"
+export { ResetPasswordForm } from "./_ui/reset-password-form"
+export { NewPasswordForm } from "./_ui/new-password-form"
