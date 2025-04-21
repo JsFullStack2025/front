@@ -37,7 +37,7 @@ export default function Login() {
 
     const form = useForm({
         defaultValues: {
-            username: "",
+            email: "",
             password: "",
         },
         resolver: zodResolver(formSchema),
@@ -46,7 +46,7 @@ export default function Login() {
     const [error, setError] = React.useState(false);
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        const res = await login(data.username, data.password)
+        const res = await login(data.email, data.password)
         if (res.status === 201) {
             const data = await res.json();
             console.log(data)
@@ -79,7 +79,7 @@ export default function Login() {
                                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                                     <FormField
                                         control={form.control}
-                                        name="username"
+                                        name="email"
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel className="text-sm text-muted-foreground">Электронная почта</FormLabel>
@@ -128,7 +128,7 @@ export default function Login() {
                                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                                     <FormField
                                         control={form.control}
-                                        name="username"
+                                        name="email"
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel className="text-sm text-muted-foreground">Электронная почта</FormLabel>
