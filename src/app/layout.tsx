@@ -1,12 +1,17 @@
 "use client"
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/moduls/footer";
 import Header from "@/components/moduls/header";
 import React, { useState } from "react";
 import { UserData, UserContext } from '@/AppContext/AppContext'
 
+const jet = JetBrains_Mono({
+  variable: "--font-jet",
+  subsets: ["cyrillic"]
+} )
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -30,10 +35,13 @@ export default function RootLayout({
         <header className="py-4 ">
           <Header />
         </header>
-        <main className="lg:h-[85%]">{children}</main>
+        <main className="">
+          {children}
+          </main>
         <footer className="py-4">
           <Footer />
-        </footer>
+        </footer> 
+        
       </body>
     </html>
   );
