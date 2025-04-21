@@ -16,38 +16,37 @@ import {
 } from "@/shared/ui/form"
 import { Input } from "@/shared/ui/input"
 
-import { useResetPasswordMutation } from "../_hooks/use-reset-password-mutation.hook"
+import { useNewPasswordMutation } from "../_hooks/use-new-password-mutation.hook"
 import {
-	ResetPasswordSchema,
-	resetPasswordSchema
-} from "../_schemas/reset.schema"
+	NewPasswordSchema,
+	newPasswordSchema
+} from "../_schemas/new-password.schema"
 
 import { AuthFormWrapper } from "./auth-form-wrapper"
 
-export function ResetPasswordForm() {
+export function NewPasswordForm() {
 	const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null)
 
-	const form = useForm<ResetPasswordSchema>({
-		resolver: zodResolver(resetPasswordSchema),
+	const form = useForm<NewPasswordSchema>({
+		resolver: zodResolver(newPasswordSchema),
 		defaultValues: {
-			email: ""
+			password: "",
+			confirmPassword: ""
 		}
 	})
 
-	const { resetPassword, isPending } = useResetPasswordMutation()
+	const { newPassword, isPending } = useNewPasswordMutation()
 
-	const onSubmit = (data: ResetPasswordSchema) => {
+	const onSubmit = (data: NewPasswordSchema) => {
 		if (recaptchaValue) {
-			resetPassword({ data, recaptcha: recaptchaValue })
+			newPassword({ data, recaptcha: recaptchaValue })
 		}
 	}
 
 	return (
 		<AuthFormWrapper
-			heading="Сброс пароля"
-			description="Введите ваш email для сброса пароля"
-			backButtonLabel="Еще нет аккаунта? Зарегистрируйтесь"
-			backButtonHref="/signup"
+			heading="Изменение пароля"
+			description="Введите новый пароль"
 		>
 			<Form {...form}>
 				<form
@@ -56,15 +55,15 @@ export function ResetPasswordForm() {
 				>
 					<FormField
 						control={form.control}
-						name="email"
+						name="password"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>Email</FormLabel>
+								<FormLabel>Пароль</FormLabel>
 								<FormControl>
 									<Input
 										{...field}
-										type="email"
-										autoComplete="email"
+										type="password"
+										autoComplete="password"
 										autoCorrect="off"
 										autoCapitalize="none"
 										disabled={isPending}
@@ -74,7 +73,26 @@ export function ResetPasswordForm() {
 							</FormItem>
 						)}
 					/>
-
+					<FormField
+						control={form.control}
+						name="confirmPassword"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Подтвердите пароль</FormLabel>
+								<FormControl>
+									<Input
+										{...field}
+										type="password"
+										autoComplete="password"
+										autoCorrect="off"
+										autoCapitalize="none"
+										disabled={isPending}
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
 					<div className="flex justify-center">
 						<ReCAPTCHA
 							sitekey={process.env.GOOGLE_RECAPTCHA_SITE_KEY as string}
@@ -82,7 +100,7 @@ export function ResetPasswordForm() {
 						/>
 					</div>
 					<Button disabled={!recaptchaValue || isPending} type="submit">
-						{isPending ? "Запрос сброса пароля..." : "Сбросить пароль"}
+						{isPending ? "Изменение пароля..." : "Изменить пароль"}
 					</Button>
 				</form>
 			</Form>
