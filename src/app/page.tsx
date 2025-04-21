@@ -1,3 +1,5 @@
+import { Button } from "@/shared/ui/button"
+
 export default function Page() {
-	return "Home page"
+	return <Button>Home page</Button>
 }
