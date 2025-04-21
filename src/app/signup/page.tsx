@@ -14,6 +14,7 @@ export default function Page() {
 				description="Введите ваш email и пароль для регистрации"
 				backButtonLabel="Уже есть аккаунт? Авторизуйтесь"
 				backButtonHref="/signin"
+				oauth
 			>
 				RegForm
 			</AuthFormWrapper>
