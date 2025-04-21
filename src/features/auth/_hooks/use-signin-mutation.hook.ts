@@ -1,13 +1,15 @@
 import { useMutation } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
-import { toast } from "sonner"
+import { Dispatch, SetStateAction } from "react"
 
 import { toastMessageHandler } from "@/shared/lib/toast-message-handler"
 
 import { SignInSchema } from "../_schemas/signin.schema"
 import { authService } from "../_services/auth.service"
 
-export function useSignInMutation() {
+export function useSignInMutation(
+	setIsShow2FA: Dispatch<SetStateAction<boolean>>
+) {
 	const router = useRouter()
 
 	const { mutate: signIn, isPending } = useMutation({
@@ -16,12 +18,9 @@ export function useSignInMutation() {
 			authService.signIn(data, captcha),
 		onSuccess(data: any) {
 			if (data.message) {
+				setIsShow2FA(true)
 				toastMessageHandler(data)
 			} else {
-				toast.success("Вы успешно вошли в систему!", {
-					description:
-						"Самое время начать творить. Рекомендуем ознакомиться с основными возможностями платформы"
-				})
 				router.push("/dashboard/settings")
 			}
 		},
