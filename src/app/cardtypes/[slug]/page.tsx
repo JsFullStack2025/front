@@ -43,13 +43,13 @@ export default function Page({ params }: { params: Promise<{ slug: string }>}) {
     const form = useForm<CardTypeEntity>();
 
     return <div className="h-screen font-sans overflow-y-auto p-20">
-    <div className="bg-white text-gray-800 rounded-lg w-full sm:h-3/4 sm:min-w-xl overflow-y-auto mb-2 sm:mb-0">
-        <div className="flex items-center rounded-t-lg  h-15 px-8 bg-header-project-list">
+        <div className="bg-white text-gray-800 rounded-lg w-full sm:h-3/4 sm:min-w-xl overflow-y-auto mb-2 sm:mb-0">
+            <div className="flex items-center rounded-t-lg  h-15 px-8 bg-header-project-list">
                 <h3 className="text-xl text-white">{cardType.title}</h3>
-        </div>
+            </div>
             {/* <form >
-        <input className="w-full p-2" onChange={onTitleChange} placeholder="title" defaultValue={cardType.title} />
-        <div className='p-3'>{cardType?.description}</div>
+                <input className="w-full p-2" onChange={onTitleChange} placeholder="title" defaultValue={cardType.title} />
+                <div className='p-3'>{cardType?.description}</div>
             </form> */}
             <Form {...form}>
                 <FormField
@@ -68,4 +68,4 @@ export default function Page({ params }: { params: Promise<{ slug: string }>}) {
             </Form>
         </div>
     </div>
-  }
+}

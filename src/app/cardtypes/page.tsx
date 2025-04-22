@@ -9,10 +9,9 @@ import Link from 'next/link'
 export default function Page() {
     const [cardTypesList, setCardTypesList] = React.useState([]);
     React.useEffect(() => {
-        axios.get(API_CONFIG.Url+'/cardtypes')
+        axios.get(API_CONFIG.Url+'/cardtypes', { withCredentials: true })
         .then((res) =>{
             const data = res.data;
-            //console.log(data);
             setCardTypesList(data);
         })
     },[]);
