@@ -6,7 +6,8 @@ import "./globals.css";
 import Footer from "@/components/moduls/footer";
 import Header from "@/components/moduls/header";
 import React, { useState } from "react";
-import { UserData, UserContext } from '@/AppContext/AppContext'
+//import { UserData, UserContext } from '@/AppContext/AppContext'
+import Provider from "./Provider";
 
 const jet = JetBrains_Mono({
   variable: "--font-jet",
@@ -32,16 +33,17 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-r from-primary-from to-primary-to font-sans h-screen`}
       >
-        <header className="py-4 ">
-          <Header />
-        </header>
-        <main className="">
-          {children}
-          </main>
-        <footer className="py-4">
-          <Footer />
-        </footer>
-        
+        <Provider>
+          <header className="py-4 ">
+            <Header />
+          </header>
+          <main className="">
+            {children}
+            </main>
+          <footer className="py-4">
+            <Footer />
+          </footer>
+        </Provider>
       </body>
     </html>
   );

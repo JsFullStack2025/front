@@ -1,12 +1,16 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import {useGlobalContext} from '@/AppContext/AppContext'
+//import {useGlobalContext} from '@/AppContext/AppContext'
+import { useSession, signIn, signOut } from "next-auth/react";
 
 export default function Header() {
-  const user = useGlobalContext();
+  //const user = useGlobalContext();
+  const { data: session } = useSession()
+  console.log(session)
   return (
     // <div className="gap-2 flex items-center justify-between absolute inset-x-0 top-4 hide-on-small-height " >
     <div className="flex items-center justify-between hide-on-small-height, top-2 ">
+      {session ? "<div>Signed in as ..</div>":""}
       <div className="pl-15">
         <Button variant="customSecondary">
           <Link href="/"><p className="text-center text-balance text-transparent font-jet bg-gradient-to-r from-primary-from to-primary-to bg-clip-text">

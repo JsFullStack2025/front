@@ -28,12 +28,16 @@ import React, { useState } from "react";
 
 import { redirect, usePathname } from 'next/navigation'
 
-import { useGlobalContext, UserData } from '@/AppContext/AppContext'
+//import { useGlobalContext, UserData } from '@/AppContext/AppContext'
+import { useSession, signIn, signOut } from "next-auth/react";
 
 import { User } from "lucide-react"
 
 export default function Login() {
-    const user = useGlobalContext();
+    // const user = useGlobalContext();
+
+    const { data: session } = useSession() // try get session
+    console.log(session)
 
     const form = useForm({
         defaultValues: {
