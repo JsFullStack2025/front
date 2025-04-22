@@ -64,7 +64,7 @@ export default function Page({ params }: { params: Promise<{ slug: string }>}) {
                 <h3 className="text-xl text-white">Шаблон визитки : {cardType.id}</h3>
             </div>
             <form onSubmit={onSubmit}>
-                <div className='p-3'>
+                <div className='p-6'>
                     <Label htmlFor='title' className='text-sm text-muted-foreground' >Название</Label>
                     <Input
                         className='mb-2'

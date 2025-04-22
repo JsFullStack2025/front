@@ -9,6 +9,8 @@ import { redirect } from "next/navigation";
 
 export default function Page() {
     const [cardTypesList, setCardTypesList] = React.useState([]);
+    const [newID, setNewId] = React.useState(0);
+
     React.useEffect(() => {
         axios.get(API_CONFIG.Url+'/cardtypes', { withCredentials: true })
         .then((res) =>{
@@ -16,30 +18,35 @@ export default function Page() {
             setCardTypesList(data);
         })
     },[]);
-    const addTemplate = async () =>{
-        // const data: CardTypeAddEntity ={
-        //     title:'Название',
-        //     description: 'Описание',
-        //     designData:'"designData":""',
-        //     readonly:false,
-        //     isCustomTemplate:true
-        // }
-        // let  id=0;
-        // const addCardType = () =>{
-        //     const response =  axios.post(`${API_CONFIG.Url}/cardtypes`,{
-        //         ...data
-        //      })
-        //      .then((res)=>{
-        //         const data = res.data;
-        //         id=data.id
-        //      })
-        //      .catch((e)=>{
-        //         console.log(e)
-        //      });
-        // }
-        // const res = await addCardType()
-        // redirect(`/cardtypes/${res.id}`)
+    const addTemplate = () =>{
+        const data: CardTypeAddEntity ={
+            title:'Название',
+            description: 'Описание',
+            designData:'"designData":""',
+            readonly:false,
+            isCustomTemplate:true
+        }
+        const addCardType = () =>{
+            const response =  axios.post(`${API_CONFIG.Url}/cardtypes`,{
+                ...data
+             })
+             .then((res)=>{
+                const data = res.data;
+                setNewId(data.id);
+             })
+             .catch((e)=>{
+                console.log(e)
+             });
+        }
+        const res = addCardType()
     }
+
+React.useEffect(()=> {
+    if(newID!=0){
+    redirect(`/cardtypes/${newID}`)
+    }
+},[newID]);
+
     return <>
         <div className="h-screen font-sans overflow-y-auto p-20">
             <div className="bg-white text-gray-800 rounded-lg w-full sm:h-3/4 sm:min-w-xl overflow-y-auto mb-2 sm:mb-0">
