@@ -5,10 +5,10 @@ import "./globals.css";
 import Footer from "@/components/moduls/footer";
 import Header from "@/components/moduls/header";
 
-const jet = JetBrains_Mono({
-  variable: "--font-jet",
-  subsets: ["cyrillic"]
-} )
+const jet= JetBrains_Mono({
+	variable: "--font-jetbrains-mono",
+	subsets: ["latin"]
+})
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -32,13 +32,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-r from-primary-from to-primary-to font-sans h-screen`}
+        className={`${jet.variable} bg-background bg-gradient-to-r from-primary-from to-primary-to min-h-screen overflow-x-hidden antialiased`}
       >
         <header className="py-4 ">
           {" "}
           <Header />
         </header>
-        <main className="">
+        <main className="relative container mx-auto px-6 py-4 sm:px-0">
           {children}
           </main>
         <footer className="py-4">

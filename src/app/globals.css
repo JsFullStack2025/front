@@ -20,7 +20,7 @@
   --color-primary-to : #3B82F6;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-jet: var(--font-jet-mono);
+  --font-jet: var(--font-jetbrains-mono);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -165,5 +165,5 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: gradient 8s ease infinite;
-  font-family: var(--font-jet-mono);
+  font-family: (JetBrains-mono);
 }
