@@ -158,6 +158,12 @@
   .white-on-small-width {
     background-color: #f7f8ff
 }}
+@media (max-width: 1023px) {
+  .fold-on-small-width {
+    text-size-adjust: 50%;
+    image-resolution: 200 400;
+    
+}}
 
 .gradient{
   background: linear-gradient(-45deg, #a855f7,#f472b6,#3b82f6,#fb923c);
