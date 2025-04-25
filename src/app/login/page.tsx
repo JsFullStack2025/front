@@ -55,7 +55,7 @@ export default function Login() {
         }
     }
     return (
-        <div className="flex items-center justify-center ">
+        <div className="flex font-jet items-center justify-center ">
             <Card className="w-sm  ">
                 <Tabs defaultValue="login" className="w-full">
                     <CardHeader>
@@ -68,8 +68,8 @@ export default function Login() {
                         <TabsContent value="login" className="space-y-4">
                             <Form {...form} >
                                 <div>
-                                    <p className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0 text-center">Вход в аккаунт</p>
-                                    <p className="text-sm text-muted-foreground text-center">Введите данные для входа в свой аккаунт</p>
+                                    <p className="scroll-m-20 pb-2 text-3xl font-jet font-semibold tracking-tight first:mt-0 text-center">Вход в аккаунт</p>
+                                    <p className="text-sm text-muted-foreground font-jet text-center">Введите данные для входа в свой аккаунт</p>
                                 </div>
                                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                                     <FormField

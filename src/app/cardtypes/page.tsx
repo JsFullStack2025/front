@@ -17,7 +17,7 @@ export default function Page() {
         })
     },[]);
     return <>
-        <div className="h-screen font-sans overflow-y-auto p-20">
+        <div className="h-screen font-jet overflow-y-auto p-20">
             <div className="bg-white text-gray-800 rounded-lg w-full sm:h-3/4 sm:min-w-xl overflow-y-auto mb-2 sm:mb-0">
                 <div className="flex justify-between items-center rounded-t-lg  h-15 px-8 bg-header-project-list">
                     <h3 className="text-xl text-white">Шаблоны визиток</h3>

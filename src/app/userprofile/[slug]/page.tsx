@@ -104,7 +104,7 @@ export default function UserProfile() {
   //  const curUrlFoto = curUser.linkImg?` bg-indigo-300`: 'bg-[url(/img/userprofile/nofoto.svg)]  bg-indigo-300 '
 
   return (
-    <div className="flex h-[100%] w-full flex-col items-center justify-between gap-8 px-8 lg:flex-row">
+    <div className="flex h-[100%] w-full flex-col font-jet items-center justify-between gap-8 px-8 lg:flex-row">
       <div className="w-full overflow-y-auto rounded-lg bg-white p-6 text-gray-800 sm:min-w-sm lg:h-4/5 lg:w-1/3">
         <Form {...form}>
           <form

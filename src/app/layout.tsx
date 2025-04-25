@@ -32,16 +32,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${jet.variable} bg-background bg-gradient-to-r from-primary-from to-primary-to min-h-screen overflow-x-hidden antialiased`}
+        className={`${jet.variable} flex min-h-screen flex-col bg-background bg-gradient-to-r from-primary-from to-primary-to min-h-screen overflow-x-hidden antialiased`}
       >
         <header className="py-4 ">
           {" "}
           <Header />
         </header>
-        <main className="relative container mx-auto px-6 py-4 sm:px-0">
+        <main className="flex-grow relative container mx-auto px-6 py-4 sm:px-0">
           {children}
           </main>
-        <footer className="py-4">
+        <footer className="py-4 ">
           {" "}
           <Footer />
         </footer>
