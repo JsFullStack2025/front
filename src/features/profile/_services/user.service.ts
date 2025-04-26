@@ -4,8 +4,8 @@ import { api } from "@/shared/api/instance.api"
 
 import { SettingsSchema } from "../_schemas/settings.schema"
 
-class ProfileService {
-	public async findProfile() {
+class UserService {
+	public async findUser() {
 		const response = await api.get<User>("users/profile")
 
 		return response
@@ -18,4 +18,4 @@ class ProfileService {
 	}
 }
 
-export const profileService = new ProfileService()
+export const userService = new UserService()
