@@ -1,9 +1,9 @@
 import { type Metadata } from "next"
 
-import { SettingsForm } from "@/features/profile/_ui/settings-form"
+import { SettingsForm } from "@/features/profile"
 
 export const metadata: Metadata = {
-	title: "Профиль"
+	title: "Настройки профиля"
 }
 
 export default function Page() {
