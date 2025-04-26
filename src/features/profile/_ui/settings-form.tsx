@@ -18,6 +18,7 @@ import { Input } from "@/shared/ui/input"
 import { Spinner } from "@/shared/ui/spinner"
 import { Switch } from "@/shared/ui/switch"
 
+import { useUpdateProfileMutation } from "../_hooks/use-update-profile-mutation.hook"
 import { settingsSchema } from "../_schemas/settings.schema"
 import { SettingsSchema } from "../_schemas/settings.schema"
 
@@ -36,8 +37,10 @@ export function SettingsForm() {
 		}
 	})
 
+	const { updateProfile, isPending } = useUpdateProfileMutation()
+
 	const onSubmit = (data: SettingsSchema) => {
-		console.log(data)
+		updateProfile(data)
 	}
 
 	if (!user && !isLoading) return null
@@ -70,7 +73,7 @@ export function SettingsForm() {
 												{...field}
 												type="text"
 												autoComplete="name"
-												//disabled={isPending}
+												disabled={isPending}
 											/>
 										</FormControl>
 										<FormMessage />
@@ -90,7 +93,7 @@ export function SettingsForm() {
 												autoComplete="email"
 												autoCorrect="off"
 												autoCapitalize="none"
-												//disabled={isPending}
+												disabled={isPending}
 											/>
 										</FormControl>
 										<FormMessage />
@@ -102,20 +105,25 @@ export function SettingsForm() {
 								name="isTwoFactorEnabled"
 								render={({ field }) => (
 									<FormItem className="flex flex-row items-center justify-between gap-2 rounded-lg border p-3 shadow-sm">
-										<FormLabel>Двухфакторная аутентификация</FormLabel>
-										<FormDescription>
-											Защитите свой аккаунт дополнительной проверкой при входе
-										</FormDescription>
+										<div className="space-y-2">
+											<FormLabel>Двухфакторная аутентификация</FormLabel>
+											<FormDescription>
+												Защитите свой аккаунт дополнительной проверкой при входе
+											</FormDescription>
+										</div>
 										<FormControl>
 											<Switch
 												checked={field.value}
 												onCheckedChange={field.onChange}
+												disabled={isPending}
 											/>
 										</FormControl>
 									</FormItem>
 								)}
 							/>
-							<Button type="submit">Сохранить</Button>
+							<Button disabled={isPending} type="submit">
+								{isPending ? "Сохранение..." : "Сохранить"}
+							</Button>
 						</form>
 					</Form>
 				)}
