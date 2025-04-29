@@ -5,10 +5,11 @@ import "./globals.css";
 
 import Footer from "@/widgets/app-footer/footer";
 import Header from "@/widgets/app-header/header";
+import { AppProvider } from "@/shared/providers/app.provider";
 
-const jet= JetBrains_Mono({
-	variable: "--font-jetbrains-mono",
-	subsets: ["latin"]
+const jet = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
+  subsets: ["latin"]
 })
 
 const geistSans = Geist({
@@ -34,16 +35,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${jet.variable} flex flex-col justify-between bg-background bg-gradient-to-r from-primary-from to-primary-to min-h-screen overflow-x-hidden antialiased`}      >
-        <header className="py-4">
-          <Header/>
-        </header>
-        <main>
-          {children}
-        </main>
-        <footer className="py-4">
-          <Footer/>
-        </footer>
+        className={`${jet.variable} flex flex-col justify-between bg-background bg-gradient-to-r from-primary-from to-primary-to min-h-screen overflow-x-hidden antialiased`}
+      >
+        <AppProvider>
+          <header className="py-4">
+            <Header />
+          </header>
+          <main>
+            {children}
+          </main>
+          <footer className="py-4">
+            <Footer />
+          </footer>
+        </AppProvider>
       </body>
     </html>
   );

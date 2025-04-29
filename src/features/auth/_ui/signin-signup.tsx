@@ -172,7 +172,7 @@ export function SignInSignUpForm() {
 }
 */
 
-'use client'
+//'use client'
 
 import { Button } from "@/shared/ui/button"
 import { Card, CardContent, CardHeader } from "@/shared/ui/card"
@@ -183,7 +183,9 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
 import { useForm } from "react-hook-form"
 
-import { SignInSchema, signinSchema, SignUpSchema, signupSchema } from "../_schemas/signin-signup.schema"
+
+import { SignInForm } from "./signin-form"
+import { SignUpForm } from "./signup-form"
 
 
 export function SignInSignUp() {
@@ -192,23 +194,19 @@ export function SignInSignUp() {
   return (
     <div className="flex items-center justify-center ">
       <Card className="w-sm  ">
-        <Tabs defaultValue="login" className="w-full">
+        <Tabs defaultValue="signin" className="w-full">
           <CardHeader>
             <TabsList className="w-full ">
-              <TabsTrigger value="login">Вход</TabsTrigger>
-              <TabsTrigger value="register">Регистрация</TabsTrigger>
+              <TabsTrigger value="signin">Вход</TabsTrigger>
+              <TabsTrigger value="signup">Регистрация</TabsTrigger>
             </TabsList>
           </CardHeader>
           <CardContent>
-            <TabsContent value="login" className="space-y-4">
-              <Form {...}>
-                signin
-              </Form>
+            <TabsContent value="signin" className="space-y-4">
+              <SignInForm />
             </TabsContent>
-            <TabsContent value="login" className="space-y-4">
-              <Form {...}>
-                signup
-              </Form>
+            <TabsContent value="signup" className="space-y-4">
+              <SignUpForm />
             </TabsContent>
           </CardContent>
         </Tabs>
