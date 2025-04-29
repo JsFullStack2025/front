@@ -9,7 +9,7 @@ export type BaseField = {
 }
 
 export type OptionalField = {
-	required?: false
+	required?: boolean
 }
 
 export type Field = TextField | GroupField

@@ -1,4 +1,4 @@
-import { BaseField, OptionalField } from "@/features/editor-core/domain/types"
+import { BaseField, OptionalField } from "@/features/editor-core/model/types"
 
 export type TextField = BaseField &
 	OptionalField & {
