@@ -21,10 +21,20 @@ import { Button } from "@/components/ui/button"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { formSchema } from "@/lib/validation"
+import { formSchema } from "@/lib/validation/validation"
 
+import login from "@/lib/api/login"
+import React, { useState } from "react";
+
+import { redirect, usePathname } from 'next/navigation'
+
+import { useGlobalContext, UserData } from '@/AppContext/AppContext'
+
+import { User } from "lucide-react"
 
 export default function Login() {
+    const user = useGlobalContext();
+
     const form = useForm({
         defaultValues: {
             email: "",
@@ -32,10 +42,23 @@ export default function Login() {
         },
         resolver: zodResolver(formSchema),
     });
-    const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        console.log(data)
-    }
 
+    const [error, setError] = React.useState(false);
+
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
+        const res = await login(data.email, data.password)
+        if (res.status === 201) {
+            const data = await res.json();
+            console.log(data)
+            setError(false);
+            //window.location.href = "/userprofile/" + data.user.id  //роутинг на страницу пользователя
+            redirect(`/pages/userprofile/${data.user.id}`)
+        }
+        else {
+            setError(true);
+            console.log("error", res.status)
+        }
+    }
     return (
         <div className="flex items-center justify-center ">
             <Card className="w-sm  ">
@@ -80,6 +103,8 @@ export default function Login() {
                                             </FormItem>
                                         )}
                                     />
+
+                                    {error ? <div className='text-sm text-center flex flex-col text-red-500'>Неверная электронная почта или пароль</div> : ""}
                                     <div className="gap-2 flex flex-col">
                                         <Link href="/">
                                             <div className="text-right mb-1">
