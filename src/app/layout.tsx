@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-r from-primary-from to-primary-to font-sans h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-r from-primary-from to-primary-to font-sans h-screen `}
       >
         <header className="py-4 ">
           <Header />
