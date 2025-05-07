@@ -11,6 +11,7 @@ import { Button } from "@/shared/ui/button";
 import { useSignInMutation } from "../_hooks/use-signin-mutation.hook"
 import ReCAPTCHA from "react-google-recaptcha"
 import Image from "next/image";
+import { OAuthButtons } from "./oauth-buttons";
 
 export function SignInForm() {
   const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null)
@@ -82,31 +83,7 @@ export function SignInForm() {
           <Button disabled={!recaptchaValue || isPending} type="submit" variant="customGradient" size="customLg">Войти</Button>
         </div>
       </form>
-      <div className="flex flex-col gap-4">
-        <div className="flex items-center justify-center gap-4">
-          <div className="w-full h-[1px]  bg-gray-300 "></div>
-          <div className="w-full text-sm text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-blue-500 font-medium whitespace-nowrap">
-            Или войти через
-          </div>
-          <div className="w-full h-[1px]  bg-gray-300"></div>
-        </div>
-        <div className="flex flex-col items-center justify-center gap-4">
-          <Button variant="outline" size="customLg">
-            <Link href={`${process.env.API_URL}/auth/google`} className="inline-flex items-center justify-center gap-2 whitespace-nowrap">
-              <Image src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="google logo" width={30} height={20} />Google
-            </Link>
-          </Button>
-          <Button variant="outline" size="customLg">
-            <Image src="/github-mark.svg" alt="github logo" width={25} height={25} />GitHub
-          </Button>
-          <div className="space-y-0 flex flex-col w-full">
-            <p className="text-xs text-muted-foreground text-left">Создавая аккаунт, вы соглашаетесь с нашими</p>
-            <Link className="text-xs text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-blue-500 text-left" href={"/"}> условиями использования
-              <p className=" bottom-0 left-0 w-37 h-[1px] bg-gradient-to-r from-purple-500 to-blue-500"></p>
-            </Link>
-          </div>
-        </div>
-      </div>
+      <OAuthButtons />
     </Form>
   )
 }

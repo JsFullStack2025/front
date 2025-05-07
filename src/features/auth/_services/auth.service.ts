@@ -19,9 +19,9 @@ class AuthService {
 		return response
 	}
 
-	public async oauth(provider: "github" | "yandex") {
+	public async oauth(provider: "github" | "yandex" | "google") {
 		const response = await api.get<{ url: string }>(
-			`auth/oauth/connect/${provider}`
+			`auth/${provider}`
 		)
 
 		return response
