@@ -23,6 +23,7 @@ export function useSignInMutation(
 			//} else {
 				//router.push("/dashboard/settings")
 			//}
+			router.push("/")
 		},
 		onError(error) {
 			toastMessageHandler(error)

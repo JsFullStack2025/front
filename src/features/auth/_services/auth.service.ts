@@ -20,9 +20,18 @@ class AuthService {
 	}
 
 	public async oauth(provider: "github" | "yandex" | "google") {
-		const response = await api.get<{ url: string }>(
-			`auth/${provider}`
-		)
+		//const response = await api.get<{ url: string }>(
+			//`auth/${provider}`
+		//)
+
+		//return response
+		
+		const response = api.loginWithRedirect(`${process.env.API_URL}/auth/${provider}`);
+		return response
+	}
+
+	public async getSession() {
+		const response = await api.get<User>("auth/session")
 
 		return response
 	}

@@ -16,17 +16,28 @@ export function OAuthButtons() {
     mutationKey: ["oauth"],
     mutationFn: async (provider: "google" | "yandex") =>
       await authService.oauth(provider),
+    onSuccess: () => {
+      console.log("google sign in tanstack")
+      router.push("/")
+    },
     onError: () =>
       toast.error("Что-то пошло не так", {
         description: "На стороне сервера возникла ошибка, попробуйте позже"
       })
   })
 
+  const { mutateAsync: mutateAsync2 } = useMutation({
+    mutationKey: ["session"],
+    mutationFn: async () => await authService.getSession(),
+    
+  })
+
   const handleSubmit = async (provider: "google" | "yandex") => {
     const response = await mutateAsync(provider)
 
     if (response) {
-      router.push(response.url)
+      router.push(response)
+      
     }
   }
   /*

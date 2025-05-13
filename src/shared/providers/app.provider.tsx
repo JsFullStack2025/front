@@ -1,7 +1,7 @@
 "use client"
 
 import { type PropsWithChildren } from "react"
-import { Toaster } from "sonner"
+import { Toaster } from "@/shared/ui/sonner"
 
 import { TanstackQueryProvider } from "./tanstack-query.provider"
 

@@ -136,4 +136,9 @@ export class FetchClient {
 			...(!!body && { body: JSON.stringify(body) })
 		})
 	}
+
+	loginWithRedirect(url: string) {
+		return window.location.href = url;
+	}
+
 }
