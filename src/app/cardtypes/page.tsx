@@ -48,8 +48,8 @@ React.useEffect(()=> {
 },[newID]);
 
     return <>
-        <div className="h-screen font-sans overflow-y-auto p-20">
-            <div className="bg-white text-gray-800 rounded-lg w-full sm:h-3/4 sm:min-w-xl overflow-y-auto mb-2 sm:mb-0">
+        <div className="h-screen font-sans overflow-y-auto p-10">
+            <div className="bg-white text-gray-800 rounded-lg w-full sm:min-w-xl overflow-y-auto mb-2 sm:mb-0">
                 <div className="flex justify-between items-center rounded-t-lg  h-15 px-8 bg-header-project-list">
                     <h3 className="text-xl text-white">Шаблоны визиток</h3>
                     <button onClick={addTemplate} className="bg-gradient text-white py-1 px-3  rounded-md">
