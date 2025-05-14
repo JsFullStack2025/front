@@ -5,7 +5,8 @@ export default async function UserLayout({
     children: React.ReactNode
     params: { user: string }
   }) {
-   const id:any = ((await params) as any).userid;
-   return  <UserProfile id={id} />
+   //const id:any = ((await params) as any).userId;
+  // return  <UserProfile id={id} />
+   return  <UserProfile  />
   //  return  <UserProfile id={+params.user} />
   }
