@@ -52,7 +52,8 @@ export default function Login() {
             console.log(data)
             setError(false);
             //window.location.href = "/userprofile/" + data.user.id  //роутинг на страницу пользователя
-            redirect(`/pages/userprofile/${data.user.id}`)
+            // redirect(`/userprofile/${data.user.id}`)
+            redirect(`/userprofile/`)
         }
         else {
             setError(true);
