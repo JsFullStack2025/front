@@ -32,7 +32,7 @@ export let users: User[] = [
   {
     id: 2,
     login: "User2",
-    linkImg: "/img/userprofile/foto.jpg",
+    linkImg: "/userprofile/foto.jpg",
     email: "User2@email.ru",
   },
 ];
