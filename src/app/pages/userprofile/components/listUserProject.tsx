@@ -12,7 +12,7 @@ export default function ListUserProject({ cardList
     cardList: Card[]
 }) {
     console.log("cardList", cardList)
-
+   
     let [cardListLength, setCardListLength] = useState(cardList.sort((a, b)=>b.id-a.id).length || [].length);
     function deleteCardHandler(cardId: number) {
         const ind = cardList.findIndex((elm) => elm.id === cardId)
@@ -70,7 +70,7 @@ export default function ListUserProject({ cardList
         <>
 
             <div className="bg-header-project-list flex h-15 items-center justify-between rounded-t-lg px-8">
-                <h2 className="text-xl text-white">Проекты</h2>
+                <h2 className="text-xl text-white">Мои визитки</h2>
                 {/* <Button className="bg-gradient">
                             {" "}
                             <Plus className="size-7" />

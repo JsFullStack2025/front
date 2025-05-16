@@ -1,6 +1,6 @@
-"use client";
+
 import Image from "next/image";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useContext } from "react";
 import "../stylePageUP.css";
 import { Save } from "lucide-react";
 
@@ -23,20 +23,27 @@ import {
 import { Input } from "@/components/ui/input";
 
 import { title } from "process";
+import { AxiosUpdateUser } from "@/lib/api/user";
+import { AppContext } from "@/app/Context/AppContext";
 //import { users } from "../data";
 const formSchema = z.object({
-    useremail: z.string().email({
+    email: z.string().email({
         message: "Некорректный email",
     }),
 });
 
-export default function UserData({ userData
+export default function UserData({ curUser, setCurUser
 }: {
-    userData: User
+    curUser: any, setCurUser: any
 }) {
-    let [curUser, setCurUser] = useState(userData);
+    useEffect(() => {
+        //setCurUser(curUser)
+        form.setValue("email", curUser?.email);
+    }, [curUser]);
+    const appContext = useContext(AppContext);
+    //let [curUser, setCurUser] = useState(userData);
     let [fotoHover, setfotoHover] = useState(false);
-    let [linkImgAvatar, setLinkImgAvatar] = useState("")
+    let [fotoAvatar, setfotoAvatar] = useState("")
     let [dragClasses, setDragClasses] = useState("")
     // let [cardList, setCardList] = useState(cards || []); //вот так не работает. Почему так и непонял. Передал на мониторинг длины массива. Но это костыль как мне кажется.
     let [openDiagEditAvatar, setOpenDiagEditAvatar] = useState(false);
@@ -44,8 +51,8 @@ export default function UserData({ userData
 
     function saveAvatar(urlImg: string) {
         setfotoHover(false);
-         setDragClasses("")
-        curUser.linkImg = urlImg
+        setDragClasses("")
+        curUser.foto = urlImg
         setCurUser(curUser)
     }
 
@@ -53,16 +60,30 @@ export default function UserData({ userData
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            useremail: curUser?.email,
+            email: "",
         },
-    });
+    })
 
     // 2. Define a submit handler.
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
         // Do something with the form values.
+        var sendData = Object.assign(values, { id: curUser.id })
+        // var sendData =  Object.assign(values,{ id: curUser.id, foto: curUser.foto})
+        console.log(sendData)
+        try {
+            appContext.setLoading(true);
+             console.log("onSubmit", sendData);
+            const result = await AxiosUpdateUser(sendData)
+           
+        } catch (msg) {
+            appContext.setError(msg)
+        } finally {
+            appContext.setLoading(false);
+        }
+
         // ✅ This will be type-safe and validated.
-        alert(JSON.stringify(values))
-        console.log(values);
+       // alert(JSON.stringify(sendData))
+
     }
 
     function fotoChanged(event: any) {
@@ -123,12 +144,12 @@ export default function UserData({ userData
     }
     function OpenDiagAvatar(file: File) {
         const src = URL.createObjectURL(file)
-        setLinkImgAvatar(src)
+        setfotoAvatar(src)
         setOpenDiagEditAvatar(true)
     }
     function dragOverHandler(event: any): void {
         event.preventDefault();
-        setDragClasses("" ) //что-то не нравиться мне эта рамка outline-2 outline-primary-from
+        setDragClasses("") //что-то не нравиться мне эта рамка outline-2 outline-primary-from
         setfotoHover(true);
     }
     function dragLeaveHandler(event: any): void {
@@ -138,7 +159,7 @@ export default function UserData({ userData
 
     return (
         <>
-            <DialogAvatarEdit open={openDiagEditAvatar} setOpen={setOpenDiagEditAvatar} saveAvatar={saveAvatar} urlImg={linkImgAvatar} />
+            <DialogAvatarEdit open={openDiagEditAvatar} setOpen={setOpenDiagEditAvatar} saveAvatar={saveAvatar} urlImg={fotoAvatar} />
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
@@ -164,18 +185,18 @@ export default function UserData({ userData
                             onDragLeave={dragLeaveHandler}
                             style={
                                 {
-                                    "--image-url": `url(${curUser?.linkImg ? curUser.linkImg : "/img/userprofile/nofoto.svg"})`,
+                                    "--image-url": `url(${curUser?.foto ? curUser.foto : "/img/userprofile/nofoto.svg"})`,
                                 } as React.CSSProperties
                             }
                             htmlFor="userfoto"
-                            className={`bg-[image:var(--image-url)] bg-cover ${!curUser?.linkImg && "bg-indigo-300"} ${dragClasses} relative size-[125] rounded-full border-indigo-300 hover:cursor-pointer`}
+                            className={`bg-[image:var(--image-url)] bg-cover ${!curUser?.foto && "bg-indigo-300"} ${dragClasses} relative size-[125] rounded-full border-indigo-300 hover:cursor-pointer`}
                         >
-                            {/* <label id="label-foto-user"  htmlFor="userfoto" className={`hover:opacity-[0.5] ${!curUser.linkImg&&'bg-indigo-300'} relative size-[125] rounded-full  border-indigo-300 hover:cursor-pointer`}> */}
+                            {/* <label id="label-foto-user"  htmlFor="userfoto" className={`hover:opacity-[0.5] ${!curUser.foto&&'bg-indigo-300'} relative size-[125] rounded-full  border-indigo-300 hover:cursor-pointer`}> */}
                             {/* {
-                                    curUser.linkImg ?
+                                    curUser.foto ?
                                     <Image
                                     className="rounded-full"
-                                    src={curUser.linkImg}
+                                    src={curUser.foto}
                                     alt="Profile Picture"
                                     width={125}
                                     height={125}
@@ -233,7 +254,7 @@ export default function UserData({ userData
                                 Имя пользователя:
                             </label>
 
-                            <div className="text-gray-500">{curUser?.login ? curUser.login : ""}</div>
+                            <div className="text-gray-500">{curUser?.username ? curUser.username : ""}</div>
                         </div>
                     </div>
 
@@ -246,21 +267,24 @@ export default function UserData({ userData
                                     </div> */}
 
                         <FormField
+
                             control={form.control}
-                            name="useremail"
+                            name="email"
                             render={({ field }) => (
                                 <FormItem>
                                     {/* <FormLabel>Электронная почта</FormLabel> */}
-                                    <label htmlFor="useremail" className="block text-sm">
+                                    <label htmlFor="email" className="block text-sm">
                                         Электронная почта
                                     </label>
                                     <FormControl>
                                         <div className="text-field__icon text-field__icon_email">
                                             <Input
+
                                                 className="text-field__input invalid:border-pink-500 invalid:text-pink-600"
                                                 placeholder="Введите электронную почту"
-
                                                 {...field}
+
+
                                             />
                                         </div>
                                     </FormControl>

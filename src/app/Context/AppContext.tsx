@@ -1,5 +1,9 @@
-import {createContext} from "react"
-import {User} from '@/app/userprofile/types'
+import { createContext } from "react"
 export const AppContext = createContext({
-    user: new User(1, "UserLogin1", "", "pochta@pochta.ru" )
-})
+    currentUser: null,
+    setCurrentUser: (User: any) => { },
+    loading: false,
+    setLoading:(loading: any) => { },
+    error: null,
+    setError:(error:any)=>{}
+} as any)
