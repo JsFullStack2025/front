@@ -9,7 +9,7 @@ export async function middleware(request: NextRequest) {
   if (userId > 0){
      const response = NextResponse.next()
      response.cookies.set("id", String(userId))
-    
+
     return response
 
   }
