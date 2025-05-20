@@ -15,6 +15,6 @@ export default async function UserLayout({
   console.log("AuthCookies", userId)
 
   // return  <UserProfile id={id} />
-  return <UserProfile id={userId}/>
+  return   <UserProfile id={userId}/>
   //  return  <UserProfile id={+params.user} />
 }

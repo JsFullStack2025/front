@@ -37,7 +37,7 @@ export default function DialogDel({ cardId, deleteCard }: {cardId:number, delete
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Удалить проект № {cardId}</DialogTitle>
+          <DialogTitle>Удалить визитку № {cardId}</DialogTitle>
 
         </DialogHeader>
 

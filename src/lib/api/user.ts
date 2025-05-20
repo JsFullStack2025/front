@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from "axios"
-import { API_CONFIG, instanceAxios } from "./api.consts"
+import { API_CONFIG, AxiosShell, instanceAxios } from "./api.consts"
+import { UpdateUserDto, userEntity } from "./entities/UserEntity"
 
 export async function GetUsers() {
   const res = await fetch(process.env.BACKEND_URI + "/user", {
@@ -31,26 +32,20 @@ export async function AxiosGetUserById(id: number) {
 
 }
 
-export async function AxiosUpdateUser(data:any) {
-  const response: any = await AxiosShell(instanceAxios.patch('/user', data))
+export async function AxiosUpdateUser(user:UpdateUserDto) {
+  const response: any = await AxiosShell(instanceAxios.patch('/user', user, {
+   // withCredentials: true,
+    headers: {
+
+    }
+}))
    return response.data
 }
 
-async function AxiosShell(response: Promise<AxiosResponse<any, any>>) {
-try {
-    const res = await response
-    console.log("AxiosShell_res", res)
-    return res
+export async function AxiosGetUserCards(id: number) {
 
-  } catch (error) {
-    console.error(error);
-    let message = ""
-    if (error instanceof AxiosError && error.response?.data) {
-      message = JSON.stringify(error.response?.data) ?? "Unknown error"
+   const response: any = await AxiosShell(instanceAxios.get(`/user${id}/cards`))
+   return response.data
 
-    } else {
-      message = error instanceof Error ? error.message : "Unknown error"
-    }
-    throw message
-  }
+
 }
