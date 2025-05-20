@@ -24,17 +24,18 @@ import { z } from "zod"
 import { formSchema } from "@/lib/validation/validation"
 
 import login from "@/lib/api/login"
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { redirect, usePathname } from 'next/navigation'
 
 
 
 import { User } from "lucide-react"
+import { AppContext } from "../Context/AppContext"
 
 export default function Login() {
 
-
+ const appContext = useContext(AppContext);
     const form = useForm({
         defaultValues: {
             email: "",
@@ -53,6 +54,8 @@ export default function Login() {
             setError(false);
             //window.location.href = "/userprofile/" + data.user.id  //роутинг на страницу пользователя
             // redirect(`/userprofile/${data.user.npm rid}`)
+            appContext.setIsLoggedIn(true)
+            appContext.setLoggedUser(data)
             redirect(`/pages/userprofile/`)
         }
         else {

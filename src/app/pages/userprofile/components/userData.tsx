@@ -301,7 +301,7 @@ export default function UserData({ curUser, setCurUser
                     <div className="flex grow-1 items-end justify-end">
                         <Button type="submit" className="bg-gradient">
                             {" "}
-                            <Save className="size-7" />
+                           {appContext.loading?<Spinner />:<Save className="size-7" />}
                             <span>Сохранить</span>
                         </Button>
                         {/* </fieldset> */}

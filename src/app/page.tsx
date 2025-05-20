@@ -11,9 +11,11 @@ import {
     useTransform,
 } from "motion/react"
 import Link from "next/link";
+import { AppContext } from "@/app/Context/AppContext";
+import { useContext } from "react"
 
 export default function welcome() {
-
+     const appContext = useContext(AppContext);
     const divAnimation = {
         hidden: {
             x: -1000,
@@ -49,15 +51,15 @@ export default function welcome() {
                             width={400}
                             height={700} />
                     </Card>
-                    <motion.button className="bg-white h-15 rounded-md gap-2 px-5 has-[>svg]:px-7"
+                   {!appContext.isLoggedIn&& <motion.button className="bg-white h-15 rounded-md gap-2 px-5 has-[>svg]:px-7"
                         whileHover={{
                             scale: 1.2,
                             transition: { duration: 0.4 },
                         }}
                         whileTap={{ scale: 0.9 }}>
                         <Link href="/login"> <p className="text-3xl text-center text-balance gradient font-jet p-1 ">
-                            Зарегистрируйтесь бесплатно</p></Link> 
-                        </motion.button>
+                            Зарегистрируйтесь бесплатно</p></Link>
+                        </motion.button>}
 
 
                     {/*             <Button className="flex"

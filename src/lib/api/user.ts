@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios"
 import { API_CONFIG, AxiosShell, instanceAxios } from "./api.consts"
 import { UpdateUserDto, userEntity } from "./entities/UserEntity"
+import { useContext } from "react";
 
 export async function GetUsers() {
   const res = await fetch(process.env.BACKEND_URI + "/user", {
@@ -23,6 +24,7 @@ export async function GetUser(id: number) {
   })
   return res.json()
 }
+
 
 export async function AxiosGetUserById(id: number) {
 

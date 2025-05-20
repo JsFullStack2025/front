@@ -37,7 +37,7 @@ export default function UserProfile({ id }: { id: any }) {
         try {
             const response = await AxiosGetUserById(id)
             //  const response =  await GetUser(4)
-            console.log("getUser", response);
+            console.log("UserProfile_getUser", response);
             appContext.setCurrentUser(response)
 
         } catch (error) {
@@ -48,7 +48,7 @@ export default function UserProfile({ id }: { id: any }) {
         }
     }
     useEffect(() => {
-        getUser(id)
+       //!appContext.currentUser&&getUser(id)
 
     }, []);
      async function getUserCards(id:number) {

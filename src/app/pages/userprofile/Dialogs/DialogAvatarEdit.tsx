@@ -90,7 +90,7 @@ function sliderChange(val:number[]) {
 
                 <DialogFooter>
                     <div className="flex w-full justify-center">
-                        <Button className="bg-gradient" type="submit" onClick={save}>Сохранить</Button>
+                        <Button className="bg-gradient" type="submit" onClick={save}>Применить</Button>
                     </div>
 
                 </DialogFooter>
