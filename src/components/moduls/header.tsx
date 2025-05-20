@@ -17,6 +17,7 @@ export default function Header() {
 function logout () {
 
  deleteCookie("auth-cookie")
+appContext.setCurrentUser(null)
 }
   return (
     // <div className="gap-2 flex items-center justify-between absolute inset-x-0 top-4 hide-on-small-height " >
