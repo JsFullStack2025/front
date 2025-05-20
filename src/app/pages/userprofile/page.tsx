@@ -17,7 +17,10 @@ import { API_CONFIG } from "@/lib/api/api.consts";
 import { AxiosError } from "axios";
 import { Button } from "@/components/ui/button";
 import { Save } from "lucide-react";
-import { AxiosGetUserById, GetUser } from "@/lib/api/user";
+import { AxiosGetUserById, AxiosGetUserCards, GetUser } from "@/lib/api/user";
+import { CardEntity, CreateCardDto } from "@/lib/api/entities/CardEntity";
+import { AxiosCreateCard, AxiosDeleteCard } from "@/lib/api/cards";
+import { title } from "process";
 
 //https://stackoverflow.com/questions/66988869/how-to-resolve-dynamic-routes-on-client-side-in-next-js-framework
 //https://nextjs.org/docs/app/api-reference/functions/use-params
@@ -26,6 +29,7 @@ import { AxiosGetUserById, GetUser } from "@/lib/api/user";
 export default function UserProfile({ id }: { id: any }) {
 
     const appContext = useContext(AppContext);
+     let [cardList, setCardList] = useState([]);
     // const currentUserContext = useContext(CurrentUserContext);
     //    let [error, setError] = useState(appContext.error);
     async function getUser(id:number) {
@@ -47,6 +51,53 @@ export default function UserProfile({ id }: { id: any }) {
         getUser(id)
 
     }, []);
+     async function getUserCards(id:number) {
+        appContext.setLoading(true);
+        try {
+            const cards = await AxiosGetUserCards(id)
+            console.log("getUserCards", cards);
+            setCardList(cards)
+
+        } catch (error) {
+            appContext.setError(error)
+
+        } finally {
+            appContext.setLoading(false);
+        }
+    }
+    useEffect(() => {
+        getUserCards(id)
+
+    }, []);
+    async function deleteCard (idCard:number) {
+               try {
+                   appContext.setLoading(true);
+                    const res = await AxiosDeleteCard(idCard)
+                    console.log("deleteCard", res);
+                   // setCardList(cards)
+                    getUserCards(id)
+                } catch (error) {
+                    appContext.setError(error)
+
+                } finally {
+                    appContext.setLoading(false);
+                }
+    }
+     async function createCard (title:string) {
+               try {
+                   appContext.setLoading(true);
+                   let card:CreateCardDto = {authorId:appContext.currentUser.id, title:title}
+                    const res = await AxiosCreateCard(card)
+                    console.log("createCard", res);
+                   // setCardList(cards)
+                    getUserCards(id)
+                } catch (error) {
+                    appContext.setError(error)
+
+                } finally {
+                    appContext.setLoading(false);
+                }
+    }
     // const appContext = useContext(AppContext)
     // useEffect(() => {
     //     //getUser(id)
@@ -58,9 +109,9 @@ export default function UserProfile({ id }: { id: any }) {
     //  let [fotoHover, setfotoHover] = useState(false);
     //  let [cardListLength, setCardListLength] = useState(cards.length || [].length);
     //  let [linkImgAvatar, setLinkImgAvatar] = useState("")
-    // let [cardList, setCardList] = useState(cards || []); //вот так не работает. Почему так и непонял. Передал на мониторинг длины массива. Но это костыль как мне кажется.
+
     //  let [openDiagEditAvatar, setOpenDiagEditAvatar] = useState(false);
-    let cardList: Card[] = cards || []
+    //   let cardList: Card[] = cards || []
     //Вариант 1
     // const userId = useParams<{ userId: string; }>()
     // console.log("params", userId)
@@ -87,7 +138,7 @@ export default function UserProfile({ id }: { id: any }) {
                 </div>
 
                 <div className="w-full overflow-y-auto rounded-lg bg-white text-gray-800 lg:h-4/5 lg:min-w-sm">
-                    <ListUserProject cardList={cardList} />
+                    <ListUserProject cardList={cardList} deleteCard={deleteCard} createCard={createCard} />
                 </div>
                 <div>
 

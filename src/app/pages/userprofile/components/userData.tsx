@@ -25,6 +25,7 @@ import { Input } from "@/components/ui/input";
 import { title } from "process";
 import { AxiosUpdateUser } from "@/lib/api/user";
 import { AppContext } from "@/app/Context/AppContext";
+import { UpdateUserDto, userEntity } from "@/lib/api/entities/UserEntity";
 //import { users } from "../data";
 const formSchema = z.object({
     email: z.string().email({
@@ -34,7 +35,7 @@ const formSchema = z.object({
 
 export default function UserData({ curUser, setCurUser
 }: {
-    curUser: any, setCurUser: any
+    curUser: userEntity, setCurUser: any
 }) {
     useEffect(() => {
         //setCurUser(curUser)
@@ -67,14 +68,15 @@ export default function UserData({ curUser, setCurUser
     // 2. Define a submit handler.
     async function onSubmit(values: z.infer<typeof formSchema>) {
         // Do something with the form values.
-        var sendData = Object.assign(values, { id: curUser.id })
-        // var sendData =  Object.assign(values,{ id: curUser.id, foto: curUser.foto})
+        //var sendData = Object.assign(values, { id: curUser.id })
+
+        var sendData =  Object.assign(values,{ id: curUser.id, foto: curUser.foto})
         console.log(sendData)
         try {
             appContext.setLoading(true);
              console.log("onSubmit", sendData);
             const result = await AxiosUpdateUser(sendData)
-           
+
         } catch (msg) {
             appContext.setError(msg)
         } finally {
