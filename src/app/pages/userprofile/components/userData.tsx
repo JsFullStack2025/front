@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { any, z } from "zod";
 import DialogAvatarEdit from "../Dialogs/DialogAvatarEdit"
-import { User } from "../types"
+//import { User } from "../types"
 import { Spinner } from '@/components/ui/spinner';
 import {
     Form,
