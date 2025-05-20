@@ -8,7 +8,6 @@ export async function middleware(request: NextRequest) {
   //console.log("middleware AuthCookies", UserId)
   if (userId > 0){
      const response = NextResponse.next()
-     //response.USER={id: userId}
      response.cookies.set("id", String(userId))
 
     return response
