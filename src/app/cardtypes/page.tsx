@@ -2,26 +2,57 @@
 import React from "react";
 import { API_CONFIG } from '@/lib/api/api.consts'
 import axios from 'axios';
-import { CardTypeEntity } from '@/lib/api/entities/cardTypeEntity';
+import { CardTypeEntity, CardTypeAddEntity } from '@/lib/api/entities/cardTypeEntity';
 import "./stylePageUP.css";
 import Link from 'next/link'
+import { redirect } from "next/navigation";
 
 export default function Page() {
     const [cardTypesList, setCardTypesList] = React.useState([]);
+    const [newID, setNewId] = React.useState(0);
+
     React.useEffect(() => {
-        axios.get(API_CONFIG.Url+'/cardtypes')
+        axios.get(API_CONFIG.Url+'/cardtypes', { withCredentials: true })
         .then((res) =>{
             const data = res.data;
-            //console.log(data);
             setCardTypesList(data);
         })
     },[]);
+    const addTemplate = () =>{
+        const data: CardTypeAddEntity ={
+            title:'Название',
+            description: 'Описание',
+            designData:'"designData":""',
+            readonly:false,
+            isCustomTemplate:true
+        }
+        const addCardType = () =>{
+            const response =  axios.post(`${API_CONFIG.Url}/cardtypes`,{
+                ...data
+             })
+             .then((res)=>{
+                const data = res.data;
+                setNewId(data.id);
+             })
+             .catch((e)=>{
+                console.log(e)
+             });
+        }
+        const res = addCardType()
+    }
+
+React.useEffect(()=> {
+    if(newID!=0){
+    redirect(`/cardtypes/${newID}`)
+    }
+},[newID]);
+
     return <>
         <div className="h-screen font-jet overflow-y-auto p-20">
             <div className="bg-white text-gray-800 rounded-lg w-full sm:h-3/4 sm:min-w-xl overflow-y-auto mb-2 sm:mb-0">
                 <div className="flex justify-between items-center rounded-t-lg  h-15 px-8 bg-header-project-list">
                     <h3 className="text-xl text-white">Шаблоны визиток</h3>
-                    <button className="bg-gradient text-white py-1 px-3  rounded-md">
+                    <button onClick={addTemplate} className="bg-gradient text-white py-1 px-3  rounded-md">
                         Добавить шаблон
                     </button>
 

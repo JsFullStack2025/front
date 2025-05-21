@@ -1,20 +1,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-
-
-@custom-variant dark (&:is(.dark *));
-
-
-@import "tw-animate-css";
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
 
-  /* --color-background-gradient: var(--gradient);  что-то не взлетел такой метод*/
-
-  --color-primary-from: #A855F7;
-  --color-primary-to : #3B82F6;
-
+  --color-background-gradient: var(--gradient);
 
   --color-primary-from: #A855F7;
   --color-primary-to : #3B82F6;
@@ -69,6 +59,8 @@
     }}}
 
 :root {
+  --image-url:"";
+  --gradient: linear-gradient(296.82deg, #3B82F6 0%, #A855F7 100%);
   --radius: 0.625rem;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
