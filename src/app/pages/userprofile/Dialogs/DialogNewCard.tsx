@@ -36,12 +36,12 @@ export default function DialogNewCard({createCard}:{createCard:any}) {
         <Button className="bg-gradient">
                             {" "}
                             <Plus className="size-7" />
-                            <span>Новый проект</span>
+                            <span>Создать</span>
                         </Button>
       </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Создать новый проект</DialogTitle>
+            <DialogTitle>Новая визитка</DialogTitle>
             <DialogDescription>
 
             </DialogDescription>

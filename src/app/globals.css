@@ -1,20 +1,16 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-
-
 @custom-variant dark (&:is(.dark *));
-
-
 
 @theme inline {
 
-  /* --color-background-gradient: var(--gradient);  что-то не взлетел такой метод*/
+  --color-background-gradient: var(--gradient);
 
   --color-primary-from: #A855F7;
   --color-primary-to : #3B82F6;
-
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --font-jet: var(--font-jet-mono);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -50,18 +46,22 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --grad: linear-gradient(to right, var(--color-primary), var(--color-secondary));
-
-
-}
-
+  --animate-gradient:gradient 5s ease infinit;
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }}}
 
 :root {
   --image-url:"";
-  /* --gradient: linear-gradient(296.82deg, #3B82F6 0%, #A855F7 100%); */
+  --gradient: linear-gradient(296.82deg, #3B82F6 0%, #A855F7 100%);
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -91,6 +91,8 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
 }
 
 .dark {
@@ -134,6 +136,7 @@
   body {
     @apply bg-background text-foreground;
   }
+
 }
 
 @media (max-height: 725px) {
@@ -143,7 +146,16 @@
 }
 }
 
-.bg-gradient {
-  background: linear-gradient(296.82deg, #3B82F6 0%, #A855F7 100%);
-}
+@media (max-width: 1023px) {
+  .white-on-small-width {
+    background-color: #f7f8ff
+}}
 
+.gradient{
+  background: linear-gradient(-45deg, #a855f7,#f472b6,#3b82f6,#fb923c);
+  background-size: 400% 400%;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient 8s ease infinite;
+  font-family: var(--font-jet-mono);
+}

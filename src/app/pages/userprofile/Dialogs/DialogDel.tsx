@@ -17,7 +17,7 @@ import { Label } from "@/components/ui/label"
 import { Card } from "../types"
 import { AnyAaaaRecord } from "node:dns";
 //https://blog.greenroots.info/shadcn-dialog-with-form-three-tips
-export default function DialogDel({ cardId, deleteCard }: {cardId:number, deleteCard:Any}) {
+export default function DialogDel({ cardId, deleteCard }: {cardId:number, deleteCard:any}) {
   let [openDel, setOpenDel] = useState(false);
   const ref:any = useRef(null);
    const delCard = (cardId: number) => {
@@ -37,7 +37,7 @@ export default function DialogDel({ cardId, deleteCard }: {cardId:number, delete
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Удалить проект № {cardId}</DialogTitle>
+          <DialogTitle>Удалить визитку № {cardId}</DialogTitle>
 
         </DialogHeader>
 
