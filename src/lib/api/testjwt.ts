@@ -1,5 +1,5 @@
 export default async function testJWT() {
-  const res = await fetch("http://localhost:3000/auth/testjwt", {
+  const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/auth/testjwt", {
     cache: 'no-store',
     method: "GET",
     credentials: 'include', // Браузер автоматически добавит куки
