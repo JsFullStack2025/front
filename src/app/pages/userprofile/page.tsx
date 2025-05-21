@@ -4,7 +4,7 @@ import { useRef, useState, useEffect, useContext } from "react";
 import { useParams } from 'next/navigation'
 import "./stylePageUP.css";
 //import { Save, Plus, Pencil, Trash2, Mail, Camera } from "lucide-react";
-import { Card, User } from "./types"
+//import { Card, User } from "./types"
 import { Spinner } from '@/components/ui/spinner';
 import UserData from './components/userData'
 import ListUserProject from './components/listUserProject'
