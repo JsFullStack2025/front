@@ -3,7 +3,7 @@ import axios from 'axios'
 
 export default async function GetCardTypesList()
 {
-    axios.get(API_CONFIG.Url + "/cardtypes")
+    axios.get(`${process.env.API_URL}/cardtypes`)
     .then((resp) => {
     return resp.data;
     });

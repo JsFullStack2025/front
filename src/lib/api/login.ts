@@ -1,6 +1,6 @@
 import { API_CONFIG } from '@/lib/api/api.consts'
 export default async function login(username: string, password: string) {
-  const res = await fetch(API_CONFIG.Url+"/auth/login", {
+  const res = await fetch(`${process.env.API_URL}/auth/login`, {
     cache: 'no-store',
     method: "POST",
     headers: {

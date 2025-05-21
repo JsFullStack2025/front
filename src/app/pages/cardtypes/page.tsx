@@ -12,7 +12,7 @@ export default function Page() {
     const [newID, setNewId] = React.useState(0);
 
     React.useEffect(() => {
-        axios.get(API_CONFIG.Url+'/cardtypes', { withCredentials: true })
+        axios.get(`${process.env.API_URL}/cardtypes`, { withCredentials: true })
         .then((res) =>{
             const data = res.data;
             setCardTypesList(data);
@@ -27,7 +27,7 @@ export default function Page() {
             isCustomTemplate:true
         }
         const addCardType = () =>{
-            const response =  axios.post(`${API_CONFIG.Url}/cardtypes`,{
+            const response =  axios.post(`${process.env.API_URL}/cardtypes`,{
                 ...data
              })
              .then((res)=>{

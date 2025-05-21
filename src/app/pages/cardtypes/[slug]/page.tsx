@@ -27,7 +27,7 @@ export default function Page({ params }: { params: Promise<{ slug: string }>}) {
     React.useEffect(() => {
         const fetchData = async () => {
             const { slug } = await params
-            const response = await axios.get(`${API_CONFIG.Url}/cardtypes${slug}`)
+            const response = await axios.get(`${process.env.API_URL}/cardtypes${slug}`)
             const data = response.data;
             //console.log(data)
             setCardType(data);
@@ -46,7 +46,7 @@ export default function Page({ params }: { params: Promise<{ slug: string }>}) {
 
       const onSubmit = (event : React.FormEvent)=> {
         event.preventDefault()
-         const response =  axios.patch(`${API_CONFIG.Url}/cardtypes`,{
+         const response =  axios.patch(`${process.env.API_URL}/cardtypes`,{
             ...cardType
          })
          .then((res)=>{

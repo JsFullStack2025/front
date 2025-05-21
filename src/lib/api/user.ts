@@ -3,7 +3,7 @@ import { API_CONFIG, AxiosShell, instanceAxios } from "./api.consts"
 import { UpdateUserDto, userEntity } from "./entities/UserEntity"
 
 export async function GetUsers() {
-  const res = await fetch(process.env.BACKEND_URI + "/user", {
+  const res = await fetch(`${process.env.API_URL}/user`, {
     cache: 'no-store',
     method: "GET",
     credentials: 'include', // Браузер автоматически добавит куки
@@ -15,7 +15,7 @@ export async function GetUsers() {
 }
 
 export async function GetUser(id: number) {
-  const res = await fetch(API_CONFIG.Url + "/user" + id, {
+  const res = await fetch(`${process.env.API_URL}/user${id}`, {
     cache: 'no-store',
     method: "GET",
     credentials: 'include', // Браузер автоматически добавит куки

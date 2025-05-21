@@ -5,7 +5,7 @@ export const API_CONFIG = {
 }
 export const instanceAxios = axios.create({
   // baseURL: process.env.CLIENT_API_URL,
-    baseURL:API_CONFIG.Url,
+    baseURL:`${process.env.API_URL}`,
     timeout: 30000,
     withCredentials: true,
     headers: {
