@@ -16,7 +16,7 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+//import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -24,12 +24,16 @@ import { z } from "zod"
 import { formSchema } from "@/lib/validation/validation"
 
 import login from "@/lib/api/login"
-import React from "react";
+import { useState } from "react";
 
 import { redirect, usePathname } from 'next/navigation'
+import ReCAPTCHA from "react-google-recaptcha"
 
 
 export default function Login() {
+
+    const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null)
+
     const form = useForm({
         defaultValues: {
             email: "",
@@ -38,20 +42,21 @@ export default function Login() {
         resolver: zodResolver(formSchema),
     });
 
-    const [error, setError] = React.useState(false);
+    const [error, setError] = useState(false);
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        const res = await login(data.email, data.password)
-        if (res.status === 201) {
-            const data = await res.json();
-            console.log(data)
-            setError(false);
-            //window.location.href = "/userprofile/" + data.user.id  //роутинг на страницу пользователя
-            redirect(`/userprofile/${data.user.id}`)
-        }
-        else {
-            setError(true);
-            console.log("error", res.status)
+        if (recaptchaValue) {
+            const res = await login(data.email, data.password, recaptchaValue)
+            if (res.status === 201) {
+                const data = await res.json();
+                console.log(data)
+                setError(false);
+                redirect(`/userprofile/${data.user.id}`)
+            }
+            else {
+                setError(true);
+                console.log("error", res.status)
+            }
         }
     }
     return (
@@ -98,7 +103,10 @@ export default function Login() {
                                             </FormItem>
                                         )}
                                     />
-
+                                    <ReCAPTCHA className={`${recaptchaValue ? "hidden " : ""} `}
+                                        sitekey={process.env.GOOGLE_RECAPTCHA_SITE_KEY as string}
+                                        onChange={setRecaptchaValue}
+                                    />
                                     {error ? <div className='text-sm text-center flex flex-col text-red-500'>Неверная электронная почта или пароль</div> : ""}
                                     <div className="gap-2 flex flex-col">
                                         <Link href="/">
@@ -109,7 +117,7 @@ export default function Login() {
                                                 </div>
                                             </div>
                                         </Link>
-                                        <Button type="submit" variant="customGradient" size="customLg">Войти</Button>
+                                        <Button disabled={!recaptchaValue} type="submit" variant="customGradient" size="customLg">Войти</Button>
                                     </div>
                                 </form>
                             </Form>

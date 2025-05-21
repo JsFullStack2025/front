@@ -1,12 +1,13 @@
 import { API_CONFIG } from '@/lib/api/api.consts'
-export default async function login(email: string, password: string) {
+export default async function login(email: string, password: string, capcha: string) {
 
-  const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + /*"http://localhost:3000*/"/auth/login", {
+  const res = await fetch(`${process.env.API_URL}/auth/login`, {
     cache: 'no-store',
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       "Accept": "application/json",
+      "recaptcha": capcha
     },
     body: JSON.stringify({ email, password }),
     credentials: 'include', // Разрешаем отправку куки
