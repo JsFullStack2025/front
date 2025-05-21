@@ -39,7 +39,7 @@ export default function welcome() {
 
             <main className="flex flex-col gap-30 row-start-2 items-center sm:items-start">
                 <div className="grid grid-rows gap-10 justify-items-center sm:items-start">
-                    <Card className=" white-on-small-width flex h-[100%] w-full items-center justify-between gap-8 px-8 lg:flex-row  bg-gradient-to-r from-white via-white via-40% via-transparent via-75%">
+                    <Card className=" white-on-small-width flex h-[100%] w-full items-center justify-between gap-8 px-8 lg:flex-row  bg-gradient-to-r from-white via-white via-40%">
                         <p className=" basis-1/3 font-jet text-6xl text-center text-balance text-transparent bg-gradient-to-r from-primary-from to-primary-to bg-clip-text">
                             Создавайте кастомизируйте и делитесь своими визитками с помощью VISITEO. </p>
                         <Image
@@ -77,7 +77,7 @@ export default function welcome() {
                     className="flex h-[100%] w-full items-center justify-between lg:flex-row"
 
                 >
-                    <Card className="white-on-small-width flex h-[100%] w-full items-center justify-between gap-8 px-8 lg:flex-row  bg-gradient-to-r via-transparent via-20% via-white via-60% to-white">
+                    <Card className="white-on-small-width flex h-[100%] w-full items-center justify-between gap-8 px-8 lg:flex-row  bg-gradient-to-r via-transparent via-20% to-white">
                         <motion.img
                             className="shadow-xl rounded-md"
                             src="/dragndrop.png"
@@ -97,7 +97,7 @@ export default function welcome() {
                     whileInView="visible"
                     viewport={{ margin: "-100px +900px -100px +900px" }}
                     variants={divAnimation}>
-                    <Card className="white-on-small-width flex h-[100%] w-full items-center justify-between gap-8 px-8 lg:flex-row  bg-gradient-to-r via-transparent via-20% via-white via-60% to-white">
+                    <Card className="white-on-small-width flex h-[100%] w-full items-center justify-between gap-8 px-8 lg:flex-row  bg-gradient-to-r via-transparent via-20% to-white">
                         <motion.img
                             className="shadow-xl rounded-md"
                             src="/template.png"
@@ -116,7 +116,7 @@ export default function welcome() {
                     whileInView="visible"
                     viewport={{ margin: "-100px +900px -100px +900px" }}
                     variants={divAnimation}>
-                    <Card className="p-3 white-on-small-width flex h-[100%] w-full items-center justify-between gap-8 px-8 lg:flex-row  bg-gradient-to-r via-transparent via-20% via-white via-60% to-white">
+                    <Card className="p-3 white-on-small-width flex h-[100%] w-full items-center justify-between gap-8 px-8 lg:flex-row  bg-gradient-to-r via-transparent via-20% to-white">
                         <Image
                             className="shadow-xl rounded-md"
                             src="/share.jpg"

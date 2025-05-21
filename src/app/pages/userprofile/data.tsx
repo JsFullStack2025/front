@@ -1,11 +1,4 @@
-class Сard {
-  title: string;
-  id: number;
-  constructor(title: string, id: number) {
-    this.title = title;
-    this.id = id;
-  }
-}
+import {Card, User} from "./types"
 
 // export const cards: Сard[] = [
 //     new Сard("Проект 1", 1),
@@ -18,7 +11,7 @@ class Сard {
 //     new Сard("Проект 5", 5),
 // ]
 
-export let cards: Сard[] = [
+export let cards: Card[] = [
   { title: " Проект 1", id: 1 },
   {
     title: `Проект 2 Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -33,30 +26,13 @@ export let cards: Сard[] = [
   { title: "Проект 6", id: 6 },
 ];
 
-// class User {
-//     id:number
-//     login:string
-//     linkImg:string
-//     email:string
-//     constructor(id:number, login:string, linkImg:string, email:string ) {
-//         this.id = id
-//         this.login = login
-//         this.linkImg = linkImg
-//         this.email = email
-//     }
-// }
-interface User {
-  id: number;
-  login: string;
-  linkImg: string;
-  email: string;
-}
+
 export let users: User[] = [
-  { id: 1, login: "User1", linkImg: "", email: "email@eamail.ru" },
+  { id: 1, login: "User1", linkImg: "", email: "User1@email.ru" },
   {
     id: 2,
     login: "User2",
-    linkImg: "/img/userprofile/foto.jpg",
-    email: "email@eamail.ru",
+    linkImg: "/userprofile/foto.jpg",
+    email: "User2@email.ru",
   },
 ];
