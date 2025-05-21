@@ -49,9 +49,9 @@ export default function Login() {
             const res = await login(data.email, data.password, recaptchaValue)
             if (res.status === 201) {
                 const data = await res.json();
-                console.log(data)
+                console.log("login", data)
                 setError(false);
-                redirect(`/userprofile/${data.user.id}`)
+                redirect(`/pages/userprofile/`)
             }
             else {
                 setError(true);

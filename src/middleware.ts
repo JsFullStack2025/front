@@ -5,7 +5,7 @@ import { getUserIdFromCookie } from './app/pages/userprofile/helper'
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
  const userId = await getUserIdFromCookie()
-  //console.log("middleware AuthCookies", UserId)
+  console.log("middleware AuthCookies", userId)
   if (userId > 0){
      const response = NextResponse.next()
      response.cookies.set("id", String(userId))
