@@ -2,11 +2,11 @@
 
 import { useForm } from "react-hook-form"
 
-import Link from "next/link"
 import Image from 'next/image'
+import Link from "next/link"
 
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import {
     Form,
     FormControl,
@@ -16,21 +16,17 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
+import { formSchema } from "@/lib/validation/validation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { formSchema } from "@/lib/validation/validation"
 
 import login from "@/lib/api/login"
-import React, { useState } from "react";
+import React from "react"
 
-import { redirect, usePathname } from 'next/navigation'
+import { redirect } from 'next/navigation'
 
-import { useGlobalContext, UserData } from '@/AppContext/AppContext'
-
-import { User } from "lucide-react"
 
 export default function Login() {
     const user = useGlobalContext();
