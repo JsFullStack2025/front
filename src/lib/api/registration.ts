@@ -1,7 +1,5 @@
-import { API_CONFIG } from '@/lib/api/api.consts'
-export default async function login(email: string, password: string, capcha: string) {
-
-  const res = await fetch(`${process.env.API_URL}/auth/login`, {
+export default async function registration(username: string, email: string, password: string, capcha: string) {
+  const res = await fetch(`${process.env.API_URL}/auth/registration`, {
     cache: 'no-store',
     method: "POST",
     headers: {
@@ -9,7 +7,7 @@ export default async function login(email: string, password: string, capcha: str
       "Accept": "application/json",
       "recaptcha": capcha
     },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ username, email, password }),
     credentials: 'include', // Разрешаем отправку куки
   })
 

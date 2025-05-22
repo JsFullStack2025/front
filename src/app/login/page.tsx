@@ -16,7 +16,7 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+//import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -24,40 +24,56 @@ import { z } from "zod"
 import { formSchema } from "@/lib/validation/validation"
 
 import login from "@/lib/api/login"
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { redirect, usePathname } from 'next/navigation'
+import ReCAPTCHA from "react-google-recaptcha"
+import registration from "@/lib/api/registration"
 
-
-
-import { User } from "lucide-react"
 
 export default function Login() {
 
+    const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null)
 
     const form = useForm({
         defaultValues: {
             email: "",
             password: "",
+            username: "",
         },
         resolver: zodResolver(formSchema),
     });
 
-    const [error, setError] = React.useState(false);
+    const [error, setError] = useState(false);
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        const res = await login(data.email, data.password)
-        if (res.status === 201) {
-            const data = await res.json();
-            console.log(data)
-            setError(false);
-            //window.location.href = "/userprofile/" + data.user.id  //роутинг на страницу пользователя
-            // redirect(`/userprofile/${data.user.npm rid}`)
-            redirect(`/pages/userprofile/`)
+        if (recaptchaValue) {
+            const res = await login(data.email, data.password, recaptchaValue)
+            if (res.status === 201) {
+                const data = await res.json();
+                console.log("login", data)
+                setError(false);
+                redirect(`/pages/userprofile/`)
+            }
+            else {
+                setError(true);
+                console.log("error", res.status)
+            }
         }
-        else {
-            setError(true);
-            console.log("error", res.status)
+    }
+        const onSubmit2 = async (data: z.infer<typeof formSchema>) => {
+        if (recaptchaValue) {
+            const res = await registration(data.username, data.email, data.password, recaptchaValue)
+            if (res.status === 201) {
+                const data = await res.json();
+                console.log("login", data)
+                setError(false);
+                redirect(`/login/`)
+            }
+            else {
+                setError(true);
+                console.log("error", res.status)
+            }
         }
     }
     return (
@@ -104,7 +120,10 @@ export default function Login() {
                                             </FormItem>
                                         )}
                                     />
-
+                                    <ReCAPTCHA className={`${recaptchaValue ? "hidden " : ""} `}
+                                        sitekey={process.env.GOOGLE_RECAPTCHA_SITE_KEY as string}
+                                        onChange={setRecaptchaValue}
+                                    />
                                     {error ? <div className='text-sm text-center flex flex-col text-red-500'>Неверная электронная почта или пароль</div> : ""}
                                     <div className="gap-2 flex flex-col">
                                         <Link href="/">
@@ -115,7 +134,7 @@ export default function Login() {
                                                 </div>
                                             </div>
                                         </Link>
-                                        <Button type="submit" variant="customGradient" size="customLg">Войти</Button>
+                                        <Button disabled={!recaptchaValue} type="submit" variant="customGradient" size="customLg">Войти</Button>
                                     </div>
                                 </form>
                             </Form>
@@ -126,7 +145,20 @@ export default function Login() {
                                     <p className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0 text-center">Регистрация</p>
                                     <p className="text-sm text-muted-foreground text-center">Введите данные для создания аккаунта</p>
                                 </div>
-                                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                                <form onSubmit={form.handleSubmit(onSubmit2)} className="space-y-4">
+                                    <FormField
+                                        control={form.control}
+                                        name="username"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel className="text-sm text-muted-foreground">Электронная почта</FormLabel>
+                                                <FormControl>
+                                                    <Input placeholder="Username" {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
                                     <FormField
                                         control={form.control}
                                         name="email"
@@ -153,9 +185,13 @@ export default function Login() {
                                             </FormItem>
                                         )}
                                     />
+                                    <ReCAPTCHA className={`${recaptchaValue ? "hidden " : ""} `}
+                                        sitekey={process.env.GOOGLE_RECAPTCHA_SITE_KEY as string}
+                                        onChange={setRecaptchaValue}
+                                    />
                                     <div className="gap-2 flex flex-col">
                                         <div className="text-right mb-1 text-transparent">x</div>
-                                        <Button type="submit" variant="customGradient" size="customLg">Зарегистрироваться</Button>
+                                        <Button disabled={!recaptchaValue} type="submit" variant="customGradient" size="customLg">Зарегистрироваться</Button>
                                     </div>
                                 </form>
                             </Form>
