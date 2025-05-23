@@ -193,7 +193,7 @@ export default function Login() {
                                     />
                                     {errorReg ? <div className='text-sm text-center flex flex-col text-red-500'>Такой пользователь уже зарегистрирован</div> : ""}
                                     <div className="gap-2 flex flex-col">
-                                        <div className="text-right mb-1 text-transparent">x</div>
+                                        {/* <div className="text-right mb-1 text-transparent">x</div> */}
                                         <Button type="submit" variant="customGradient" size="customLg">Зарегистрироваться</Button>
                                     </div>
                                 </form>
