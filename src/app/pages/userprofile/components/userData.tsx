@@ -26,20 +26,32 @@ import { title } from "process";
 import { AxiosUpdateUser } from "@/lib/api/user";
 import { AppContext } from "@/app/Context/AppContext";
 import { UpdateUserDto, userEntity } from "@/lib/api/entities/UserEntity";
+import DialogSave from "../Dialogs/DialogSave";
+import { redirect } from "next/navigation";
 //import { users } from "../data";
+const emailSchema = z.union( [
+    z.literal( '' ),
+    z.string().email("Некорректный email"),
+] )
 const formSchema = z.object({
-    email: z.string().email({
-        message: "Некорректный email",
-    }),
+    fio: z.string(),
+    email:emailSchema
+    // email: z.string().email({
+    //     message: "Некорректный email",
+    // }),
 });
 
 export default function UserData({ curUser, setCurUser
 }: {
     curUser: userEntity, setCurUser: any
 }) {
+
+    let [openDiagSave, setOpenDiagSave] = useState(false);
+    let [errorEmail, setErrorEmail] = useState(false)
     useEffect(() => {
         //setCurUser(curUser)
-        form.setValue("email", curUser?.email);
+        form.setValue("fio", curUser?.fio ?? "");
+        form.setValue("email", curUser?.email ?? "");
     }, [curUser]);
     const appContext = useContext(AppContext);
     //let [curUser, setCurUser] = useState(userData);
@@ -61,6 +73,7 @@ export default function UserData({ curUser, setCurUser
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
+            fio: "",
             email: "",
         },
     })
@@ -70,21 +83,31 @@ export default function UserData({ curUser, setCurUser
         // Do something with the form values.
         //var sendData = Object.assign(values, { id: curUser.id })
 
-        var sendData =  Object.assign(values,{ id: curUser.id, foto: curUser.foto})
+        var sendData = Object.assign(values, { id: curUser.id, foto: curUser.foto })
         console.log(sendData)
         try {
-            appContext.setLoading(true);
-             console.log("onSubmit", sendData);
+           appContext.setLoading(true); //только изменение вот этого значения заставляет перерисоваь контекст.
+            appContext.setError("")
+            setErrorEmail(false)
+            console.log("onSubmit", sendData);
             const result = await AxiosUpdateUser(sendData)
+            setOpenDiagSave(true)
+        } catch (error:any) {
+            if (error.statusCode === 401) {
+                redirect(`/login`)
+            }
+            if (error.statusCode === 409) {
+                setErrorEmail(true)
+            } else {
+                appContext.setError(JSON.stringify(error))
+            }
 
-        } catch (msg) {
-            appContext.setError(msg)
         } finally {
             appContext.setLoading(false);
         }
 
         // ✅ This will be type-safe and validated.
-       // alert(JSON.stringify(sendData))
+        // alert(JSON.stringify(sendData))
 
     }
 
@@ -161,6 +184,7 @@ export default function UserData({ curUser, setCurUser
 
     return (
         <>
+            <DialogSave open={openDiagSave} setOpen={setOpenDiagSave} />
             <DialogAvatarEdit open={openDiagEditAvatar} setOpen={setOpenDiagEditAvatar} saveAvatar={saveAvatar} urlImg={fotoAvatar} />
             <Form {...form}>
                 <form
@@ -271,6 +295,47 @@ export default function UserData({ curUser, setCurUser
                         <FormField
 
                             control={form.control}
+                            name="fio"
+                            render={({ field }) => (
+                                <FormItem>
+                                    {/* <FormLabel>Электронная почта</FormLabel> */}
+                                    <label htmlFor="fio" className="block text-sm">
+                                        ФИО
+                                    </label>
+                                    <FormControl>
+                                        <div className="">
+                                            <Input
+
+                                                className=" invalid:border-pink-500 invalid:text-pink-600"
+                                                placeholder="Введите ФИО"
+                                                {...field}
+
+
+                                            />
+                                        </div>
+                                    </FormControl>
+                                    {/* <FormDescription>
+
+                                                </FormDescription> */}
+                                    <FormMessage className="text-[0.8rem]" />
+
+                                </FormItem>
+
+                            )}
+                        />
+
+                    </div>
+                    <div className="text-field mb-4">
+                        {/* <label htmlFor="email" className="block text-sm">Электронная почта</label>
+                                    <div className="text-field__icon text-field__icon_email">
+                                        <input type="email" id="email" name="email" required
+                                            className="w-full p-2 mt-2 rounded-lg text-field__input"
+                                            placeholder="Введите электронную почту" />
+                                    </div> */}
+
+                        <FormField
+
+                            control={form.control}
                             name="email"
                             render={({ field }) => (
                                 <FormItem>
@@ -297,11 +362,13 @@ export default function UserData({ curUser, setCurUser
                                 </FormItem>
                             )}
                         />
+                         {errorEmail ? <div className='text-sm text-center flex flex-col text-red-500 mt-2'>Такой email уже есть в системе</div> : ""}
                     </div>
                     <div className="flex grow-1 items-end justify-end">
                         <Button type="submit" className="bg-gradient">
                             {" "}
-                           {appContext.loading?<Spinner />:<Save className="size-7" />}
+                            {/* {appContext.loading ? <Spinner /> : <Save className="size-7" />} */}
+                            <Save className="size-7" />
                             <span>Сохранить</span>
                         </Button>
                         {/* </fieldset> */}

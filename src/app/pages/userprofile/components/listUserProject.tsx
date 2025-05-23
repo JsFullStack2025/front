@@ -100,12 +100,13 @@ export default function ListUserProject({ cardList, deleteCard, createCard
                 <DialogNewCard createCard={createNewCardHandler} />
 
             </div>
-            <ul className="p-6">
-                {cardList.map((card) => (
+            <div className="overflow-y-auto h-[inherit]">
+            <ul className="p-6 ">
+                {cardList.sort((a, b)=>b.id-a.id).map((card) => (
                     <li className="flex flex-row items-center justify-between" key={card.id}>
                         {/* <button className="">
                 <Trash2 />
-            </button> */}<DialogDel cardId={card.id} deleteCard={deleteCardHandler} />
+            </button> */}<DialogDel cardId={card.id} title={card.title} deleteCard={deleteCardHandler} />
                         <span className="mx-5 grow hover:cursor-pointer hover:underline" onClick={()=>viewCard(event, card.id)}>
                             {card.title}
                         </span>
@@ -116,6 +117,7 @@ export default function ListUserProject({ cardList, deleteCard, createCard
                     </li>
                 ))}
             </ul>
+            </div>
 
         </>
     );

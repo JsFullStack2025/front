@@ -23,7 +23,7 @@ try {
     console.error(error);
     let message = ""
     if (error instanceof AxiosError && error.response?.data) {
-      message = JSON.stringify(error.response?.data) ?? "Unknown error"
+      message = error.response?.data ?? "Unknown error"
 
     } else {
       message = error instanceof Error ? error.message : "Unknown error"

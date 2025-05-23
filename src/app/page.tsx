@@ -37,7 +37,7 @@ export default function welcome() {
 
 
     return (
-        <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center p-8 sm:p-20">
+        <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center p-8 sm:p-20 ">
 
             <main className="flex flex-col gap-30 row-start-2 items-center sm:items-start">
                 <div className="grid grid-rows gap-10 justify-items-center sm:items-start">
@@ -51,7 +51,7 @@ export default function welcome() {
                             width={400}
                             height={700} />
                     </Card>
-                   {!appContext.isLoggedIn&& <motion.button className="bg-white h-15 rounded-md gap-2 px-5 has-[>svg]:px-7"
+                   {!appContext.currentUser&& <motion.button className="bg-white h-15 rounded-md gap-2 px-5 has-[>svg]:px-7"
                         whileHover={{
                             scale: 1.2,
                             transition: { duration: 0.4 },
@@ -70,7 +70,7 @@ export default function welcome() {
                   </Button> */}
                 </div>
 
-
+{/*
                 <motion.div
                     initial="hidden"
                     whileInView="visible"
@@ -92,7 +92,7 @@ export default function welcome() {
                             Удобный редактор с функцией Drag'n'Drop
                         </p>
                     </Card>
-                </motion.div>
+                </motion.div> */}
 
                 <motion.div className="flex h-[100%] w-full items-center justify-between lg:flex-row"
                     initial="hidden"

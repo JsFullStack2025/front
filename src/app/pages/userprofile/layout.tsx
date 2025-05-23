@@ -11,10 +11,11 @@ export default async function UserLayout({
   params: { user: string }
 }) {
   //const id:any = ((await params) as any).userId;
-  const userId = await getUserIdFromCookie()
-  console.log("AuthCookies", userId)
+  // const userId = await getUserIdFromCookie()
+  // console.log("AuthCookies", userId)
 
   // return  <UserProfile id={id} />
-  return   <UserProfile id={userId}/>
+  return <UserProfile/>
+  //<UserProfile id={userId}/>
   //  return  <UserProfile id={+params.user} />
 }

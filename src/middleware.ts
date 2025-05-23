@@ -1,15 +1,17 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { getUserIdFromCookie } from './app/pages/userprofile/helper'
+import { cookies } from 'next/headers'
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
- const userId = await getUserIdFromCookie()
+  let userAuth = (await cookies()).get("auth-cookie")?.value
+ const userId = getUserIdFromCookie(userAuth)
   //console.log("middleware AuthCookies", UserId)
   if (userId > 0){
      const response = NextResponse.next()
-     response.cookies.set("id", String(userId))
-    
+    // response.cookies.set("id", String(userId))
+
     return response
 
   }

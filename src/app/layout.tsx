@@ -10,9 +10,10 @@ import { AppContext } from "@/app/Context/AppContext";
 import { ErrorMessage } from "./pages/userprofile/components/ErrorMessage";
 import { Spinner } from "@/components/ui/spinner";
 //import { useGetCookies, useSetCookie, useHasCookie, useDeleteCookie, useGetCookie } from 'cookies-next';
-import { getCookie, getCookies, setCookie, deleteCookie, hasCookie } from 'cookies-next';
-import { AxiosGetUserById, AxiosGetUserData } from "@/lib/api/user";
+import { getCookie, getCookies, setCookie, deleteCookie, hasCookie } from 'cookies-next/client';
+import { AxiosGetUserById } from "@/lib/api/user";
 import { usePathname } from "next/navigation";
+import { getUserIdFromCookie } from "./pages/userprofile/helper";
 
 
 const jet = JetBrains_Mono({
@@ -35,8 +36,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   //const appContext = useContext(AppContext)
-  let [loggedUser, setLoggedUser] = useState(null);
-  let [isLoggedIn, setIsLoggedIn] = useState(false);
+  // let [loggedUser, setLoggedUser] = useState(null);
+  // let [isLoggedIn, setIsLoggedIn] = useState(false);
   let [currentUser, setCurrentUser] = useState(null);
   let [loading, setLoading] = useState(false);
   let [error, setError] = useState("");
@@ -49,35 +50,34 @@ export default function RootLayout({
       setCurrentUser(response)
 
     } catch (error: any) {
-      setError(error)
+      setError(JSON.stringify(error))
 
     } finally {
       setLoading(false);
     }
   }
+
   useEffect(() => {
-    if (hasCookie("auth-cookie")) {
-      setIsLoggedIn(true)
-    }
-  }, []);
-  useEffect(() => {
-    const userId = loggedUser?.user.id||getCookie('id');
+    setError("")
+    const authCookie = getCookie('auth-cookie')
+    const userId = currentUser?.id||getUserIdFromCookie(authCookie);
        console.log("RootLayout", userId)
-        isLoggedIn&&getUser(Number(userId))
+        userId&&!currentUser&&getUser(Number(userId))
 
-  }, [isLoggedIn]);
-   let pathname = usePathname()
- useEffect(() => {
-    if(isLoggedIn||currentUser||pathname =='/login'||pathname =='/') {
-      setLoading(false)
+  }, []);
+//   let pathname = usePathname()
+//  useEffect(() => {
+//     if(isLoggedIn||currentUser||pathname =='/login'||pathname =='/') {
+//       setLoading(false)
 
-    } else {
-       setLoading(true)
-    }
+//     } else {
+//        setLoading(true)
+//     }
 
-  }, [isLoggedIn, currentUser, pathname]);
+//   }, [isLoggedIn, currentUser, pathname]);
     // console.log(pathname!=='/login')
     //${isLoggedIn||currentUser||pathname =='/login'?'':'hidden'}
+    //, isLoggedIn, setIsLoggedIn, loggedUser, setLoggedUser
   return (
 
     <html lang="en">
@@ -85,16 +85,16 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable}  antialiased bg-gradient-to-r from-primary-from to-primary-to font-sans h-screen `}
       >
 
-        <AppContext.Provider value={{ currentUser, setCurrentUser, loading, setLoading, error, setError, isLoggedIn, setIsLoggedIn, loggedUser, setLoggedUser }}>
+        <AppContext.Provider value={{ currentUser, setCurrentUser, loading, setLoading, error, setError }}>
 
           {loading && <div className="flex w-[100%] h-full items-center justify-center absolute opacity-40 bg-white"><Spinner /></div>}
-          {error && <div className="p-3"> <ErrorMessage error={error} /></div>}
+
 
           <header className="py-4 ">
             <Header />
-
+    {error && <div className="p-3"> <ErrorMessage error={error} /></div>}
           </header>
-          <main className="">
+          <main className="m-h-[85vh]">
             {/* <CookiesProvider>{children}</CookiesProvider> */}
             {children}
           </main>

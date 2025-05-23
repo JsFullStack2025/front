@@ -23,7 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { formSchema } from "@/lib/validation/validation"
 
-import login from "@/lib/api/login"
+import { login, registration } from "@/lib/api/login"
 import React, { useContext, useState } from "react";
 
 import { redirect, usePathname } from 'next/navigation'
@@ -35,36 +35,68 @@ import { AppContext } from "../Context/AppContext"
 
 export default function Login() {
 
- const appContext = useContext(AppContext);
+    const appContext = useContext(AppContext);
+
     const form = useForm({
         defaultValues: {
-            email: "",
+            username: "",
+            // email: "",
             password: "",
         },
         resolver: zodResolver(formSchema),
     });
 
-    const [error, setError] = React.useState(false);
-
-    const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        const res = await login(data.email, data.password)
+    const [errorLogin, setErrorLogin] = React.useState(false);
+    const [errorReg, setErrorReg] = React.useState(false);
+    const onSubmitLogin = async (data: z.infer<typeof formSchema>) => {
+        // appContext.setIsLoggedIn(false)
+        appContext.setLoading(true);
+        const res = await login(data.username, data.password)
         if (res.status === 201) {
             const data = await res.json();
             console.log(data)
-            setError(false);
+            setErrorLogin(false);
             //window.location.href = "/userprofile/" + data.user.id  //роутинг на страницу пользователя
             // redirect(`/userprofile/${data.user.npm rid}`)
-            appContext.setIsLoggedIn(true)
-            appContext.setLoggedUser(data)
+            // appContext.setIsLoggedIn(true)
+            // appContext.setLoggedUser(data)
+            appContext.setCurrentUser(data)
             redirect(`/pages/userprofile/`)
         }
+
         else {
-            setError(true);
+            appContext.setLoading(false);
+            setErrorLogin(true);
+          //  appContext.setError(res.status);
             console.log("error", res.status)
         }
+
+    }
+    const onSubmitRegistration = async (data: z.infer<typeof formSchema>) => {
+        appContext.setLoading(true);
+        const res = await registration(data.username, data.password)
+        if (res.status === 201) {
+            const data = await res.json();
+            console.log(data)
+            setErrorReg(false);
+            appContext.setCurrentUser(data)
+            redirect(`/pages/userprofile/`)
+        }
+        else if(res.status === 409) {
+                setErrorReg(true);
+                appContext.setLoading(false);
+                return
+        }
+        else {
+            appContext.setLoading(false);
+            appContext.setError(res.status);
+            console.log("error", res.status)
+        }
+
     }
     return (
-        <div className="flex items-center justify-center ">
+        <div className="flex items-center justify-center h-[85vh] ">
+        {/* h-[inherit] */}
             <Card className="w-sm  ">
                 <Tabs defaultValue="login" className="w-full">
                     <CardHeader>
@@ -80,15 +112,16 @@ export default function Login() {
                                     <p className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0 text-center">Вход в аккаунт</p>
                                     <p className="text-sm text-muted-foreground text-center">Введите данные для входа в свой аккаунт</p>
                                 </div>
-                                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                                <form onSubmit={form.handleSubmit(onSubmitLogin)} className="space-y-4">
                                     <FormField
                                         control={form.control}
-                                        name="email"
+                                        name="username"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel className="text-sm text-muted-foreground">Электронная почта</FormLabel>
+                                                <FormLabel className="text-sm text-muted-foreground">Логин</FormLabel>
+                                                {/* Электронная почта, name="email" */}
                                                 <FormControl>
-                                                    <Input className="w-full" placeholder="example@mail.ru" {...field} />
+                                                    <Input className="w-full"  {...field} />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -108,16 +141,17 @@ export default function Login() {
                                         )}
                                     />
 
-                                    {error ? <div className='text-sm text-center flex flex-col text-red-500'>Неверная электронная почта или пароль</div> : ""}
+                                    {errorLogin ? <div className='text-sm text-center flex flex-col text-red-500'>Неверый логин или пароль</div> : ""}
+                                    {/* Неверная электронная почта или пароль */}
                                     <div className="gap-2 flex flex-col">
-                                        <Link href="/">
+                                        {/* <Link href="/">
                                             <div className="text-right mb-1">
                                                 <div className="text-xs text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-blue-500 relative inline-block">
                                                     Забыли пароль?
                                                     <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-purple-500 to-blue-500"></div>
                                                 </div>
                                             </div>
-                                        </Link>
+                                        </Link> */}
                                         <Button type="submit" variant="customGradient" size="customLg">Войти</Button>
                                     </div>
                                 </form>
@@ -129,15 +163,16 @@ export default function Login() {
                                     <p className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0 text-center">Регистрация</p>
                                     <p className="text-sm text-muted-foreground text-center">Введите данные для создания аккаунта</p>
                                 </div>
-                                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                                <form onSubmit={form.handleSubmit(onSubmitRegistration)} className="space-y-4">
                                     <FormField
                                         control={form.control}
-                                        name="email"
+                                        name="username"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel className="text-sm text-muted-foreground">Электронная почта</FormLabel>
+                                                <FormLabel className="text-sm text-muted-foreground">Логин</FormLabel>
+                                                {/* Электронная почта */}
                                                 <FormControl>
-                                                    <Input placeholder="example@mail.ru" {...field} />
+                                                    <Input  {...field} />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -156,6 +191,7 @@ export default function Login() {
                                             </FormItem>
                                         )}
                                     />
+                                    {errorReg ? <div className='text-sm text-center flex flex-col text-red-500'>Такой пользователь уже зарегистрирован</div> : ""}
                                     <div className="gap-2 flex flex-col">
                                         <div className="text-right mb-1 text-transparent">x</div>
                                         <Button type="submit" variant="customGradient" size="customLg">Зарегистрироваться</Button>
@@ -165,7 +201,7 @@ export default function Login() {
                         </TabsContent>
                     </CardContent>
                 </Tabs>
-                <div className="flex flex-col gap-4 pl-6 pr-6">
+                {/* <div className="flex flex-col gap-4 pl-6 pr-6">
                     <div className="flex items-center justify-center gap-4">
                         <div className="w-full h-[1px]  bg-gray-300 "></div>
                         <div className="w-full text-sm text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-blue-500 font-medium whitespace-nowrap">
@@ -186,7 +222,7 @@ export default function Login() {
                             </Link>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </Card >
         </div>
     );

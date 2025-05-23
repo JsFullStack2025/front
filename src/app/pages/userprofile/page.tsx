@@ -26,32 +26,32 @@ import { title } from "process";
 //https://nextjs.org/docs/app/api-reference/functions/use-params
 //https://stackoverflow.com/questions/57341541/removing-object-from-array-using-hooks-usestate
 //https://blog.greenroots.info/shadcn-dialog-with-form-three-tips
-export default function UserProfile({ id }: { id: any }) {
+export default function UserProfile() {
+    //{ id }: { id: any }
 
     const appContext = useContext(AppContext);
-     let [cardList, setCardList] = useState([]);
-    // const currentUserContext = useContext(CurrentUserContext);
-    //    let [error, setError] = useState(appContext.error);
-    async function getUser(id:number) {
-        appContext.setLoading(true);
-        try {
-            const response = await AxiosGetUserById(id)
-            //  const response =  await GetUser(4)
-            console.log("UserProfile_getUser", response);
-            appContext.setCurrentUser(response)
 
-        } catch (error) {
-            appContext.setError(error)
+    let [cardList, setCardList] = useState([]);
+    let [error, setError] = useState(appContext.error);
+    //     appContext.setLoading(true);
+    //     try {
+    //         const response = await AxiosGetUserById(id)
+    //         //  const response =  await GetUser(4)
+    //         console.log("UserProfile_getUser", response);
+    //         appContext.setCurrentUser(response)
 
-        } finally {
-            appContext.setLoading(false);
-        }
-    }
-    useEffect(() => {
-       //!appContext.currentUser&&getUser(id)
+    //     } catch (error) {
+    //         appContext.setError(error)
 
-    }, []);
-     async function getUserCards(id:number) {
+    //     } finally {
+    //         appContext.setLoading(false);
+    //     }
+    // }
+    // useEffect(() => {
+    //    //!appContext.currentUser&&getUser(id)
+
+    // }, []);
+    async function getUserCards(id: number) {
         appContext.setLoading(true);
         try {
             const cards = await AxiosGetUserCards(id)
@@ -59,59 +59,46 @@ export default function UserProfile({ id }: { id: any }) {
             setCardList(cards)
 
         } catch (error) {
-            appContext.setError(error)
+            appContext.setError(JSON.stringify(error))
 
         } finally {
             appContext.setLoading(false);
         }
     }
     useEffect(() => {
-        getUserCards(id)
+        appContext.currentUser && getUserCards(appContext.currentUser.id)
 
-    }, []);
-    async function deleteCard (idCard:number) {
-               try {
-                   appContext.setLoading(true);
-                    const res = await AxiosDeleteCard(idCard)
-                    console.log("deleteCard", res);
-                   // setCardList(cards)
-                    getUserCards(id)
-                } catch (error) {
-                    appContext.setError(error)
+    }, [appContext.currentUser]);
 
-                } finally {
-                    appContext.setLoading(false);
-                }
+    async function deleteCard(idCard: number) {
+        try {
+            appContext.setLoading(true);
+            const res = await AxiosDeleteCard(idCard)
+            console.log("deleteCard", res);
+            // setCardList(cards)
+            getUserCards(appContext.currentUser.id)
+        } catch (error) {
+            appContext.setError(error)
+
+        } finally {
+            appContext.setLoading(false);
+        }
     }
-     async function createCard (title:string) {
-               try {
-                   appContext.setLoading(true);
-                   let card:CreateCardDto = {authorId:appContext.currentUser.id, title:title}
-                    const res = await AxiosCreateCard(card)
-                    console.log("createCard", res);
-                   // setCardList(cards)
-                    getUserCards(id)
-                } catch (error) {
-                    appContext.setError(error)
+    async function createCard(title: string, card: CreateCardDto) {
+        try {
+            appContext.setLoading(true);
+            let card: CreateCardDto = { authorId: appContext.currentUser.id, title: title }
+            const res = await AxiosCreateCard(card)
+            console.log("createCard", res);
+            // setCardList(cards)
+            getUserCards(appContext.currentUser.id)
+        } catch (error) {
+            appContext.setError(error)
 
-                } finally {
-                    appContext.setLoading(false);
-                }
+        } finally {
+            appContext.setLoading(false);
+        }
     }
-    // const appContext = useContext(AppContext)
-    // useEffect(() => {
-    //     //getUser(id)
-    //     setCurUser(appContext.currentUser)
-    // }, [appContext.currentUser]);
-    // let [curUser, setCurUser] = useState(appContext.user || new User());
-
-    // let [curUser, setCurUser] = useState(()=>users.find((elm) => elm.id == id) || new User());
-    //  let [fotoHover, setfotoHover] = useState(false);
-    //  let [cardListLength, setCardListLength] = useState(cards.length || [].length);
-    //  let [linkImgAvatar, setLinkImgAvatar] = useState("")
-
-    //  let [openDiagEditAvatar, setOpenDiagEditAvatar] = useState(false);
-    //   let cardList: Card[] = cards || []
     //Вариант 1
     // const userId = useParams<{ userId: string; }>()
     // console.log("params", userId)
@@ -126,7 +113,7 @@ export default function UserProfile({ id }: { id: any }) {
             {/* <Spinner show={show} /> */}
             {/* <AppContext.Provider value={appContext}> */}
             <div className="flex h-full  w-full flex-col items-center justify-between gap-8 px-8 lg:flex-row">
-                <div className="w-full overflow-y-auto rounded-lg bg-white p-6 text-gray-800 sm:min-w-sm lg:h-4/5 lg:w-1/3">
+                <div className="w-full lg:overflow-y-auto rounded-lg bg-white p-6 text-gray-800 sm:min-w-sm h-4/5 lg:w-1/3">
 
                     <UserData curUser={appContext.currentUser} setCurUser={appContext.setCurrentUser} />
                     {/* <UserData userData={curUser} /> */}
@@ -137,7 +124,7 @@ export default function UserProfile({ id }: { id: any }) {
                         </Button> */}
                 </div>
 
-                <div className="w-full overflow-y-auto rounded-lg bg-white text-gray-800 lg:h-4/5 lg:min-w-sm">
+                <div className="w-full overflow-y-auto rounded-lg bg-white text-gray-800 h-4/5 lg:min-w-sm">
                     <ListUserProject cardList={cardList} deleteCard={deleteCard} createCard={createCard} />
                 </div>
                 <div>
