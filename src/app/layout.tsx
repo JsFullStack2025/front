@@ -94,7 +94,7 @@ export default function RootLayout({
             <Header />
     {error && <div className="p-3"> <ErrorMessage error={error} /></div>}
           </header>
-          <main className="m-h-[85vh]">
+          <main className="min-h-[85vh]">
             {/* <CookiesProvider>{children}</CookiesProvider> */}
             {children}
           </main>

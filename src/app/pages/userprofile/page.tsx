@@ -31,7 +31,7 @@ export default function UserProfile() {
 
     const appContext = useContext(AppContext);
 
-    let [cardList, setCardList] = useState([]);
+    let [cardList, setCardList] = useState<CardEntity[]>([]);
     let [error, setError] = useState(appContext.error);
     //     appContext.setLoading(true);
     //     try {
@@ -54,7 +54,7 @@ export default function UserProfile() {
     async function getUserCards(id: number) {
         appContext.setLoading(true);
         try {
-            const cards = await AxiosGetUserCards(id)
+            const cards:CardEntity[] = await AxiosGetUserCards(id)
             console.log("getUserCards", cards);
             setCardList(cards)
 
@@ -99,6 +99,15 @@ export default function UserProfile() {
             appContext.setLoading(false);
         }
     }
+    async function filterByTitle(title:string, cards:CardEntity[]) {
+        if(title) {
+             let filter = cards.filter((elm)=>elm.title.includes(title))
+            setCardList(filter)
+        } else {
+            await getUserCards(appContext.currentUser.id)
+        }
+
+  }
     //Вариант 1
     // const userId = useParams<{ userId: string; }>()
     // console.log("params", userId)
@@ -108,7 +117,7 @@ export default function UserProfile() {
 
     return (
 
-        <div className="h-[85vh]">
+        <div className="lg:h-[85vh]">
 
             {/* <Spinner show={show} /> */}
             {/* <AppContext.Provider value={appContext}> */}
@@ -124,8 +133,8 @@ export default function UserProfile() {
                         </Button> */}
                 </div>
 
-                <div className="w-full overflow-y-auto rounded-lg bg-white text-gray-800 h-4/5 lg:min-w-sm">
-                    <ListUserProject cardList={cardList} deleteCard={deleteCard} createCard={createCard} />
+                <div className="w-full rounded-lg bg-white text-gray-800 h-4/5 sm:min-w-sm">
+                    <ListUserProject cardList={cardList} deleteCard={deleteCard} createCard={createCard} filterByTitle={filterByTitle} />
                 </div>
                 <div>
 

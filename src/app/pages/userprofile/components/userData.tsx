@@ -306,7 +306,7 @@ export default function UserData({ curUser, setCurUser
                                         <div className="">
                                             <Input
 
-                                                className=" invalid:border-pink-500 invalid:text-pink-600"
+                                                className="text-field__input invalid:border-pink-500 invalid:text-pink-600"
                                                 placeholder="Введите ФИО"
                                                 {...field}
 
