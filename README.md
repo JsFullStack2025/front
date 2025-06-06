@@ -1,47 +1,54 @@
-## NestJs + React Frontend часть проекта для курса Fullstack
+# React + TypeScript + Vite
 
-Для запуска проекта клонируйте репозиторий, перейдите в папку проекта, выполните инициализацию проекта и запустите проект:
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-```cmd
-git clone https://github.com/JsFullStack2025/front.git
-cd front
-npm install
-npm run dev
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+
+```js
+export default tseslint.config({
+	extends: [
+		// Remove ...tseslint.configs.recommended and replace with this
+		...tseslint.configs.recommendedTypeChecked,
+		// Alternatively, use this for stricter rules
+		...tseslint.configs.strictTypeChecked,
+		// Optionally, add this for stylistic rules
+		...tseslint.configs.stylisticTypeChecked
+	],
+	languageOptions: {
+		// other options...
+		parserOptions: {
+			project: ["./tsconfig.node.json", "./tsconfig.app.json"],
+			tsconfigRootDir: import.meta.dirname
+		}
+	}
+})
 ```
-## Комментарии по проекту
 
-Стек технологий: 
-  TypeScript - язык программирования,
-  React - основной фреймворк приложения, 
-  NextJS - JavaScript фреймворк, поверх React, обеспечивает архитектуру приложения, структуру папок и роутинг
-  TailwindCSS - CSS-фреймворк, 
-  ShadCN - библиотека UI компонентов,
-  Zod - библиотека для валидации данных,
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
+```js
+// eslint.config.js
+import reactDom from "eslint-plugin-react-dom"
+import reactX from "eslint-plugin-react-x"
 
-
-## Описание проекта
-
-Переменные окружения нажодятся в файле /.env
-
-Режим типизации Typescript - strict, интерфейсы находятся в папке src/interfaces.
-
-Роутинг находится в папке src/app, для создания страницы необходимо создать папку в src/app с названием страницы и файл page.tsx в ней, файл layout.tsx является макетом — это пользовательский интерфейс, который используется страницами, которые наследуются от него. При навигации макеты сохраняют состояние, остаются интерактивными и не перерисовываются. Подробнее по ссылке https://nextjs.org/docs/app/getting-started/layouts-and-pages
-
-Компоненты находятся в папке src/components, при загрузки компонента ShadCN с помощью команды 'npx shadcn@latest add component-name', он автоматически помещается в папку src/components/ui. Подробнее по ссылке https://ui.shadcn.com/docs. Стллизация компонентов осуществляется через добавления стрилей в папку src/app/globals.css и подключение их в компоненте.
-Модули UI компонентов находятся в папке src/components/moduls.
-
-Стили находятся в файле src/app/globals.css, после добавления стилей в файл, они становятся доступны по всему проекту. Тут же можно прописать медиазапросы для адаптивности. Подробнее о стилях по ссылке https://tailwindcss.com/docs/guides/nextjs
-
-Валидация данных осуществляется через библиотеку Zod. Схемы валидации данных находятся в папке src/lib/validation. Подробнее по ссылке https://zod.dev/
-
-Функции для работы с API находятся в папке src/lib/api. Подробнее по ссылке https://nextjs.org/docs/api-routes/introduction
-
-Функции, необходимые для работы приложения находятся в папке src/lib/utils.
-
-
-## Структура проекта
-
-Домашняя страница - src/app/page.tsx
-
-Страница входа в систему и регистрации - src/app/login/page.tsx
+export default tseslint.config({
+	plugins: {
+		// Add the react-x and react-dom plugins
+		"react-x": reactX,
+		"react-dom": reactDom
+	},
+	rules: {
+		// other rules...
+		// Enable its recommended typescript rules
+		...reactX.configs["recommended-typescript"].rules,
+		...reactDom.configs.recommended.rules
+	}
+})
+```
